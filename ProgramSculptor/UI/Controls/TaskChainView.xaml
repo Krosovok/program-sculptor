@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="UI.Controls.TaskChainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI"
+             mc:Ignorable="d" d:DesignWidth="300" Height="200">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles.xaml"/>
+                <ResourceDictionary>
+                    <ContextMenu x:Key="OtherTaskMenu"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Margin="0, 7" 
+              MinHeight="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="..."
+                    Margin="0,5,5,5"
+                    VerticalContentAlignment="Top"
+                    Click="ContextMenuClick"
+                    ContextMenu="{DynamicResource OtherTaskMenu}"
+                    ContextMenuService.IsEnabled="false"/>
+
+            <Button Style="{StaticResource TaskChainButton}"
+                    Grid.Column="1"
+                    Margin="5"
+                    Visibility="Visible"/>
+            <Button Style="{StaticResource TaskChainButton}"
+                    Grid.Column="2"
+                    Margin="5"
+                    Visibility="Visible"/>
+            <Button Style="{StaticResource TaskChainButton}"
+                    Grid.Column="3"
+                    Margin="5"
+                    Visibility="Visible"/>
+
+            <Button Content="..."
+                    Margin="5,5,0,5"
+                    VerticalContentAlignment="Top"
+                    Grid.Column="4"
+                    Click="ContextMenuClick"
+                    ContextMenu="{DynamicResource OtherTaskMenu}"
+                    ContextMenuService.IsEnabled="false"/>
+        </Grid>
+
+
+        <FlowDocumentScrollViewer
+            Grid.Row="1"
+            VerticalScrollBarVisibility="Auto"
+            Margin="7"/>
+    </Grid>
+</UserControl>
+
+
+
+

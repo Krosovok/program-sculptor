@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UI"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="sandboxDescriptionText">Sandbox is a mode where you don't have a particular goal. You can Create whatever you want and look at result!</s:String>
+    <s:String x:Key="sandboxProjectsText">You can choose any sandbox project you have already started!</s:String>
+</ResourceDictionary>

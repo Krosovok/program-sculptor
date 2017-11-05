@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UI.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="lang.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <FlowDocument x:Key="sandboxDescription">
+        <Paragraph>
+            <Run Text="{DynamicResource sandboxDescriptionText}"/>
+        </Paragraph>
+    </FlowDocument>
+    <FlowDocument x:Key="projectHome">
+        <Paragraph>
+            <Run Text="{DynamicResource sandboxProjectsText}"/>
+        </Paragraph>
+    </FlowDocument>
+</ResourceDictionary>
