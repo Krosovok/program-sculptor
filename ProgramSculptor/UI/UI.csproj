@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Controls\Events\TaskEventArgs.cs" />
     <Compile Include="Controls\Events\TaskEventHandler.cs" />
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
@@ -75,6 +76,9 @@
     </Compile>
     <Compile Include="Controls\TestsView.xaml.cs">
       <DependentUpon>TestsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SourcePresenter.xaml.cs">
+      <DependentUpon>SourcePresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -131,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SourcePresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
