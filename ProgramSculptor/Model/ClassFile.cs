@@ -18,6 +18,7 @@ namespace Model
 
         private string GetTypeName()
         {
+            // TODO: Check it for logic.
             return FileName.Remove(
                 FileName.LastIndexOf(
                     FileExtensionSeparator,

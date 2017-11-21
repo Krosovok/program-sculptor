@@ -28,7 +28,8 @@ namespace Model
         public Task Task { get; }
         public IReadOnlyList<ClassFile> Files => files.AsReadOnly();
         public Solution BaseSolution { get; }
-
+        
+        
         public void AddFile(ClassFile newFile) => files.Add(newFile);
         public void RemoveFile(ClassFile fileToRemove) => files.Remove(fileToRemove);
     }
