@@ -12,6 +12,10 @@ namespace Model
         public TaskChain(IEnumerable<Task> tasks)
         {
             this.tasks = tasks.ToArray();
+            foreach (Task task in this.tasks)
+            {
+                task.AddToChain(this);
+            }
         }
 
         public TaskChainPosition PositionOf(Task task)
