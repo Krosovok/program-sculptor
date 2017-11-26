@@ -1,25 +1,29 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace Model
 {
     public class Task
     {
+        
         public Task(
+            int id,
             string taskName, 
-            string description,
-            IReadOnlyList<ClassFile> givenTypes, 
-            IReadOnlyList<ClassFile> tests)
+            string description)
         {
+            Id = id;
             TaskName = taskName;
             Description = description;
-            GivenTypes = givenTypes;
-            Tests = tests;
         }
 
         public string TaskName { get; }
         public string Description { get; }
-        public IReadOnlyList<ClassFile> GivenTypes { get; }
-        public IReadOnlyList<ClassFile> Tests { get; }
+        private int Id { get; }
+
+        public IEnumerable<ClassFile> GivenTypes => ClassFile.GetGivenTypes(TaskName);
+
+        public IEnumerable<ClassFile> Tests => ClassFile.GetTests(TaskName);
+
         private TaskChain Chain { get; set; }
 
         public TaskChainPosition InChain()

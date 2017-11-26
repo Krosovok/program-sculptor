@@ -9,12 +9,17 @@ namespace Model
         private const string Message = "Task from different chain.";
         private readonly Task[] tasks;
 
-        public TaskChain(IEnumerable<Task> tasks)
+        private TaskChain(IEnumerable<Task> tasks)
         {
             this.tasks = tasks.ToArray();
-            foreach (Task task in this.tasks)
+        }
+        
+        public static void RegisterInTaskChain(IEnumerable<Task> tasks)
+        {
+            TaskChain newChain = new TaskChain(tasks);
+            foreach (Task task in newChain.tasks)
             {
-                task.AddToChain(this);
+                task.AddToChain(newChain);
             }
         }
 

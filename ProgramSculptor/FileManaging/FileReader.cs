@@ -5,7 +5,6 @@ namespace FileManaging
 {
     public static class FileReader
     {
-
         public static string GetTestSource(string taskName, string fileName)
         {
             return ReadAllText(taskName, TestsFolder, fileName);
@@ -18,7 +17,7 @@ namespace FileManaging
 
         private static string ReadAllText(string taskName, string folder, string fileName)
         {
-            string path = BuildPath(taskName, folder, fileName);
+            string path = BuildPath(TasksFolder, taskName, folder, fileName);
             return File.ReadAllText(path);
         }
     }

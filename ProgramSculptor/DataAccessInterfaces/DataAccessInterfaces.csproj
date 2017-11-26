@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="IClassFileDao.cs" />
     <Compile Include="ISolutionDao.cs" />
-    <Compile Include="ITaskDAO.cs" />
+    <Compile Include="ITaskDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
