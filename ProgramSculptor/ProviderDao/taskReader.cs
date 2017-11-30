@@ -6,61 +6,45 @@ using Model;
 
 namespace ProviderDao
 {
-    public class TaskReader : DbReader
+    internal class TaskReader : DbReader<Task>
     {
         private const string SqlKey = "TaskReader.AllTasks";
-        private List<Task> tasks;
-        private Dictionary<int, List<Task>> chains = new Dictionary<int, List<Task>>();
+        
+        private readonly Dictionary<int, List<Task>> chains = new Dictionary<int, List<Task>>();
 
-        public List<Task> TaskList()
+        public override List<Task> GetList()
         {
-            ReadData();
-            
+            base.GetList();
+
             foreach (var chain in chains)
             {
                 TaskChain.RegisterInTaskChain(chain.Value);
             }
 
-            return tasks;
+            return Data;
         }
 
-        private void ReadData()
+        protected override DbCommand SelectCommand()
         {
-            DbCommand select = SelectCommand();
-
-            tasks = new List<Task>();
-            ReadAllRows(@select);
-
-            Db.Instance.CloseCommand(@select);
+            return Db.Instance.CreateTextCommand(SqlKey);
         }
 
-        private static DbCommand SelectCommand()
-        {
-            DbCommand select = Db.Instance.CreateCommand();
-            select.CommandType = CommandType.Text;
-            select.CommandText = SqlFactory.GetSql(SqlKey);
-            return select;
-        }
-
-        private void ReadAllRows(DbCommand select)
-        {
-            using (DbDataReader reader = select.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    Task item = ReadTask(reader);
-                    tasks.Add(item);
-                }
-            }
-        }
-
-        private Task ReadTask(IDataRecord data)
+        protected override Task ReadRow(IDataRecord data)
         {
             Task task = BuildTask(data);
-            
+
             AddToChain(data, task);
 
             return task;
+        }
+
+        private static Task BuildTask(IDataRecord data)
+        {
+            int id = GetInt32NotNull(data, Db.Tasks.Id);
+            string name = GetString(data, Db.Tasks.Name);
+            string description = GetString(data, Db.Tasks.Description);
+
+            return new Task(id, name, description);
         }
 
         private void AddToChain(IDataRecord data, Task task)
@@ -71,21 +55,12 @@ namespace ProviderDao
             {
                 return;
             }
-            
-            if (!chains.ContainsKey((int)chainId))
+
+            if (!chains.ContainsKey((int) chainId))
             {
-                chains[(int)chainId] = new List<Task>();
+                chains[(int) chainId] = new List<Task>();
             }
-            chains[(int)chainId].Insert((int)chainPosition, task);
-        }
-
-        private static Task BuildTask(IDataRecord data)
-        {
-            int id = GetInt32NotNull(data, Db.Tasks.Id);
-            string name = GetString(data, Db.Tasks.Name);
-            string description = GetString(data, Db.Tasks.Description);
-
-            return new Task(id, name, description);
+            chains[(int) chainId].Insert((int) chainPosition, task);
         }
     }
 }

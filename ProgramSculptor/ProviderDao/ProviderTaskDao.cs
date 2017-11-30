@@ -17,7 +17,7 @@ namespace ProviderDao
             {
                 if (tasks == null)
                 {
-                    new TaskReader().TaskList();
+                    new TaskReader().GetList();
                 }
 
                 return tasks.AsReadOnly();

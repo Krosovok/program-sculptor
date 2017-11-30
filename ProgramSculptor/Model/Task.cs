@@ -16,9 +16,9 @@ namespace Model
             Description = description;
         }
 
+        public int Id { get; }
         public string TaskName { get; }
         public string Description { get; }
-        private int Id { get; }
 
         public IEnumerable<ClassFile> GivenTypes => ClassFile.GetGivenTypes(TaskName);
 

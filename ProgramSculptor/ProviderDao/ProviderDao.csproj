@@ -40,11 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataIntegrityException.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="DbReader.cs" />
     <Compile Include="ProviderSolutionDao.cs" />
     <Compile Include="ProviderTaskDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolutionReader.cs" />
     <Compile Include="TaskReader.cs" />
   </ItemGroup>
   <ItemGroup>

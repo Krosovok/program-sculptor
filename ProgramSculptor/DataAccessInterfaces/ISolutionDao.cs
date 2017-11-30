@@ -5,7 +5,7 @@ namespace DataAccessInterfaces
 {
     public interface ISolutionDao
     {
-        IReadOnlyList<Solution> GetTaskSolutions(Task task);
+        IReadOnlyList<Solution> GetMyTaskSolutions(Task task, string username);
 
         void AddSolution(Solution newSolution); // Procedure for this.
 

@@ -7,28 +7,26 @@ namespace Model
     {
         private readonly List<ClassFile> files = new List<ClassFile>();
 
-        public Solution(string user, Task task)
+        public Solution(int id, string name, string user, Task task)
         {
+            Id = id;
+            Name = name;
             User = user;
             Task = task;
         }
         
-        public Solution(string user, Task task, Solution baseSolution)
-            : this(user, task)
+        public Solution(int id, string name, string user, Task task, int? baseSolutionId)
+            : this(id, name, user, task)
         {
-            if (!baseSolution.Task.Equals(task.InChain().Previous))
-            {
-                throw new ArgumentException("Base solution of not base task.", nameof(baseSolution));
-            }
-            
-            BaseSolution = baseSolution;
+            BaseSolution = baseSolutionId;
         }
 
+        public int Id { get; }
+        public string Name { get; }
         public string User { get; }
         public Task Task { get; }
         public IReadOnlyList<ClassFile> Files => files.AsReadOnly();
-        public Solution BaseSolution { get; }
-        
+        public int? BaseSolution { get; }
         
         public void AddFile(ClassFile newFile) => files.Add(newFile);
         public void RemoveFile(ClassFile fileToRemove) => files.Remove(fileToRemove);

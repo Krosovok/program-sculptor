@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace FileManaging
@@ -6,8 +7,11 @@ namespace FileManaging
     internal static class Folding
     {
         public const string TasksFolder = "Tasks";
-        public const string GivenTypesFolder = "GivenTypes";
+        public const string GivenTypesFolder = "Given types";
         public const string TestsFolder = "Tests";
+        public const string OthersSolutions = "Others solutions";
+        public const string Solutions = "Solutions";
+        public const string OthersSolutionFormat = "Solution_{0}";
 
         //public Folding()
         //{
