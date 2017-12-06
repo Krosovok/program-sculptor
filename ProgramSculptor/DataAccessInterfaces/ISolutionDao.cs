@@ -7,7 +7,7 @@ namespace DataAccessInterfaces
     {
         IReadOnlyList<Solution> GetMyTaskSolutions(Task task, string username);
 
-        void AddSolution(Solution newSolution); // Procedure for this.
+        void AddSolution(Solution newSolution);
 
         void DeleteSolution(Solution solutionToDelete);
     }

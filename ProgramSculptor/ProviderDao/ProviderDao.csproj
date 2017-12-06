@@ -43,6 +43,8 @@
     <Compile Include="DataIntegrityException.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="DbReader.cs" />
+    <Compile Include="ProviderClassFileDao.cs" />
+    <Compile Include="ProviderDaoFactory.cs" />
     <Compile Include="ProviderSolutionDao.cs" />
     <Compile Include="ProviderTaskDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

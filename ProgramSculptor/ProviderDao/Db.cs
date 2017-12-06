@@ -45,11 +45,23 @@ namespace ProviderDao
             return command;
         }
 
-        internal DbParameter CreateParameter(object value, DbType type)
+        internal DbCommand CreatePrecedureCommand(string sqlKey)
+        {
+            DbCommand command = CreateCommand();
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = SqlFactory.GetSql(sqlKey);
+            return command;
+        }
+
+        internal DbParameter CreateParameter(object value, DbType type, string name = null)
         {
             DbParameter parameter = Factory.CreateParameter();
             parameter.Value = value;
             parameter.DbType = type;
+            if (name != null)
+            {
+                parameter.ParameterName = name;
+            }
             
             //TODO: Something else?
 

@@ -13,8 +13,9 @@ namespace DB.SqlFactory
     /// </summary>
     public static class SqlFactory
     {
+        private const string TagName = "SqlFactory";
         private static readonly SqlFactorySectionHandler SqlStringFactoryConfiguration = 
-            (SqlFactorySectionHandler)ConfigurationManager.GetSection("SqlStringFactory");
+            (SqlFactorySectionHandler)ConfigurationManager.GetSection(TagName);
 
         /// <summary>
         /// Default connection string used to connect to the primary database.
