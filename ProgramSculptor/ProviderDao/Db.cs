@@ -29,15 +29,6 @@ namespace ProviderDao
             set
             {
                 dbProvider = value;
-                //
-                DataTable factoryClasses = DbProviderFactories.GetFactoryClasses();
-                foreach (DataRow factoryClassesRow in factoryClasses.Rows)
-                {
-                    DataRow classesRow = factoryClassesRow;
-                    object o = classesRow[2];
-                    classesRow.ToString();
-                }
-                //
                 Factory = DbProviderFactories.GetFactory(dbProvider);
             }
         }

@@ -7,7 +7,7 @@ using Model;
 namespace Test.DB.ProviderDaoTest
 {
     [TestClass]
-    public class ProviderTaskDaoUnitTest
+    public class ProviderTaskDaoIntegrationTest
     {
         [TestMethod]
         public void TestReadAllTasks()
