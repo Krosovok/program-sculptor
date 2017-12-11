@@ -5,10 +5,16 @@ namespace DataAccessInterfaces
 {
     public interface IClassFileDao
     {
-        IReadOnlyList<ClassFile> SolutionFiles(Solution solution);
+        // TODO: Get files from others solutions? 
         
-        void AddClassFile(ClassFile newClassFile);
+        IEnumerable<ClassFile> SolutionFiles(Solution solution);
+        
+        void AddFileToSolution(Solution target, ClassFile newClassFile);
 
-        void DeleteClassFile(ClassFile classFileToDelete);
+        void DeleteFileFromSolution(Solution target, ClassFile classFileToDelete);
+
+        IEnumerable<ClassFile> GetTests(Task task);
+
+        IEnumerable<ClassFile> GetGivenTypes(Task task);
     }
 }

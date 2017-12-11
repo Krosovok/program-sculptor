@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace FileManaging
@@ -13,22 +13,44 @@ namespace FileManaging
         public const string Solutions = "Solutions";
         public const string OthersSolutionFormat = "Solution_{0}";
 
-        //public Folding()
-        //{
-        //    if (!Directory.Exists(TasksFolder))
-        //    {
-        //        Directory.CreateDirectory(TasksFolder);
-        //    }
-        //}
-
-        public static string BuildPath(params string[] a)
+        public static string BuildPath(params string[] parts)
         {
-            StringBuilder builder = new StringBuilder();
-            foreach (string pathPart in a)
+            string pathEnd = Path.Combine(parts);
+            string baseDirectory = Directory.GetCurrentDirectory();
+
+            string fullPath = Path.Combine(baseDirectory, pathEnd);
+
+            CreateDirectoryIfNeeded(fullPath);
+            
+            return fullPath;
+        }
+
+        public static string BuildFilePath(params string[] pathParts)
+        {
+            string[] directoryParts = pathParts.Take(pathParts.Length - 1).ToArray();
+            string directoryPath = BuildPath(directoryParts);
+
+            string fullPath = Path.Combine(directoryPath, pathParts.Last());
+
+            CreateFileIfNeeded(fullPath);
+
+            return fullPath;
+        }
+
+        private static void CreateDirectoryIfNeeded(string fullPath)
+        {
+            if (!Directory.Exists(fullPath))
             {
-                builder.Append(pathPart).Append(Path.PathSeparator);
+                Directory.CreateDirectory(fullPath);
             }
-            return builder.ToString();
+        }
+
+        private static void CreateFileIfNeeded(string fullPath)
+        {
+            if (!File.Exists(fullPath))
+            {
+                File.Create(fullPath).Close();
+            }
         }
     }
 }

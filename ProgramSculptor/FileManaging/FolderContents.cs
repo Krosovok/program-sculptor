@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static FileManaging.Folding;
 
 namespace FileManaging
 {
-    public class FolderContents
+    public static class FolderContents
     {
         public static IEnumerable<FileInfo> GetAllTests(string taskName)
         {
@@ -22,7 +18,7 @@ namespace FileManaging
 
         public static IEnumerable<FileInfo> GetAllSolutionFiles(string taskName, string solutionName)
         {
-            return FilesInFolder(TasksFolder, taskName, Solutions, solutionName);
+            return SolutionContents(taskName, solutionName);
         }
 
         public static IEnumerable<FileInfo> OthersSolutionFiles(int solutionId)
@@ -31,16 +27,33 @@ namespace FileManaging
             return FilesInFolder(OthersSolutions, fileName);
         }
 
-        private static IEnumerable<FileInfo> TaskContents(string taskName, string lastFolder)
+        public static DirectoryInfo SolutionFolder(string taskName, string solutionName)
         {
-            return FilesInFolder(taskName, lastFolder);
+            return GetDirectoryInfo(TasksFolder, taskName, Solutions, solutionName);
         }
 
+        
+        private static IEnumerable<FileInfo> TaskContents(string taskName, string lastFolder)
+        {
+            return FilesInFolder(TasksFolder, taskName, lastFolder);
+        }
+
+        private static IEnumerable<FileInfo> SolutionContents(string taskName, string solutionName)
+        {
+            return FilesInFolder(TasksFolder, taskName, Solutions, solutionName);
+        }
+        
         private static IEnumerable<FileInfo> FilesInFolder(params string[] pathParts)
+        {
+            DirectoryInfo directory = GetDirectoryInfo(pathParts);
+            return directory.EnumerateFiles();
+        }
+
+        private static DirectoryInfo GetDirectoryInfo(params string[] pathParts)
         {
             string path = BuildPath(pathParts);
             DirectoryInfo directory = new DirectoryInfo(path);
-            return directory.EnumerateFiles();
+            return directory;
         }
     }
 }

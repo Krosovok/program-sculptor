@@ -5,10 +5,13 @@ namespace Model
 {
     public class Solution
     {
-        private readonly List<ClassFile> files = new List<ClassFile>();
-
         public Solution(int id, string name, string user, Task task)
         {
+            if (task == null || user == null)
+            {
+                throw new ArgumentException("Arguments can't be null.");
+            }
+            
             Id = id;
             Name = name;
             User = user;
@@ -25,10 +28,6 @@ namespace Model
         public string Name { get; }
         public string User { get; }
         public Task Task { get; }
-        public IReadOnlyList<ClassFile> Files => files.AsReadOnly();
         public int? BaseSolution { get; }
-        
-        public void AddFile(ClassFile newFile) => files.Add(newFile);
-        public void RemoveFile(ClassFile fileToRemove) => files.Remove(fileToRemove);
     }
 }

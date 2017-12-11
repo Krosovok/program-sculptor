@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-
-namespace Model
+﻿namespace Model
 {
     public class Task
     {
@@ -19,11 +16,7 @@ namespace Model
         public int Id { get; }
         public string TaskName { get; }
         public string Description { get; }
-
-        public IEnumerable<ClassFile> GivenTypes => ClassFile.GetGivenTypes(TaskName);
-
-        public IEnumerable<ClassFile> Tests => ClassFile.GetTests(TaskName);
-
+        
         private TaskChain Chain { get; set; }
 
         public TaskChainPosition InChain()

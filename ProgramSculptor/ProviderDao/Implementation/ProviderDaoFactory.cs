@@ -1,6 +1,6 @@
 ﻿using DataAccessInterfaces;
 
-namespace ProviderDao
+namespace ProviderDao.Implementation
 {
     public class ProviderDaoFactory : IDaoFactory
     {

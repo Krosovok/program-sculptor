@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using DataAccessInterfaces;
-using DB.SqlFactory;
 using Model;
 
-namespace ProviderDao
+namespace ProviderDao.Implementation
 {
     internal class ProviderSolutionDao : ISolutionDao
     {
@@ -23,29 +21,30 @@ namespace ProviderDao
             DbCommand insertProcedure = Db.Instance.CreatePrecedureCommand(InsertKey);
 
             insertProcedure.Parameters.AddRange(new DbParameter[]
-                {
-                    Db.Instance.CreateParameter(newSolution.Name, DbType.String, "NEW_SOLUTION_NAME"),
-                    Db.Instance.CreateParameter(newSolution.User, DbType.String, "USER_NAME"),
-                    Db.Instance.CreateParameter(newSolution.Task.Id, DbType.Int32, "SOLVED_TASK_ID"),
-                    Db.Instance.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID")
-                }
-            );
+            {
+                Db.Instance.CreateParameter(newSolution.Name, DbType.String, "NEW_SOLUTION_NAME"),
+                Db.Instance.CreateParameter(newSolution.User, DbType.String, "USER_NAME"),
+                Db.Instance.CreateParameter(newSolution.Task.Id, DbType.Int32, "SOLVED_TASK_ID"),
+                Db.Instance.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID")
+            });
 
             insertProcedure.ExecuteNonQuery();
-            
+
             Db.Instance.CloseCommand(insertProcedure);
         }
 
         public void DeleteSolution(Solution solutionToDelete)
         {
-            DbCommand delete = Db.Instance.CreateTextCommand(DeleteKey);
+            Db db = Db.Instance;
+            string paramName = db.Param(Db.Solutions.Id);
+            DbCommand delete = db.CreateTextCommand(DeleteKey, paramName);
 
-            DbParameter idToDelete = Db.Instance.CreateParameter(
-                solutionToDelete.Id, DbType.Int32);
+            DbParameter idToDelete = db.CreateParameter(
+                solutionToDelete.Id, DbType.Int32, paramName);
             delete.Parameters.Add(idToDelete);
             delete.ExecuteNonQuery();
 
-            Db.Instance.CloseCommand(delete);
+            db.CloseCommand(delete);
         }
     }
 }

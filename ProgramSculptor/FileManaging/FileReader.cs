@@ -17,7 +17,7 @@ namespace FileManaging
 
         private static string ReadAllText(string taskName, string folder, string fileName)
         {
-            string path = BuildPath(TasksFolder, taskName, folder, fileName);
+            string path = BuildFilePath(TasksFolder, taskName, folder, fileName);
             return File.ReadAllText(path);
         }
     }

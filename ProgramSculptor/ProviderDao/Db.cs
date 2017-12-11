@@ -5,22 +5,22 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessInterfaces;
 using DB.SqlFactory;
 
 namespace ProviderDao
 {
     internal class Db
     {
-        /*private const string DEFAULT_DB_PROVIDER = "Oracle.DataAccess.Client";
-        private const string DEFAULT_CONNECTION_STRING =
-            "DATA SOURCE=PEN-PEN:1521/xe;PERSIST SECURITY INFO=True;USER ID=CSHARP;PASSWORD=CorporationOfEv1l";*/
-
+        private const string ParamPrefix = ":";
+        
         private static Db instance;
         private string dbProvider;
 
         private Db()
         {
-            //DbProvider = DEFAULT_DB_PROVIDER;
+            DbProvider = SqlStringFactory.Provider;
+            ConnectionString = SqlStringFactory.ConnectionString;
         }
 
         public string DbProvider
@@ -29,6 +29,15 @@ namespace ProviderDao
             set
             {
                 dbProvider = value;
+                //
+                DataTable factoryClasses = DbProviderFactories.GetFactoryClasses();
+                foreach (DataRow factoryClassesRow in factoryClasses.Rows)
+                {
+                    DataRow classesRow = factoryClassesRow;
+                    object o = classesRow[2];
+                    classesRow.ToString();
+                }
+                //
                 Factory = DbProviderFactories.GetFactory(dbProvider);
             }
         }
@@ -37,31 +46,28 @@ namespace ProviderDao
 
         public static Db Instance => instance ?? (instance = new Db());
 
-        internal DbCommand CreateTextCommand(string sqlKey)
+        internal string Param(string paramName) => ParamPrefix + paramName;
+
+        internal DbCommand CreateTextCommand(string sqlKey, params string[] parameterPlaceholders)
         {
-            DbCommand command = CreateCommand();
+            DbCommand command = CreateCommand(sqlKey, parameterPlaceholders);
             command.CommandType = CommandType.Text;
-            command.CommandText = SqlFactory.GetSql(sqlKey);
             return command;
         }
 
         internal DbCommand CreatePrecedureCommand(string sqlKey)
         {
-            DbCommand command = CreateCommand();
+            DbCommand command = CreateCommand(sqlKey);
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = SqlFactory.GetSql(sqlKey);
             return command;
         }
 
-        internal DbParameter CreateParameter(object value, DbType type, string name = null)
+        internal DbParameter CreateParameter(object value, DbType type, string name)
         {
             DbParameter parameter = Factory.CreateParameter();
             parameter.Value = value;
             parameter.DbType = type;
-            if (name != null)
-            {
-                parameter.ParameterName = name;
-            }
+            parameter.ParameterName = name;
             
             //TODO: Something else?
 
@@ -73,11 +79,12 @@ namespace ProviderDao
             command.Connection.Close();
             command.Dispose();
         }
-
-        private DbCommand CreateCommand()
+        
+        private DbCommand CreateCommand(string sqlKey, params string[] parameterPlaceholders)
         {
             DbCommand command = Factory.CreateCommand();
             command.Connection = CreateConnection();
+            command.CommandText = SqlStringFactory.GetSql(sqlKey, parameterPlaceholders);
             return command;
         }
 
@@ -85,6 +92,7 @@ namespace ProviderDao
         {
             DbConnection connection = Factory.CreateConnection();
             connection.ConnectionString = ConnectionString;
+            connection.Open();
             return connection;
         }
 
@@ -108,6 +116,11 @@ namespace ProviderDao
         {
             public const string Id = "user_id";
             public const string Name = "username";
+        }
+
+        public static class CodeFiles
+        {
+            public const string Name = "file_path";
         }
     }
 }

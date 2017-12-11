@@ -19,10 +19,13 @@ namespace ProviderDao
 
         protected override DbCommand SelectCommand()
         {
-            DbCommand select = Db.Instance.CreateTextCommand(SqlKey);
+            Db db = Db.Instance;
+            string[] parameters = { db.Param(Db.Tasks.Id), db.Param(Db.Users.Name) };
+            
+            DbCommand select = db.CreateTextCommand(SqlKey, parameters);
 
-            DbParameter taskId = Db.Instance.CreateParameter(task.Id, DbType.Int32);
-            DbParameter userName = Db.Instance.CreateParameter(username, DbType.String);
+            DbParameter taskId = db.CreateParameter(task.Id, DbType.Int32, parameters[0]);
+            DbParameter userName = db.CreateParameter(username, DbType.String, parameters[1]);
             select.Parameters.AddRange(new[]
             {
                 taskId, userName

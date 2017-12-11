@@ -5,17 +5,21 @@ namespace DataAccessInterfaces
 {
     public class Dao
     {
-        private const string DAO_TAG = "Dao";
+        private const string DaoTag = "Dao";
+        private static IDaoFactory factory;
 
-        public static IDaoFactory Factory
+        public static IDaoFactory Factory => factory ?? (factory = DaoFactory());
+
+        private static IDaoFactory DaoFactory()
         {
-            get
+            DaoConfigurationSection config = (DaoConfigurationSection) ConfigurationManager.GetSection(DaoTag);
+            Type daoType = Type.GetType(
+                config.DaoClass);
+            if (config == null || daoType == null)
             {
-                DaoConfigurationSection config = (DaoConfigurationSection) ConfigurationManager.GetSection(DAO_TAG);
-                Type daoType = Type.GetType(
-                    config.DaoClass);
-                return (IDaoFactory) Activator.CreateInstance(daoType);
+                throw new ConfigurationErrorsException("Dao is not configured.");
             }
+            return (IDaoFactory) Activator.CreateInstance(daoType);
         }
     }
 }

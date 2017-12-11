@@ -10,7 +10,7 @@ namespace ProviderDao
     {
         private const string SqlKey = "TaskReader.AllTasks";
         
-        private readonly Dictionary<int, List<Task>> chains = new Dictionary<int, List<Task>>();
+        private readonly Dictionary<int, Dictionary<int, Task>> chains = new Dictionary<int, Dictionary<int, Task>>();
 
         public override List<Task> GetList()
         {
@@ -18,7 +18,7 @@ namespace ProviderDao
 
             foreach (var chain in chains)
             {
-                TaskChain.RegisterInTaskChain(chain.Value);
+                TaskChain.RegisterInTaskChain(chain.Value.Values);
             }
 
             return Data;
@@ -58,9 +58,9 @@ namespace ProviderDao
 
             if (!chains.ContainsKey((int) chainId))
             {
-                chains[(int) chainId] = new List<Task>();
+                chains[(int) chainId] = new Dictionary<int, Task>();
             }
-            chains[(int) chainId].Insert((int) chainPosition, task);
+            chains[(int) chainId].Add((int) chainPosition, task);
         }
     }
 }

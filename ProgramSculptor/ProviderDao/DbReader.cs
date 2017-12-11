@@ -40,8 +40,12 @@ namespace ProviderDao
         protected static string GetString(IDataRecord data, string columnName)
         {
             int columnIdx = data.GetOrdinal(columnName);
-            string result = data.GetString(columnIdx);
-            return result;
+            if (data.IsDBNull(columnIdx))
+            {
+                return null;
+            }
+
+            return data.GetString(columnIdx);
         }
 
         protected static int? GetInt32(IDataRecord data, string columnName)

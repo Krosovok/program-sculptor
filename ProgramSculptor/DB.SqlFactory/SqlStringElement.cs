@@ -1,8 +1,9 @@
-﻿using System.Configuration;
+﻿
+using System.Configuration;
 
 namespace DB.SqlFactory
 {
-    internal sealed class SqlStringElement : ConfigurationElement
+    public sealed class SqlStringElement : ConfigurationElement
     {
         private const string NameParam = "name";
         private const string SqlParam = "sql";
@@ -39,7 +40,7 @@ namespace DB.SqlFactory
         {
             get
             {
-                return (int) this[ParamsCount]; 
+                return (int)this[ParamsCount];
                 // TODO: Check int cast.
             }
             set { this[ParamsCount] = value; }

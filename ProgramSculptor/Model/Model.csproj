@@ -44,12 +44,6 @@
     <Compile Include="TaskChain.cs" />
     <Compile Include="TaskChainPosition.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FileManaging\FileManaging.csproj">
-      <Project>{501bc63b-3f62-46d8-a55f-2b3a61718177}</Project>
-      <Name>FileManaging</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

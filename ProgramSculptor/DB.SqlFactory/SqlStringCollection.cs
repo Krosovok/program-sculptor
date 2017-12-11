@@ -3,11 +3,11 @@ using System.Configuration;
 
 namespace DB.SqlFactory
 {
-    internal sealed class SqlStringCollection : ConfigurationElementCollection
+    public sealed class SqlStringCollection : ConfigurationElementCollection
     {
         protected override ConfigurationElement CreateNewElement()
         {
-            return new SqlStringCollection();
+            return new SqlStringElement();
         }
 
         protected override object GetElementKey(ConfigurationElement element)
@@ -28,7 +28,7 @@ namespace DB.SqlFactory
             }
         }
 
-        public new SqlStringElement this[string name]
+        public SqlStringElement this[string name]
         {
             get
             {

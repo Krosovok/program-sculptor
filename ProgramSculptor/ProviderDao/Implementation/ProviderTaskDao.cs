@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using DataAccessInterfaces;
-using DB.SqlFactory;
 using Model;
 
-namespace ProviderDao
+namespace ProviderDao.Implementation
 {
     public class ProviderTaskDao : ITaskDao
     {
@@ -17,7 +14,8 @@ namespace ProviderDao
             {
                 if (tasks == null)
                 {
-                    new TaskReader().GetList();
+                    TaskReader reader = new TaskReader();
+                    tasks = reader.GetList();
                 }
 
                 return tasks.AsReadOnly();
