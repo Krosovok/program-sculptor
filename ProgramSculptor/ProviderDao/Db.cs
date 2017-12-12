@@ -55,13 +55,25 @@ namespace ProviderDao
 
         internal DbParameter CreateParameter(object value, DbType type, string name)
         {
-            DbParameter parameter = Factory.CreateParameter();
+            DbParameter parameter = CreateParameter(type, name);
             parameter.Value = value;
+
+            return parameter;
+        }
+
+        internal DbParameter CreateOutputParameter(DbType type, string name)
+        {
+            DbParameter parameter = CreateParameter(type, name);
+            parameter.Direction = ParameterDirection.Output;
+
+            return parameter;
+        }
+
+        private DbParameter CreateParameter(DbType type, string name)
+        {
+            DbParameter parameter = Factory.CreateParameter();
             parameter.DbType = type;
             parameter.ParameterName = name;
-            
-            //TODO: Something else?
-
             return parameter;
         }
 

@@ -26,7 +26,7 @@ namespace ProviderDao
 
             string filePath = Path.Combine(
                 solutionFolder.FullName,
-                fileName);
+                fileName.TrimStart('/'));
             return filePath;
         }
     }

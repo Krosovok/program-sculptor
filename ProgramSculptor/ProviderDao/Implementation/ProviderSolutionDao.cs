@@ -20,17 +20,19 @@ namespace ProviderDao.Implementation
         {
             DbCommand insertProcedure = Db.Instance.CreatePrecedureCommand(InsertKey);
 
+            DbParameter outputId = Db.Instance.CreateOutputParameter(DbType.Int32, "NEW_SOLUTION_ID");
             insertProcedure.Parameters.AddRange(new DbParameter[]
             {
                 Db.Instance.CreateParameter(newSolution.Name, DbType.String, "NEW_SOLUTION_NAME"),
                 Db.Instance.CreateParameter(newSolution.User, DbType.String, "USER_NAME"),
                 Db.Instance.CreateParameter(newSolution.Task.Id, DbType.Int32, "SOLVED_TASK_ID"),
-                Db.Instance.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID")
+                Db.Instance.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID"),
+                outputId
             });
 
             insertProcedure.ExecuteNonQuery();
-            
-            // TODO: Add id to solution.
+
+            newSolution.Id = (int) outputId.Value;
 
             Db.Instance.CloseCommand(insertProcedure);
         }

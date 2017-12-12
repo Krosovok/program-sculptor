@@ -10,16 +10,18 @@ namespace Test.DB.ProviderDaoTest
     [TestClass]
     public class ProviderSolutionDaoIntegrationTest
     {
+        public const string UserNameForAddDelete = "Reno99";
+        public const string TestSolutionName = "Test solution";
+        
         private const string UserName = "Alter";
         private const int SolutionCount = 2;
-
-        private const string UserNameForAddDelete = "Reno99";
-        private const string TestSolutionName = "Test solution";
-
+        
         private static readonly Task First = Dao.Factory.TaskDao.AllTasks.First();
         private readonly ISolutionDao solutionDao = Dao.Factory.SolutionDao;
+        private static Solution testSolution;
 
-        public static Solution TestSolution => new Solution(TestSolutionName, UserNameForAddDelete, First);
+        public static Solution TestSolution => testSolution ?? 
+                                               (testSolution = new Solution(TestSolutionName, UserNameForAddDelete, First));
 
         private bool SolutionExists
         {
@@ -40,15 +42,17 @@ namespace Test.DB.ProviderDaoTest
             Assert.IsTrue(userSolutions.Count == SolutionCount);
         }
 
+        [Ignore]
         [TestMethod]
         public void TestAddSolution()
         {
             solutionDao.AddSolution(TestSolution);
 
             Assert.IsTrue(SolutionExists);
+            Assert.AreNotEqual(-1, TestSolution.Id);
         }
 
-
+        [Ignore]
         [TestMethod]
         public void TestDeleteSolution()
         {
@@ -59,7 +63,7 @@ namespace Test.DB.ProviderDaoTest
 
             solutionDao.DeleteSolution(TestSolution);
 
-            Assert.IsTrue(!SolutionExists);
+            Assert.IsTrue(SolutionExists);
         }
     }
 }

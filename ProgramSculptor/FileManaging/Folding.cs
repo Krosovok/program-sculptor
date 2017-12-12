@@ -30,7 +30,7 @@ namespace FileManaging
             string[] directoryParts = pathParts.Take(pathParts.Length - 1).ToArray();
             string directoryPath = BuildPath(directoryParts);
 
-            string fullPath = Path.Combine(directoryPath, pathParts.Last());
+            string fullPath = Path.Combine(directoryPath, pathParts.Last().TrimStart('/'));
 
             CreateFileIfNeeded(fullPath);
 

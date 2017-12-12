@@ -5,8 +5,9 @@ namespace Model
 {
     public class Solution
     {
+        public const int NoId = -1;
+        
         private int id;
-        private const int NoId = -1;
 
         public Solution(string name, string user, Task task)
         {
@@ -15,7 +16,7 @@ namespace Model
                 throw new ArgumentException("Arguments can't be null.");
             }
 
-            Id = NoId;
+            id = NoId;
             Name = name;
             User = user;
             Task = task;
@@ -24,7 +25,7 @@ namespace Model
         public Solution(int id, string name, string user, Task task)
             : this(name, user, task)
         {
-            Id = id;
+            this.id = id;
         }
 
         public Solution(int id, string name, string user, Task task, int? baseSolutionId)
