@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="orderedtest1" storage="c:\users\slava\source\repos\program-sculptor\programsculptor\test.db.providerdaotest\orderedtest1.orderedtest" id="192bfb5e-1152-4d1f-b3cf-900f336e06cb" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="84c9b994-d9b3-1282-b98f-c9e77c9c7864" name="TestAddSolution" storage="bin\debug\test.db.providerdaotest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="afda1f32-075c-bfed-588f-f99cf50cfef2" name="TestAddFileToSolution" storage="bin\debug\test.db.providerdaotest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="77dc2d00-ee5c-ead2-cbd1-f8c03ae248a5" name="TestDeleteFileFromSolution" storage="bin\debug\test.db.providerdaotest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="08f55c28-10a0-93f5-451d-e8f94767d894" name="TestDeleteSolution" storage="bin\debug\test.db.providerdaotest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>
