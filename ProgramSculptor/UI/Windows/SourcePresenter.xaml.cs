@@ -17,9 +17,7 @@ namespace UI.Windows
         public SourcePresenter() : this(
             Default, new MemoryStream(
                 Encoding.Default.GetBytes(TextContent)))
-        {
-
-        }
+        { }
 
         private SourcePresenter(string fileName, Stream sourceText)
         {

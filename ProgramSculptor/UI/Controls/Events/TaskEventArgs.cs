@@ -1,15 +1,17 @@
 ﻿using System.Windows;
+using Model;
 
 namespace UI.Controls.Events
 {
     public class TaskEventArgs : RoutedEventArgs
     {
-        // TODO: Add data about selected task.
-
-        public TaskEventArgs(RoutedEvent routedEvent, object source) 
+        public TaskEventArgs(RoutedEvent routedEvent, object source, Task selected) 
             : base(routedEvent, source)
         {
-
+            Selected = selected;
         }
+        
+        public Task Selected { get; }
+
     }
 }

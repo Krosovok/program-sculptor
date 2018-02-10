@@ -62,6 +62,7 @@
     <Compile Include="ProviderDaoFactoryUnitTest.cs" />
     <Compile Include="ProviderSolutionDaoIntegrationTest.cs" />
     <Compile Include="ProviderTaskDaoIntegrationTest.cs" />
+    <Compile Include="ProviderUserDaoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessInterfaces\DataAccessInterfaces.csproj">

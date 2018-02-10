@@ -19,10 +19,7 @@
         
         private TaskChain Chain { get; set; }
 
-        public TaskChainPosition InChain()
-        {
-            return Chain?.PositionOf(this);
-        }
+        public TaskChainPosition InChain => Chain?.PositionOf(this);
         
         internal void AddToChain(TaskChain chain)
         {

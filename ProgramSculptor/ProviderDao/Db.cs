@@ -1,43 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessInterfaces;
 using DB.SqlFactory;
 
 namespace ProviderDao
 {
     internal class Db
     {
-        private const string ParamPrefix = ":";
-        
         private static Db instance;
+        
         private string dbProvider;
+        private string parameterPrefix;
 
         private Db()
         {
-            DbProvider = SqlStringFactory.Provider;
             ConnectionString = SqlStringFactory.ConnectionString;
+            parameterPrefix = SqlStringFactory.ParameterPrefix;
+            DbProvider = SqlStringFactory.Provider;
         }
 
-        public string DbProvider
+        private string ConnectionString { get; }
+
+        private string DbProvider
         {
-            get { return dbProvider; }
             set
             {
                 dbProvider = value;
                 Factory = DbProviderFactories.GetFactory(dbProvider);
             }
         }
-        public string ConnectionString { get; set; }
-        internal DbProviderFactory Factory { get; private set; }
+
+        private DbProviderFactory Factory { get; set; }
 
         public static Db Instance => instance ?? (instance = new Db());
 
-        internal string Param(string paramName) => ParamPrefix + paramName;
+        internal string Param(string paramName) => parameterPrefix + paramName;
 
         internal DbCommand CreateTextCommand(string sqlKey, params string[] parameterPlaceholders)
         {
@@ -57,6 +53,7 @@ namespace ProviderDao
         {
             DbParameter parameter = CreateParameter(type, name);
             parameter.Value = value;
+            parameter.Direction = ParameterDirection.Input;
 
             return parameter;
         }
@@ -65,6 +62,15 @@ namespace ProviderDao
         {
             DbParameter parameter = CreateParameter(type, name);
             parameter.Direction = ParameterDirection.Output;
+
+            return parameter;
+        }
+
+        internal DbParameter CreateReturnParameter(DbType type, string name)
+        {
+            DbParameter parameter = CreateParameter(type, name);
+            parameter.Direction = ParameterDirection.ReturnValue;
+            parameter.Size = 20;
 
             return parameter;
         }
@@ -82,7 +88,7 @@ namespace ProviderDao
             command.Connection.Close();
             command.Dispose();
         }
-        
+
         private DbCommand CreateCommand(string sqlKey, params string[] parameterPlaceholders)
         {
             DbCommand command = Factory.CreateCommand();

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DataAccessInterfaces;
+using Model;
 using UI.Controls.Events;
 
 namespace UI.Controls
@@ -25,7 +16,7 @@ namespace UI.Controls
 
         static TaskElement()
         {
-            SelectedEvent = EventManager.RegisterRoutedEvent("Selected",
+            SelectedEvent = EventManager.RegisterRoutedEvent("SelectedTask",
                 RoutingStrategy.Bubble, typeof(TaskEventHandler), typeof(TaskElement));
         }
 
@@ -56,9 +47,17 @@ namespace UI.Controls
             }
         }
 
+        private Task Task => DataContext as Task;
+        
         public void Expand()
         {
             solutions.Visibility = Visibility.Visible;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            solutions.ItemsSource = Dao.Factory.SolutionDao.GetMyTaskSolutions(Task, Dao.Factory.UserDao.CurrentUser);
         }
 
         public void Collapse()
@@ -73,7 +72,7 @@ namespace UI.Controls
 
         private void OnTaskSelected()
         {
-            TaskEventArgs args = new TaskEventArgs(SelectedEvent, this);
+            TaskEventArgs args = new TaskEventArgs(SelectedEvent, this, Task);
             RaiseEvent(args);
         }
 
@@ -88,6 +87,10 @@ namespace UI.Controls
                 Collapse();
             }
         }
-        
+
+        public void UpdateSolutions()
+        {
+            LoadData();
+        }
     }
 }

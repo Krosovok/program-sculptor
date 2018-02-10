@@ -4,8 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
+             xmlns:content="clr-namespace:UI.Content"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500">
+    <UserControl.Resources>
+        <content:DocumentConverter x:Key="DocumentConverter" />
+        <Button x:Key="StartNewButtion"
+            Margin="7"
+                DockPanel.Dock="Right"
+                Background="Green"
+                FontSize="20"
+                Click="StartNewSolution">
+            >>> Start New
+        </Button>
+        <DockPanel x:Key="NewSolutionTextBox"
+                   LastChildFill="True">
+            <TextBlock Margin="7"
+                       DockPanel.Dock="Top"
+                       FontSize="20">
+                New Solution name:
+            </TextBlock>
+            <TextBox Margin="7"
+                     DockPanel.Dock="Bottom"
+                     FontSize="20"
+                     KeyDown="CreateSolution"/>
+        </DockPanel>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
@@ -14,26 +38,25 @@
             <RowDefinition Height="83*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0"
-                   LastChildFill="True">
+        <DockPanel LastChildFill="True">
             <TextBlock Margin="20"
-                       Text="{Binding Name}"
+                       Text="{Binding TaskName}"
                        DockPanel.Dock="Left"
                        FontSize="18">
                 Name
             </TextBlock>
 
-            <Button Margin="7"
-                    DockPanel.Dock="Right"
-                    Background="Green"
-                    FontSize="20">
-                >>> Start New
-            </Button>
+            <Frame Name="NewSolutionActionFrame" 
+                NavigationUIVisibility="Hidden"
+                   Content="{StaticResource StartNewButtion}">
+                
+            </Frame>
         </DockPanel>
 
         <FlowDocumentScrollViewer Grid.Row="1"
                                   VerticalScrollBarVisibility="Auto"
-                                  Margin="7">
+                                  Margin="7"
+                                  Document="{Binding Description, Converter={StaticResource DocumentConverter}}">
             
         </FlowDocumentScrollViewer>
 
@@ -58,6 +81,7 @@
             </DockPanel>
             
             <local:TaskChainView
+                DataContext="InChain"
                 Grid.Column="1">
                 
             </local:TaskChainView>
@@ -70,3 +94,4 @@
 
     </Grid>
 </UserControl>
+

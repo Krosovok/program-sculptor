@@ -14,13 +14,13 @@ namespace ProviderDao
             DbCommand select = SelectCommand();
 
             Data = new List<T>();
-            ReadAllRows(@select);
+            ReadAllRows(select);
 
-            Db.Instance.CloseCommand(@select);
+            Db.Instance.CloseCommand(select);
 
             return Data;
         }
-        
+
         protected void ReadAllRows(DbCommand select)
         {
             using (DbDataReader reader = select.ExecuteReader())
@@ -36,7 +36,7 @@ namespace ProviderDao
         protected abstract T ReadRow(IDataRecord data);
 
         protected abstract DbCommand SelectCommand();
-        
+
         protected static string GetString(IDataRecord data, string columnName)
         {
             int columnIdx = data.GetOrdinal(columnName);
@@ -63,6 +63,5 @@ namespace ProviderDao
             int columnIdx = data.GetOrdinal(columnName);
             return data.GetInt32(columnIdx);
         }
-
     }
 }

@@ -10,6 +10,11 @@ namespace ProviderDao.Implementation
     {
         private const string InsertKey = "ProviderSolutionDao.AddSolution";
         private const string DeleteKey = "ProviderSolutionDao.DeleteSolution";
+        private static ISolutionDao instance;
+        
+        private ProviderSolutionDao() { }
+        
+        internal static ISolutionDao Instance => instance ?? (instance = new ProviderSolutionDao());
 
         public IReadOnlyList<Solution> GetMyTaskSolutions(Task task, string username)
         {

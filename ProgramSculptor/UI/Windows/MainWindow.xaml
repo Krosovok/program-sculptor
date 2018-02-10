@@ -28,7 +28,9 @@
             <!--<Controls:LanguageSwitch 
                  DockPanel.Dock="Top"
                  Margin="5"/>-->
-            
+            <Controls:UserLoggin Margin="5"
+                                 DockPanel.Dock="Top" />
+
             <Button DockPanel.Dock="Top"
                     MinHeight="40"
                     Margin="5"
@@ -44,7 +46,9 @@
             <Controls:TaskList
                 x:Name="tasks"
                 Margin="5"
-                Selected="TaskSelected"/>
+                Selected="TaskSelected"
+                />
         </DockPanel>
     </Grid>
 </Window>
+

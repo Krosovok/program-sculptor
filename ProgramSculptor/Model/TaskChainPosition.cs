@@ -14,13 +14,18 @@ namespace Model
             this.taskIndex = taskIndex;
         }
 
-        public IEnumerable<Task> AllBefore => tasksLink.Take(PreviousIndex);
-        public Task Previous => taskIndex == 0 ? null : tasksLink[PreviousIndex];
+        public IEnumerable<Task> AllBefore => NullIfEmpty(tasksLink.Take(PreviousTaskIndex));
+        public Task Previous => taskIndex == 0 ? null : tasksLink[PreviousTaskIndex];
         public Task Current => tasksLink[taskIndex];
-        public Task Next => taskIndex == tasksLink.Length ? null : tasksLink[NextTask];
-        public IEnumerable<Task> AllAfter => tasksLink.Skip(NextTask);
+        public Task Next => taskIndex == tasksLink.Length ? null : tasksLink[NextTaskIndex];
+        public IEnumerable<Task> AllAfter => NullIfEmpty(tasksLink.Skip(NextTaskIndex));
 
-        private int PreviousIndex => taskIndex - 1;
-        private int NextTask => taskIndex + 1;
+        private int PreviousTaskIndex => taskIndex - 1;
+        private int NextTaskIndex => taskIndex + 1;
+
+        private static IEnumerable<T> NullIfEmpty<T>(IEnumerable<T> enumerable)
+        {
+            return !enumerable.Any() ? null : enumerable;
+        }
     }
 }

@@ -1,17 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Model;
 
 namespace UI.Controls
 {
@@ -20,19 +13,52 @@ namespace UI.Controls
     /// </summary>
     public partial class TaskChainView : UserControl
     {
-        private readonly ContextMenu otherTaskMenu;
+        private readonly ContextMenu otherTasksMenu;
 
         public TaskChainView()
         {
             InitializeComponent();
 
-            otherTaskMenu = (ContextMenu) Resources["OtherTaskMenu"];
+            otherTasksMenu = (ContextMenu) Resources["OtherTaskMenu"];
         }
 
-        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        private void ContextMenuOpenClick(object sender, RoutedEventArgs e)
         {
-            otherTaskMenu.Visibility = Visibility.Visible;
-            otherTaskMenu.IsOpen = true;
+            otherTasksMenu.Visibility = Visibility.Visible;
+            otherTasksMenu.IsOpen = true;
+
+            object dataContext = ((Control) sender).DataContext;
+            otherTasksMenu.ItemsSource = dataContext as IEnumerable<Task>;
+            
+            // TODO: Menu items click.
+        }
+
+        private void TaskChainChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            TaskChainPosition chain = (TaskChainPosition) DataContext;
+
+            AllBefore.DataContext = chain.AllBefore;
+            Previous.DataContext = chain.Previous;
+            Current.DataContext = chain.Current;
+            Next.DataContext = chain.Next;
+            AllAfter.DataContext = chain.AllAfter;
+
+            SetVisibilityToButtons();
+        }
+
+        private void SetVisibilityToButtons()
+        {
+            foreach (Button taskLinkButton in ButtonGrid.Children.OfType<Button>())
+            {
+                SetVisibility(taskLinkButton);
+            }
+        }
+
+        private static void SetVisibility(Button button)
+        {
+            button.Visibility = button.DataContext == null ? 
+                Visibility.Hidden :
+                Visibility.Visible;
         }
     }
 }

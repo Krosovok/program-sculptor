@@ -11,13 +11,19 @@ namespace ProviderDao.Implementation
 {
     public class ProviderClassFileDao : IClassFileDao
     {
+        private const string InsertSqlKey = "ProviderClassFileDao.AddFileToSolution";
+        private const string DeleteSqlKey = "ProviderClassFileDao.DeleteFileFromSolution";
+
         private static readonly string[] Parameters = new string[]
         {
             Db.Instance.Param(Db.Solutions.Id),
             Db.Instance.Param(Db.CodeFiles.Name)
         };
-        private const string InsertSqlKey = "ProviderClassFileDao.AddFileToSolution";
-        private const string DeleteSqlKey = "ProviderClassFileDao.DeleteFileFromSolution";
+        private static IClassFileDao instance;
+        
+        private ProviderClassFileDao() { }
+        
+        internal static IClassFileDao Instance => instance ?? (instance = new ProviderClassFileDao());
 
         public IEnumerable<ClassFile> SolutionFiles(Solution solution)
         {
