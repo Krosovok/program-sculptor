@@ -66,7 +66,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             
-            <DockPanel LastChildFill="True">
+            <!--<DockPanel LastChildFill="True">
                 <TextBlock FontSize="14"
                            DockPanel.Dock="Top"
                            Margin="10">
@@ -75,13 +75,14 @@
             
                 <ListView Margin="10, 0">
                     <ItemContainerTemplate>
-                        <!--TODO: Links.-->
+                        --><!--TODO: Links.--><!--
                     </ItemContainerTemplate>
                 </ListView>
-            </DockPanel>
+            </DockPanel>-->
+            <local:GivenTypes></local:GivenTypes>
             
             <local:TaskChainView
-                DataContext="InChain"
+                DataContext="{Binding InChain}"
                 Grid.Column="1">
                 
             </local:TaskChainView>

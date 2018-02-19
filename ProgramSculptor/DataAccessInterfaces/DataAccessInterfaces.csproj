@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Dao.cs" />
     <Compile Include="DaoConfigurationSection.cs" />
+    <Compile Include="DataAccessException.cs" />
     <Compile Include="IClassFileDao.cs" />
     <Compile Include="DaoFactory.cs" />
     <Compile Include="ISolutionDao.cs" />

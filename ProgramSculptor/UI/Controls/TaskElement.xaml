@@ -22,7 +22,8 @@
         <ListBox
             Name="solutions"
             Visibility="Collapsed"
-            ItemTemplate="{StaticResource SolutionData}"/>
+            ItemTemplate="{StaticResource SolutionData}"
+            SelectionChanged="SolutionSelected"/>
     </StackPanel>
 </UserControl>
 

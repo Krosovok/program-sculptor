@@ -40,8 +40,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -56,8 +57,14 @@
     </ApplicationDefinition>
     <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Content\DocumentConverter.cs" />
+    <Compile Include="Controls\CodeArea.xaml.cs">
+      <DependentUpon>CodeArea.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Events\TaskEventArgs.cs" />
     <Compile Include="Controls\Events\TaskEventHandler.cs" />
+    <Compile Include="Controls\GivenTypes.xaml.cs">
+      <DependentUpon>GivenTypes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
     </Compile>
@@ -67,10 +74,13 @@
     <Compile Include="Controls\SolutionItem.xaml.cs">
       <DependentUpon>SolutionItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TaskSummary.xaml.cs">
+      <DependentUpon>TaskSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UserLogging.xaml.cs">
       <DependentUpon>UserLogging.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TaskArrow.cs" />
+    <Compile Include="Controls\TaskArrow.cs" />
     <Compile Include="Controls\TaskChainView.xaml.cs">
       <DependentUpon>TaskChainView.xaml</DependentUpon>
     </Compile>
@@ -83,6 +93,7 @@
     <Compile Include="Controls\TestsView.xaml.cs">
       <DependentUpon>TestsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WorkingPanel.cs" />
     <Compile Include="Windows\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
@@ -92,6 +103,17 @@
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TaskWindow.xaml.cs">
+      <DependentUpon>TaskWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\CodeArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\GivenTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\LanguageSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TaskChainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TaskSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\TaskWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -176,16 +206,24 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <Resource Include="Image\add.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\left_arrow_right_th.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -211,6 +249,16 @@
       <Project>{0b6ab657-e13d-4dbf-bb8e-0d23828a5ad3}</Project>
       <Name>ProviderDao</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
+      <Project>{e3f6b254-3683-4615-8827-90d4db459aa1}</Project>
+      <Name>ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left-arrow-right-th.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11954452971071026229jean_victor_balin_add.svg.med.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

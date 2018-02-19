@@ -41,7 +41,6 @@ namespace DB.SqlFactory
             get
             {
                 return (int)this[ParamsCount];
-                // TODO: Check int cast.
             }
             set { this[ParamsCount] = value; }
         }

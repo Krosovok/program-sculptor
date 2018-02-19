@@ -4,6 +4,7 @@ using System.Windows.Input;
 using DataAccessInterfaces;
 using Model;
 using UI.Controls.Events;
+using UI.Windows;
 
 namespace UI.Controls
 {
@@ -65,6 +66,11 @@ namespace UI.Controls
             solutions.Visibility = Visibility.Collapsed;
         }
 
+        public void UpdateSolutions()
+        {
+            LoadData();
+        }
+
         private void TaskClick(object sender, MouseButtonEventArgs e)
         {
             OnTaskSelected();
@@ -88,9 +94,15 @@ namespace UI.Controls
             }
         }
 
-        public void UpdateSolutions()
+        private void SolutionSelected(object sender, RoutedEventArgs e)
         {
-            LoadData();
+            ListBox listView = (ListBox) sender;
+            Solution selected = (Solution)listView.SelectedItem;
+            
+            Window solutionWindow = new TaskWindow(selected);
+            solutionWindow.Show();
+            
+            // TODO: Do same in "Start new".
         }
     }
 }

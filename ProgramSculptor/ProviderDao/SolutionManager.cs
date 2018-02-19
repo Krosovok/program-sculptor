@@ -12,17 +12,17 @@ namespace ProviderDao
             File.Delete(filePath);
         }
 
-        public static void SaveFile(Solution parent, string fileName)
+        public static void CreateFile(Solution parent, string fileName)
         {
             string filePath = FilePath(parent, fileName);
             File.Create(filePath);
         }
 
-        private static string FilePath(Solution parent, string fileName)
+        private static string FilePath(Solution solution, string fileName)
         {
             DirectoryInfo solutionFolder =
-                FolderContents.SolutionFolder(
-                    parent.Task.TaskName, parent.Name);
+                new FolderContents(solution.Task)
+                    .SolutionFolder(solution);
 
             string filePath = Path.Combine(
                 solutionFolder.FullName,

@@ -21,6 +21,11 @@ namespace UI.Windows
             tasks.DataContext = Dao.Factory.TaskDao.AllTasks;
         }
 
+        private Control ShownPanel
+        {
+            set { SelectedInfo.Navigate(value); }
+        }
+
         private void ShowSandbox(object sender, RoutedEventArgs e)
         {
             ShowSandbox();
@@ -45,10 +50,14 @@ namespace UI.Windows
             tasks.UpdateSolutions();
         }
 
-        private Control ShownPanel
+        private void Test(object sender, RoutedEventArgs e)
         {
-            set { SelectedInfo.Navigate(value); }
+            // TODO: REmove this!!!
+            //
+            Solution solution = Dao.Factory.SolutionDao.GetMyTaskSolutions(new Task(1, "Task1", ""), "Alter")[0];
+            TaskWindow window = new TaskWindow(solution);
+            window.Show();
+            //
         }
-
     }
 }

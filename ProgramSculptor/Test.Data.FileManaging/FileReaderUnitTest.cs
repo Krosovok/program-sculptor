@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileManaging;
+using Model;
 
 namespace Test.Data.FileManaging
 {
@@ -34,7 +35,8 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestReadAllText()
         {
-            string actualContent = FileReader.GetTestSource(TaskName, FileName);
+            string actualContent = new FileReader(new Task(0, TaskName, ""))
+                .GetTestSource(FileName);
             
             Assert.AreEqual(TestContent, actualContent);
         }

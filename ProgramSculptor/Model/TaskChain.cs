@@ -13,17 +13,21 @@ namespace Model
         {
             this.tasks = tasks.ToArray();
         }
+
+        public Task this[int position] => tasks[position];
+        public IEnumerable<Task> AllTasks => tasks;
+        public int Length => tasks.Length;
         
         public static void RegisterInTaskChain(IEnumerable<Task> tasks)
         {
             TaskChain newChain = new TaskChain(tasks);
             foreach (Task task in newChain.tasks)
             {
-                task.AddToChain(newChain);
+                task.Chain = newChain;
             }
         }
 
-        public TaskChainPosition PositionOf(Task task)
+        public int PositionOf(Task task)
         {
             int taskIndex = Array.IndexOf(tasks, task);
             if (taskIndex == -1)
@@ -31,7 +35,7 @@ namespace Model
                 throw new ArgumentException(Message);
             }
 
-            return new TaskChainPosition(tasks, taskIndex);
+            return taskIndex;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Model
 {
-    public class ClassFile
+    public class ClassFile : IComparable<ClassFile>
     {
         private const string FileExtensionSeparator = ".";
 
@@ -13,7 +13,7 @@ namespace Model
 
         public string FileName { get; }
         public string TypeName => GetTypeName();
-        
+
         private string GetTypeName()
         {
             // TODO: Check it for logic! May be in reverce.
@@ -21,6 +21,14 @@ namespace Model
                 FileName.LastIndexOf(
                     FileExtensionSeparator,
                     StringComparison.Ordinal));
+        }
+
+        public int CompareTo(ClassFile other)
+        {
+            return string.Compare(
+                this.FileName,
+                other.FileName,
+                StringComparison.Ordinal);
         }
     }
 }

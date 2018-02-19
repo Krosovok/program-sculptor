@@ -4,12 +4,13 @@ using DB.SqlFactory;
 
 namespace ProviderDao
 {
+    // TODO: Make error handling.
     internal class Db
     {
         private static Db instance;
         
         private string dbProvider;
-        private string parameterPrefix;
+        private readonly string parameterPrefix;
 
         private Db()
         {
@@ -18,8 +19,9 @@ namespace ProviderDao
             DbProvider = SqlStringFactory.Provider;
         }
 
+        public static Db Instance => instance ?? (instance = new Db());
+        
         private string ConnectionString { get; }
-
         private string DbProvider
         {
             set
@@ -28,10 +30,7 @@ namespace ProviderDao
                 Factory = DbProviderFactories.GetFactory(dbProvider);
             }
         }
-
         private DbProviderFactory Factory { get; set; }
-
-        public static Db Instance => instance ?? (instance = new Db());
 
         internal string Param(string paramName) => parameterPrefix + paramName;
 

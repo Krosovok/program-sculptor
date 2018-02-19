@@ -16,14 +16,13 @@
         public int Id { get; }
         public string TaskName { get; }
         public string Description { get; }
-        
-        private TaskChain Chain { get; set; }
+        public TaskChain Chain { get; internal set; }
 
-        public TaskChainPosition InChain => Chain?.PositionOf(this);
+        //public TaskChainPosition InChain => Chain?.PositionOf(this);
         
-        internal void AddToChain(TaskChain chain)
-        {
-            this.Chain = chain;
-        }
+        //internal void AddToChain(TaskChain chain)
+        //{
+        //    this.Chain = chain;
+        //}
     }
 }

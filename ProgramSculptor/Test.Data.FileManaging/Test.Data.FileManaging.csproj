@@ -61,6 +61,10 @@
       <Project>{501bc63b-3f62-46d8-a55f-2b3a61718177}</Project>
       <Name>FileManaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3D2EF0DE-1076-4113-B708-B4DA11F9202A}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

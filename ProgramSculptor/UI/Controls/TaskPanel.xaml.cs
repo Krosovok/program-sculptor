@@ -72,13 +72,6 @@ namespace UI.Controls
             Solution newSolution = new Solution(solutionName, Dao.Factory.UserDao.CurrentUser, SelectedTask);
             return newSolution;
         }
-
-        /*
-         TODO: this:
-         3. Выполнить функцию, отобразив результат в приложении.
-
-4. Обработать исключительную ситуацию, сгенерированную серверной частью приложения 
-(желательно инициировать пользовательское исключение и обработать его в клиентском приложении).
-         */
+        
     }
 }

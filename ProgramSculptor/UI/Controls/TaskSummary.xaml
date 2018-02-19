@@ -1,0 +1,36 @@
+﻿<local:WorkingPanel x:Class="UI.Controls.TaskSummary"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:UI.Controls"
+             xmlns:content="clr-namespace:UI.Content"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="840">
+    <UserControl.Resources>
+        <content:DocumentConverter x:Key="DocumentConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0"
+                       Margin="10">
+            <TextBlock DockPanel.Dock="Top"
+                       FontSize="14"
+                       TextAlignment="Center"
+                       Text="{Binding StringFormat=Task summary for {0}, Path=TaskName}">
+                
+            </TextBlock>
+            <FlowDocumentScrollViewer VerticalScrollBarVisibility="Auto"
+                                      Document="{Binding Description, Converter={StaticResource DocumentConverter}}" />
+        </DockPanel>
+        
+        <local:TestsView Grid.Column="1"/>
+        
+        <local:GivenTypes Grid.Column="2"/>
+    </Grid>
+</local:WorkingPanel>

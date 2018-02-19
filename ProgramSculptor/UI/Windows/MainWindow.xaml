@@ -30,6 +30,8 @@
                  Margin="5"/>-->
             <Controls:UserLoggin Margin="5"
                                  DockPanel.Dock="Top" />
+            <Button DockPanel.Dock="Top"
+                    Click="Test">TEST</Button>
 
             <Button DockPanel.Dock="Top"
                     MinHeight="40"
