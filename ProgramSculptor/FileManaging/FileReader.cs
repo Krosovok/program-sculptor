@@ -1,23 +1,37 @@
 ﻿using System.IO;
+using Model;
 using static FileManaging.Folding;
 
 namespace FileManaging
 {
-    public static class FileReader
+    public class FileReader
     {
-        public static string GetTestSource(string taskName, string fileName)
+        private readonly Task task;
+
+        public FileReader(Task task)
         {
-            return ReadAllText(taskName, TestsFolder, fileName);
+            this.task = task;
         }
 
-        public static string GetGivenTypeSource(string taskName, string fileName)
+        public string GetTestSource(string fileName)
         {
-            return ReadAllText(taskName, GivenTypesFolder, fileName);
+            return ReadAllText(TestsFolder, fileName);
         }
 
-        private static string ReadAllText(string taskName, string folder, string fileName)
+        public string GetGivenTypeSource(string fileName)
         {
-            string path = BuildFilePath(TasksFolder, taskName, folder, fileName);
+            return ReadAllText(GivenTypesFolder, fileName);
+        }
+
+        public string GetSolutionFileSource(string solutionName, string fileName)
+        {
+            string path = BuildFilePath(TasksFolder, task.TaskName, Solutions, solutionName, fileName);
+            return File.ReadAllText(path);
+        }
+
+        private string ReadAllText(string folder, string fileName)
+        {
+            string path = BuildFilePath(TasksFolder, task.TaskName, folder, fileName);
             return File.ReadAllText(path);
         }
     }

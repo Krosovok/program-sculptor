@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DataAccessInterfaces;
+using Model;
 using UI.Controls.Events;
+using UI.Windows;
 
 namespace UI.Controls
 {
@@ -25,7 +17,7 @@ namespace UI.Controls
 
         static TaskElement()
         {
-            SelectedEvent = EventManager.RegisterRoutedEvent("Selected",
+            SelectedEvent = EventManager.RegisterRoutedEvent("SelectedTask",
                 RoutingStrategy.Bubble, typeof(TaskEventHandler), typeof(TaskElement));
         }
 
@@ -56,14 +48,27 @@ namespace UI.Controls
             }
         }
 
+        private Task Task => DataContext as Task;
+        
         public void Expand()
         {
             solutions.Visibility = Visibility.Visible;
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            solutions.ItemsSource = Dao.Factory.SolutionDao.GetMyTaskSolutions(Task, Dao.Factory.UserDao.CurrentUser);
         }
 
         public void Collapse()
         {
             solutions.Visibility = Visibility.Collapsed;
+        }
+
+        public void UpdateSolutions()
+        {
+            LoadData();
         }
 
         private void TaskClick(object sender, MouseButtonEventArgs e)
@@ -73,7 +78,7 @@ namespace UI.Controls
 
         private void OnTaskSelected()
         {
-            TaskEventArgs args = new TaskEventArgs(SelectedEvent, this);
+            TaskEventArgs args = new TaskEventArgs(SelectedEvent, this, Task);
             RaiseEvent(args);
         }
 
@@ -88,6 +93,16 @@ namespace UI.Controls
                 Collapse();
             }
         }
-        
+
+        private void SolutionSelected(object sender, RoutedEventArgs e)
+        {
+            ListBox listView = (ListBox) sender;
+            Solution selected = (Solution)listView.SelectedItem;
+            
+            Window solutionWindow = new TaskWindow(selected);
+            solutionWindow.Show();
+            
+            // TODO: Do same in "Start new".
+        }
     }
 }

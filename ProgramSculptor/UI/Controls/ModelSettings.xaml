@@ -1,0 +1,88 @@
+﻿<local:WorkingPanel x:Class="UI.Controls.ModelSettings"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:local="clr-namespace:UI.Controls"
+                    mc:Ignorable="d"
+                    xmlns:content="clr-namespace:UI.Content"
+             
+                    d:DesignHeight="200" d:DesignWidth="840">
+    <local:WorkingPanel.Resources>
+        <content:ColorConverter x:Key="ColorConverter" />
+        <CollectionViewSource x:Key="InitializersData" Source="{Binding InitializersData}" />
+    </local:WorkingPanel.Resources>
+    <Grid>
+
+        <TabControl>
+            
+            <TabControl.ItemsSource>
+                <CompositeCollection>
+                    <TabItem>
+                        <TabItem.Header>
+                            Model
+                        </TabItem.Header>
+                        <TabItem.ContentTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="False"
+                                           VerticalAlignment="Top"
+                                           Margin="20"
+                                           DataContext="{Binding RelativeSource={
+                                    RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}
+                                    }, 
+                                    Path=DataContext.FieldParameters}">
+                                    <TextBlock>Field size:</TextBlock>
+                                    <TextBox MinWidth="40"
+                                             Margin="10, 0"
+                                             Text="{Binding Size}"
+                                             PreviewTextInput="AllowOnlyNumericInput"
+                                             DataObject.Pasting="PastingNumbersOnly"></TextBox>
+                                </DockPanel>
+                            </DataTemplate>
+                        </TabItem.ContentTemplate>
+                    </TabItem>
+                    <CollectionContainer Collection="{Binding Source={StaticResource InitializersData}}" />
+                </CompositeCollection>
+            </TabControl.ItemsSource>
+            
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Key}"
+                               Margin="10">
+                        
+                    </TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*" />
+                        </Grid.ColumnDefinitions>
+                        <DockPanel LastChildFill="False">
+                            <StackPanel DockPanel.Dock="Top"
+                                        Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center">
+                                    Color (click to change):
+                                </TextBlock>
+                                <Canvas Height="30" Width="30"
+                                        Background="{Binding Path=Value.Color,
+                                    Converter={StaticResource ColorConverter}}"/>
+                                <!--TODO: Make color picking.-->
+                            </StackPanel>
+                            <StackPanel DockPanel.Dock="Top"
+                                        Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center">
+                                    Nuber of Elements at the beginning:
+                                </TextBlock>
+                                <TextBox Text="{Binding Value.Count}"
+                                         PreviewTextInput="AllowOnlyNumericInput"
+                                         DataObject.Pasting="PastingNumbersOnly"></TextBox>
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
+</local:WorkingPanel>

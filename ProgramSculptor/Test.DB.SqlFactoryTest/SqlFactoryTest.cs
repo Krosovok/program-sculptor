@@ -9,12 +9,13 @@ namespace Test.DB.SqlFactoryTest
     {
         private const string ExpectedConnectionString = "MyConn";
         private const string SqlKey = "Sql";
-        //private const string SqlParamsKey = "SqlParams";
-        
+        private const string SqlParamsKey = "SqlParams";
+
         private const string ExpectedSql = "SqlText";
-        //private const string Param = "param";
-        //private const string ExpectedSqlWithParams = "sql with param";
-        
+        private const string Param = "param";
+        private const string ExpectedSqlWithParams = "sql with param";
+        private const string Prefix = "^";
+
         [TestMethod]
         public void TestConnectionString()
         {
@@ -33,12 +34,20 @@ namespace Test.DB.SqlFactoryTest
             Assert.AreEqual(ExpectedSql, sqlText);
         }
 
-        //[TestMethod]
-        //public void TestSqlWithParameters()
-        //{
-        //    string sqlWithParameters = SqlStringFactory.GetSql(SqlParamsKey, Param);
+        [TestMethod]
+        public void TestPArameterPrefix()
+        {
+            string prefix = SqlStringFactory.ParameterPrefix;
             
-        //    Assert.AreEqual(ExpectedSqlWithParams, sqlWithParameters);
-        //}
+            Assert.AreEqual(Prefix, prefix);
+        }
+
+        [TestMethod]
+        public void TestSqlWithParameters()
+        {
+            string sqlWithParameters = SqlStringFactory.GetSql(SqlParamsKey, Param);
+
+            Assert.AreEqual(ExpectedSqlWithParams, sqlWithParameters);
+        }
     }
 }

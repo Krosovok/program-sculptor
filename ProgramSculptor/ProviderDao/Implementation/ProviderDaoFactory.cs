@@ -4,8 +4,9 @@ namespace ProviderDao.Implementation
 {
     public class ProviderDaoFactory : IDaoFactory
     {
-        public ITaskDao TaskDao => new ProviderTaskDao();
-        public IClassFileDao ClassFileDao => new ProviderClassFileDao();
-        public ISolutionDao SolutionDao => new ProviderSolutionDao();
+        public ITaskDao TaskDao => ProviderTaskDao.Instance;
+        public IClassFileDao ClassFileDao => ProviderClassFileDao.Instance;
+        public ISolutionDao SolutionDao => ProviderSolutionDao.Instance;
+        public IUserDao UserDao => ProviderUsersDao.Instance;
     }
 }

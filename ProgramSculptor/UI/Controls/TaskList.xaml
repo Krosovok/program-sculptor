@@ -30,7 +30,8 @@
         <ScrollViewer>
             <ListBox Name="taskList" 
                      ItemTemplate="{StaticResource ResourceKey=taskElementTemplate}"
-                     HorizontalContentAlignment="Stretch">
+                     HorizontalContentAlignment="Stretch"
+                     ItemsSource="{Binding}">
                 
             </ListBox>
         </ScrollViewer>

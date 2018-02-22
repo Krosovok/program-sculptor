@@ -13,7 +13,7 @@ namespace FileManaging
         public const string Solutions = "Solutions";
         public const string OthersSolutionFormat = "Solution_{0}";
 
-        public static string BuildPath(params string[] parts)
+        public static string BuildDirectoryPath(params string[] parts)
         {
             string pathEnd = Path.Combine(parts);
             string baseDirectory = Directory.GetCurrentDirectory();
@@ -28,7 +28,7 @@ namespace FileManaging
         public static string BuildFilePath(params string[] pathParts)
         {
             string[] directoryParts = pathParts.Take(pathParts.Length - 1).ToArray();
-            string directoryPath = BuildPath(directoryParts);
+            string directoryPath = BuildDirectoryPath(directoryParts);
 
             string fullPath = Path.Combine(directoryPath, pathParts.Last().TrimStart('/'));
 

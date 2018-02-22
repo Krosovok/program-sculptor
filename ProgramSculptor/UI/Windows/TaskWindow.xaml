@@ -1,0 +1,55 @@
+﻿<Window x:Class="UI.Windows.TaskWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        mc:Ignorable="d"
+        Title="TaskWindow" Height="700" Width="900">
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Bottom"
+                   LastChildFill="True"
+                   MinHeight="200"
+                   Margin="10">
+            
+            <Button Name="LeftButton"
+                    Command="{Binding ToLeftPanelCommand}"
+                    DockPanel.Dock="Left"
+                    Background="Gray"
+                    MinWidth="20">
+                <Image HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="../Image/left_arrow_right_th.png"
+                       Width="15"
+                       Height="15" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                            <SkewTransform AngleY="0" AngleX="0"/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+
+            <Button Name="RightButton"
+                    Command="{Binding ToRightPanelCommand}"
+                    DockPanel.Dock="Right"
+                    Background="Gray"
+                    MinWidth="20">
+                <Image HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="../Image/left_arrow_right_th.png"
+                       Width="15"
+                       Height="15"/>
+            </Button>
+
+            <Frame Name="WorkingPanel"
+                   NavigationUIVisibility="Hidden" />
+        </DockPanel>
+
+        <DockPanel></DockPanel>
+        <!--TODO: Custom control for field.-->
+    </DockPanel>
+</Window>

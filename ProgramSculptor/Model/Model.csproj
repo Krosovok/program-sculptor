@@ -38,11 +38,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassFile.cs" />
+    <Compile Include="FileContents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskChain.cs" />
-    <Compile Include="TaskChainPosition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

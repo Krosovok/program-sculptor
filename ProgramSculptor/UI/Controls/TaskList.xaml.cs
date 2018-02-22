@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UI.Controls.Events;
 
 namespace UI.Controls
@@ -22,27 +12,24 @@ namespace UI.Controls
     public partial class TaskList : UserControl
     {
         public static readonly RoutedEvent SelectedEvent;
+        private TaskElement selected;
 
         static TaskList()
         {
-            SelectedEvent = EventManager.RegisterRoutedEvent("Selected",
+            SelectedEvent = EventManager.RegisterRoutedEvent("SelectedTask",
                 RoutingStrategy.Bubble, typeof(TaskEventHandler), typeof(TaskList));
         }
 
         public TaskList()
         {
             InitializeComponent();
-
-            taskList.Items.Add("111");
-            taskList.Items.Add("222");
-            taskList.Items.Add("333");
-            taskList.Items.Add("444");
         }
 
         private void TaskSelected(object sender, TaskEventArgs e)
         {
-            UnselectOthers(sender);
-            OnTaskSelected();
+            selected = (TaskElement) sender;
+            UnselectOthers(selected);
+            RaiseEvent(new TaskEventArgs(SelectedEvent, this, e.Selected));
         }
 
         public event TaskEventHandler Selected
@@ -55,12 +42,6 @@ namespace UI.Controls
             {
                 RemoveHandler(SelectedEvent, value);
             }
-        }
-
-        private void OnTaskSelected()
-        {
-            TaskEventArgs args = new TaskEventArgs(SelectedEvent, this);
-            RaiseEvent(args);
         }
         
         private void UnselectOthers(object sender)
@@ -98,6 +79,11 @@ namespace UI.Controls
             {
                 taskControl.Collapse();
             }
+        }
+
+        public void UpdateSolutions()
+        {
+            selected?.UpdateSolutions();
         }
     }
 }

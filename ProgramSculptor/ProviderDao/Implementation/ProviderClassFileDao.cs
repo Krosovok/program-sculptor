@@ -11,13 +11,19 @@ namespace ProviderDao.Implementation
 {
     public class ProviderClassFileDao : IClassFileDao
     {
+        private const string InsertSqlKey = "ProviderClassFileDao.AddFileToSolution";
+        private const string DeleteSqlKey = "ProviderClassFileDao.DeleteFileFromSolution";
+
         private static readonly string[] Parameters = new string[]
         {
             Db.Instance.Param(Db.Solutions.Id),
             Db.Instance.Param(Db.CodeFiles.Name)
         };
-        private const string InsertSqlKey = "ProviderClassFileDao.AddFileToSolution";
-        private const string DeleteSqlKey = "ProviderClassFileDao.DeleteFileFromSolution";
+        private static IClassFileDao instance;
+        
+        private ProviderClassFileDao() { }
+        
+        internal static IClassFileDao Instance => instance ?? (instance = new ProviderClassFileDao());
 
         public IEnumerable<ClassFile> SolutionFiles(Solution solution)
         {
@@ -26,21 +32,39 @@ namespace ProviderDao.Implementation
             return ClassFiles(allFiles);
         }
 
+        public string FileContents(Solution solution, ClassFile classFile)
+        {
+            FileReader reader = new FileReader(solution.Task);
+            return reader.GetSolutionFileSource(solution.Name, classFile.FileName);
+        }
+
         public IEnumerable<ClassFile> GetTests(Task task)
         {
-            return GetTests(task.TaskName);
+            IEnumerable<FileInfo> allFiles = new FolderContents(task)
+                .GetAllTests();
+
+            return ClassFiles(allFiles);
         }
 
         public IEnumerable<ClassFile> GetGivenTypes(Task task)
         {
-            return GetGivenTypes(task.TaskName);
+            IEnumerable<FileInfo> allFiles = new FolderContents(task)
+                .GetAllGivenTypes();
+
+            return ClassFiles(allFiles);
         }
 
         public void AddFileToSolution(Solution target, ClassFile newClassFile)
         {
             string classFileName = newClassFile.FileName;
             InsertIntoDb(target, classFileName);
-            SolutionManager.SaveFile(target, classFileName);
+            SolutionManager.CreateFile(target, classFileName);
+        }
+
+        public void UpdateFileContents(Solution target, ClassFile classFile, string contents)
+        {
+            FileWriter fileWriter = new FileWriter(target);
+            fileWriter.WriteToFile(classFile, contents);
         }
 
         public void DeleteFileFromSolution(Solution target, ClassFile classFileToDelete)
@@ -53,23 +77,8 @@ namespace ProviderDao.Implementation
 
         private static IEnumerable<FileInfo> GetAllSolutionFiles(Solution solution)
         {
-            return FolderContents.GetAllSolutionFiles(
-                solution.Task.TaskName,
-                solution.Name);
-        }
-
-        private static IEnumerable<ClassFile> GetTests(string taskName)
-        {
-            IEnumerable<FileInfo> allFiles = FolderContents.GetAllTests(taskName);
-
-            return ClassFiles(allFiles);
-        }
-
-        private static IEnumerable<ClassFile> GetGivenTypes(string taskName)
-        {
-            IEnumerable<FileInfo> allFiles = FolderContents.GetAllGivenTypes(taskName);
-
-            return ClassFiles(allFiles);
+            return new FolderContents(solution.Task)
+                .GetAllSolutionFiles(solution);
         }
 
         private static IEnumerable<ClassFile> ClassFiles(IEnumerable<FileInfo> allFiles)

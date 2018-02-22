@@ -14,7 +14,7 @@ namespace Test.DB.ProviderDaoTest
         public const string TestSolutionName = "Test solution";
         
         private const string UserName = "Alter";
-        private const int SolutionCount = 2;
+        private const int SolutionCount = 3;
         
         private static readonly Task First = Dao.Factory.TaskDao.AllTasks.First();
         private readonly ISolutionDao solutionDao = Dao.Factory.SolutionDao;
@@ -52,6 +52,7 @@ namespace Test.DB.ProviderDaoTest
             Assert.AreNotEqual(-1, TestSolution.Id);
         }
 
+        // TODO: Fail????
         [Ignore]
         [TestMethod]
         public void TestDeleteSolution()
@@ -63,7 +64,7 @@ namespace Test.DB.ProviderDaoTest
 
             solutionDao.DeleteSolution(TestSolution);
 
-            Assert.IsTrue(SolutionExists);
+            Assert.IsTrue(!SolutionExists);
         }
     }
 }

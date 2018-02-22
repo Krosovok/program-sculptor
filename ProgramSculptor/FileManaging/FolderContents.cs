@@ -1,46 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Model;
 using static FileManaging.Folding;
 
 namespace FileManaging
 {
-    public static class FolderContents
+    public class FolderContents
     {
-        public static IEnumerable<FileInfo> GetAllTests(string taskName)
+        private readonly Task task;
+
+        public FolderContents(Task task)
         {
-            return TaskContents(taskName, TestsFolder);
+            this.task = task;
         }
 
-        public static IEnumerable<FileInfo> GetAllGivenTypes(string taskName)
+        public IEnumerable<FileInfo> GetAllTests()
         {
-            return TaskContents(taskName, GivenTypesFolder);
+            return TaskContents(TestsFolder);
         }
 
-        public static IEnumerable<FileInfo> GetAllSolutionFiles(string taskName, string solutionName)
+        public IEnumerable<FileInfo> GetAllGivenTypes()
         {
-            return SolutionContents(taskName, solutionName);
+            return TaskContents(GivenTypesFolder);
         }
 
+        public IEnumerable<FileInfo> GetAllSolutionFiles(Solution solution)
+        {
+            return SolutionContents(solution.Name);
+        }
+
+        // TODO: Chnage or remove. It does not belong to "task" in the same way...
         public static IEnumerable<FileInfo> OthersSolutionFiles(int solutionId)
         {
             string fileName = string.Format(OthersSolutionFormat, solutionId);
             return FilesInFolder(OthersSolutions, fileName);
         }
 
-        public static DirectoryInfo SolutionFolder(string taskName, string solutionName)
+        public DirectoryInfo SolutionFolder(Solution solution)
         {
-            return GetDirectoryInfo(TasksFolder, taskName, Solutions, solutionName);
+            return GetDirectoryInfo(TasksFolder, task.TaskName, Solutions, solution.Name);
         }
-
         
-        private static IEnumerable<FileInfo> TaskContents(string taskName, string lastFolder)
+        private IEnumerable<FileInfo> TaskContents(string lastFolder)
         {
-            return FilesInFolder(TasksFolder, taskName, lastFolder);
+            return FilesInFolder(TasksFolder, task.TaskName, lastFolder);
         }
 
-        private static IEnumerable<FileInfo> SolutionContents(string taskName, string solutionName)
+        private IEnumerable<FileInfo> SolutionContents(string solutionName)
         {
-            return FilesInFolder(TasksFolder, taskName, Solutions, solutionName);
+            return FilesInFolder(TasksFolder, task.TaskName, Solutions, solutionName);
         }
         
         private static IEnumerable<FileInfo> FilesInFolder(params string[] pathParts)
@@ -51,7 +59,7 @@ namespace FileManaging
 
         private static DirectoryInfo GetDirectoryInfo(params string[] pathParts)
         {
-            string path = BuildPath(pathParts);
+            string path = BuildDirectoryPath(pathParts);
             DirectoryInfo directory = new DirectoryInfo(path);
             return directory;
         }

@@ -5,20 +5,24 @@
     <Style
         x:Key="TaskChainButton"
         TargetType="{x:Type Button}">
-        
+
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate 
+                <ControlTemplate
                     TargetType="{x:Type Button}">
                     <Grid>
-                        <local:TaskArrow Stroke="{TemplateBinding BorderBrush}" 
-                                         StrokeThickness="{TemplateBinding BorderThickness}" 
-                                         Fill="{TemplateBinding Background}" />
+                        <local:TaskArrow Stroke="{TemplateBinding BorderBrush}"
+                                         StrokeThickness="{TemplateBinding BorderThickness}"
+                                         Fill="{TemplateBinding Background}"/>
+
                         <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center" />
+                                          VerticalAlignment="Center"
+                                          Content="{Binding TaskName}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="Visibility" Value="Visible"></Setter>
     </Style>
 </ResourceDictionary>

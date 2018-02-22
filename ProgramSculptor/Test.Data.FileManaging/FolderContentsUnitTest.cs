@@ -3,12 +3,15 @@ using System.IO;
 using System.Linq;
 using FileManaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Model;
 
 namespace Test.Data.FileManaging
 {
     [TestClass]
     public class FolderContentsUnitTest
     {
+        private static readonly Task Task = new Task(0, TaskName, "");
+        private static readonly Solution Solution = new Solution(SolutionName, "", Task);
         private const string TaskName = "Sample Task";
         private const string SolutionName = "Sample Solution";
 
@@ -22,7 +25,8 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestSolutionFolderCreating()
         {
-            FolderContents.SolutionFolder(TaskName, SolutionName);
+            new FolderContents(Task)
+                .SolutionFolder(Solution);
 
             string currentDirectory = Directory.GetCurrentDirectory();
             string fullSolutionPath = Path.Combine(currentDirectory, Tasks, TaskName, Solutions, SolutionName);
@@ -36,7 +40,8 @@ namespace Test.Data.FileManaging
             DirectoryInfo directoryInfo = SolutionFolder();
             CreateFileIn(directoryInfo.FullName);
 
-            IEnumerable<FileInfo> allSolutionFiles = FolderContents.GetAllSolutionFiles(TaskName, SolutionName);
+            IEnumerable<FileInfo> allSolutionFiles = new FolderContents(Task)
+                .GetAllSolutionFiles(Solution);
 
             Assert.IsTrue(allSolutionFiles.Any(file => file.Name.Equals(TestFile)));
         }
@@ -44,11 +49,11 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestGetAllGivenTypes()
         {
-            FolderContents.GetAllGivenTypes(TaskName);
+            new FolderContents(Task).GetAllGivenTypes();
             string path = Path.Combine(Directory.GetCurrentDirectory(), Tasks, TaskName, GivenTypes);
             CreateFileIn(path);
 
-            IEnumerable<FileInfo> allGivenTypes = FolderContents.GetAllGivenTypes(TaskName);
+            IEnumerable<FileInfo> allGivenTypes = new FolderContents(Task).GetAllGivenTypes();
 
             Assert.IsTrue(allGivenTypes.Any(file => file.Name.Equals(TestFile)));
         }
@@ -56,11 +61,11 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestGetAllTests()
         {
-            FolderContents.GetAllTests(TaskName);
+            new FolderContents(Task).GetAllTests();
             string path = Path.Combine(Directory.GetCurrentDirectory(), Tasks, TaskName, Tests);
             CreateFileIn(path);
 
-            IEnumerable<FileInfo> allTests = FolderContents.GetAllTests(TaskName);
+            IEnumerable<FileInfo> allTests = new FolderContents(Task).GetAllTests();
 
             Assert.IsTrue(allTests.Any(file => file.Name.Equals(TestFile)));
         }
@@ -74,7 +79,7 @@ namespace Test.Data.FileManaging
 
         private static DirectoryInfo SolutionFolder()
         {
-            return FolderContents.SolutionFolder(TaskName, SolutionName);
+            return new FolderContents(Task).SolutionFolder(Solution);
         }
         
     }

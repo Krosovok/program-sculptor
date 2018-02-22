@@ -13,8 +13,8 @@ namespace DB.SqlFactory
             (SqlFactorySectionHandler) ConfigurationManager.GetSection(TagName);
         
         public static string ConnectionString => ConnectionStringSettings.ConnectionString;
-
         public static string Provider => ConnectionStringSettings.ProviderName;
+        public static string ParameterPrefix => SqlStringFactoryConfiguration.ParameterPrefix;
         
         private static ConnectionStringSettings ConnectionStringSettings
         {

@@ -44,6 +44,7 @@
     <Compile Include="DataIntegrityException.cs" />
     <Compile Include="Db.cs" />
     <Compile Include="DbReader.cs" />
+    <Compile Include="Implementation\ProviderUsersDao.cs" />
     <Compile Include="SolutionManager.cs" />
     <Compile Include="Implementation\ProviderClassFileDao.cs" />
     <Compile Include="Implementation\ProviderDaoFactory.cs" />
@@ -72,7 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
+    <None Include="NotNeeded.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />

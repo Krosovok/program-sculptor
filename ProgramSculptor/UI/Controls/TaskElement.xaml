@@ -4,17 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
+             xmlns:model="clr-namespace:Model;assembly=Model"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="SolutionData">
+            <local:SolutionItem />
+        </DataTemplate>
+    </UserControl.Resources>
     <StackPanel MinHeight="30">
         <TextBlock 
             Background="DarkGray"
-            Text="111"
+            Text="{Binding TaskName}"
             MouseDown="TaskClick"
-            MinHeight="30"/><!--{Binding Name}-->
+            MinHeight="30"
+            />
         <ListBox
             Name="solutions"
-             
-            Visibility="Collapsed"/><!--ItemsSource="{Binding Solutions}"-->
+            Visibility="Collapsed"
+            ItemTemplate="{StaticResource SolutionData}"
+            SelectionChanged="SolutionSelected"/>
     </StackPanel>
 </UserControl>
+
