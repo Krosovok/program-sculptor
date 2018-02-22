@@ -1,34 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Model;
+using ProgramSculptor.Initialization;
+using ProgramSculptor.Running;
+using Services;
 
 namespace ViewModel
 {
     public class SolutionNavigation : INotifyPropertyChanged
     {
-        private readonly object[] PanelDataContexts = new object[4];
+        private const int TaskSummaryStep = 0;
+        private const int EditCodeStep = 1;
+        private const int ModelInitializationStep = 2;
+        private const int ModelRunningStep = 3;
+
+        private readonly object[] panelDataContexts = new object[4];
+        private readonly IMessageService messageService;
+        private readonly IDialogFactory dialogFactory;
         private int panelIndex;
 
-        public SolutionNavigation(Solution solution)
+        public SolutionNavigation(Solution solution,
+            IMessageService messageService,
+            IDialogFactory dialogFactory)
         {
-            PanelDataContexts[0] = solution.Task;
-            PanelDataContexts[1] = new LoadedClasses(solution);
-            PanelDataContexts[2] = new NotImplementedException();
-            PanelDataContexts[3] = new NotImplementedException();
+            this.messageService = messageService;
+            this.dialogFactory = dialogFactory;
+
+            InitContexts(solution, messageService, dialogFactory);
 
             ToLeftPanelCommand = new RelayCommand<object>(
-                o => PanelIndex--//,
-                //o => PanelIndex > 0);
-                //o => true);
-            );
+                o => PanelIndex--,
+                o => PanelIndex > 0);
             ToRightPanelCommand = new RelayCommand<object>(
-                o => PanelIndex++//,
-                //o => PanelIndex < PanelDataContexts.Length - 1);
-                //o => true);
-            );
+                o =>
+                {
+                    PanelIndex++;
+                    Update(); // TODO: Check to update only if there are enough classes.
+                },
+                o => PanelIndex < panelDataContexts.Length - 1);
         }
 
         public int PanelIndex
@@ -36,12 +47,66 @@ namespace ViewModel
             get { return panelIndex; }
             private set
             {
-                panelIndex = value; 
+                panelIndex = value;
                 OnPropertyChanged(nameof(PanelIndex));
             }
         }
 
-        public IReadOnlyList<object> Contexts => PanelDataContexts;
+        private void InitContexts(Solution solution, IMessageService messageService, IDialogFactory dialogFactory)
+        {
+            LoadedClasses classes = new LoadedClasses(solution,
+                messageService,
+                dialogFactory);
+            ModelInitialization initialization = new ModelInitialization(classes);
+
+            panelDataContexts[TaskSummaryStep] = solution.Task;
+            panelDataContexts[EditCodeStep] = classes;
+            panelDataContexts[ModelInitializationStep] = initialization;
+            panelDataContexts[ModelRunningStep] = new ModelRunner();
+        }
+
+        private void Update()
+        {
+            if (PanelIndex != ModelInitializationStep) return;
+
+            switch (PanelIndex)
+            {
+                case ModelInitializationStep:
+                    TryCompileClasses();
+                    break;
+
+                case ModelRunningStep:
+                    // TODO: Update model.
+                    break;
+            }
+        }
+
+        private void TryCompileClasses()
+        {
+            try
+            {
+                CompileClasses();
+            }
+            catch (InitializationException e)
+            {
+                messageService.Show(e.Message);
+                PanelIndex--;
+            }
+            catch (CodeException e)
+            {
+                messageService.Show(e.Message);
+                PanelIndex--;
+            }
+        }
+
+        private void CompileClasses()
+        {
+            ((ModelInitialization) panelDataContexts[ModelInitializationStep])
+                .Update(
+                    (LoadedClasses) panelDataContexts[EditCodeStep]);
+        }
+
+        public IReadOnlyList<object> Contexts => panelDataContexts;
 
         public ICommand ToLeftPanelCommand { get; }
         public ICommand ToRightPanelCommand { get; }

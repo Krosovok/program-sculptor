@@ -3,7 +3,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:local="clr-namespace:UI.Controls"
                     mc:Ignorable="d"
                     d:DesignHeight="200" d:DesignWidth="840">
@@ -18,10 +17,10 @@
         </ResourceDictionary>
     </local:WorkingPanel.Resources>
     <Grid>
-        <TabControl AllowDrop="True" x:Name="FileTabs">
+        <TabControl AllowDrop="True" x:Name="FileTabs" Drop="DropCommand">
             <TabControl.ItemsSource>
                 <CompositeCollection>
-                    <TabItem MinWidth="70">
+                    <TabItem MinWidth="70" AllowDrop="True">
                         <TabItem.Header>
                             <Image MaxHeight="20"
                                    MaxWidth="20"
@@ -50,6 +49,7 @@
                                             Add new empty file
                                         </Button>
                                         <Button Style="{StaticResource Button}"
+                                                Command="{Binding OpenFilesCommand }"
                                                 Grid.Column="1">
                                             Open file
                                         </Button>

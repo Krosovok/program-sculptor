@@ -10,7 +10,7 @@ using ProgramSculptor.Core;
 
 namespace ProgramSculptor.Initialization
 {
-    public class RandomInitializer : Initializator
+    public class RandomInitializer : Initializer
     {
         private readonly Random random = new Random();
 

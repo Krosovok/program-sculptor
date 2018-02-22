@@ -7,7 +7,7 @@ using Microsoft.Win32;
 
 namespace Services.Dialog
 {
-    public class Dialog
+    public class Dialog : IDialog
     {
         private const string DefaultTitle = "Name";
         private const string DefaultMessage = "What will be it's name?";

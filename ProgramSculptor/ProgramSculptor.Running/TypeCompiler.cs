@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CSharp;
-using ProgramSculptor.Core;
 
 namespace ProgramSculptor.Running
 {
     public class TypeCompiler
     {
         private const string ErrorFormat = "Error ({0}): {1}";
-        
+        private const string DllName = "ProgramSculptor.Core.dll";
+
         private readonly CSharpCodeProvider provider = new CSharpCodeProvider();
         private readonly CompilerParameters parameters = new CompilerParameters();
         private readonly List<string> givenTypes = new List<string>();
@@ -21,18 +20,34 @@ namespace ProgramSculptor.Running
         public TypeCompiler()
         {
             parameters.GenerateInMemory = true;
-            
-            Assembly core = Assembly.GetAssembly(typeof(Element));
-            parameters.ReferencedAssemblies.Add(core.FullName);
+            parameters.ReferencedAssemblies.Add(DllName);
         }
 
-        public Assembly Compile(params string[] code)
+        public void AddGivenTypes(IEnumerable<string> givenTypesCode)
+        {
+            givenTypes.AddRange(givenTypesCode);
+        }
+
+        public CompiledModel Compile(IEnumerable<string> code)
+        {
+            if (givenTypes.Count != 0)
+            {
+                AddGivenTypes();
+            }
+
+            if (code == null || !code.Any())
+            {
+                throw new ArgumentException("Given code can't be null or empty.", nameof(code));
+            }
+            
+            return new CompiledModel(
+                CompileAssembly(code));
+        }
+
+        private void AddGivenTypes()
         {
             Assembly givenTypesAssembly = CompileAssembly(givenTypes);
-            // TODO: Check if it works.
             parameters.ReferencedAssemblies.Add(givenTypesAssembly.FullName);
-            
-            return CompileAssembly(code);
         }
 
         private Assembly CompileAssembly(IEnumerable<string> code)
@@ -45,11 +60,6 @@ namespace ProgramSculptor.Running
             }
 
             return results.CompiledAssembly;
-        }
-
-        public void AddGivenTypes(params string[] givenTypesCode)
-        {
-            givenTypes.AddRange(givenTypesCode);
         }
 
         private static CodeException GetExceptionFromErrors(CompilerResults results)

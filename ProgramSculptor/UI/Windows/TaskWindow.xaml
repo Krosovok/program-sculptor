@@ -12,7 +12,7 @@
                    MinHeight="200"
                    Margin="10">
             
-            <Button Name="Left"
+            <Button Name="LeftButton"
                     Command="{Binding ToLeftPanelCommand}"
                     DockPanel.Dock="Left"
                     Background="Gray"
@@ -33,7 +33,7 @@
                 </Image>
             </Button>
 
-            <Button Name="Right"
+            <Button Name="RightButton"
                     Command="{Binding ToRightPanelCommand}"
                     DockPanel.Dock="Right"
                     Background="Gray"

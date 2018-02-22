@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewModel;
 
 namespace UI.Controls
 {
@@ -23,6 +24,12 @@ namespace UI.Controls
         public CodeArea()
         {
             InitializeComponent();
+        }
+
+        private void DropCommand(object sender, DragEventArgs e)
+        {
+            string[] fileNames = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            ((LoadedClasses)DataContext)?.AddFilesCommand.Execute(fileNames);
         }
     }
 }

@@ -26,13 +26,23 @@ namespace ViewModel
 
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null || 
-                   (parameter is T && this.canExecute((T)parameter));
+            return this.canExecute == null ||
+                   CheckCanExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            this.execute((T)parameter);
+            this.execute((T) parameter);
+        }
+
+        private bool CheckCanExecute(object parameter)
+        {
+            if (parameter == null || parameter is T)
+            {
+                return canExecute((T) parameter);
+            }
+
+            return false;
         }
     }
 }

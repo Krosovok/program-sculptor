@@ -66,7 +66,7 @@ namespace Test.ProgramSculptor.Initialization
             return field;
         }
 
-        private static Field InitializeField(Initializator initializer)
+        private static Field InitializeField(Initializer initializer)
         {
             Field field = new Field(new FieldParameters() {Size = FieldSize});
 

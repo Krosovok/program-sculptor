@@ -1,17 +1,24 @@
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ProgramSculptor.Core;
+using System.Windows.Media;
 
 namespace ProgramSculptor.Initialization
 {
-    public abstract class Initializator
+    public abstract class Initializer
     {
+        public static readonly Type[] InitializatorTypes =
+        {
+            typeof(RandomInitializer)
+        };
+        
         public Type ElementType { get; }
         public int Count { get; set; }
-        public Color Color { get; set; }
-
-        protected Initializator(Type elementType)
+        public Color Color { get; set; } 
+        
+        protected Initializer(Type elementType)
         {
             if (!typeof(Element).IsAssignableFrom(ElementType))
             {
@@ -19,7 +26,16 @@ namespace ProgramSculptor.Initialization
             }
             ElementType = elementType;
         }
-        
+
+        public static Initializer FromInitializationData(InitializationData data)
+        {
+            Initializer result = GetInitializerOfType(data.InitialazerType, data.Type);
+            result.Count = data.Count;
+            result.Color = data.Color;
+
+            return result;
+        }
+
         public void Initilize(Field field)
         {
             CheckPlaceLeft(field);
@@ -36,6 +52,14 @@ namespace ProgramSculptor.Initialization
         }
 
         protected abstract Cell FindNextCell(Field field);
+
+        private static Initializer GetInitializerOfType(Type initialazerType, Type userType)
+        {
+            ConstructorInfo constructor = initialazerType.GetConstructor(
+                new[] { typeof(Type) });
+            return (Initializer) constructor.Invoke(
+                new object[]{ userType});
+        }
 
         private void CheckPlaceLeft(Field field)
         {

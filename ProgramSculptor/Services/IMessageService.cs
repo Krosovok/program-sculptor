@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class DialogService
+    public interface IMessageService
     {
-        
+        void Show(string message);
     }
 }

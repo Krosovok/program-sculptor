@@ -55,8 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Content\ColorConverter.cs" />
     <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Content\DocumentConverter.cs" />
+    <Compile Include="Content\ElementsColorConverter.cs" />
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>
     </Compile>
@@ -67,6 +69,12 @@
     </Compile>
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModelSettings.xaml.cs">
+      <DependentUpon>ModelSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OrdinalFieldView.xaml.cs">
+      <DependentUpon>OrdinalFieldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SandboxPanel.xaml.cs">
       <DependentUpon>SandboxPanel.xaml</DependentUpon>
@@ -115,6 +123,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LanguageSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ModelSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OrdinalFieldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,9 +261,29 @@
       <Project>{3d2ef0de-1076-4113-b708-b4da11f9202a}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Core\ProgramSculptor.Core.csproj">
+      <Project>{D7E79271-3664-454F-8D74-F6B347E46CEB}</Project>
+      <Name>ProgramSculptor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Model\ProgramSculptor.Model.csproj">
+      <Project>{F0453B33-7D93-4B17-B8CD-941B5140A4C9}</Project>
+      <Name>ProgramSculptor.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProviderDao\ProviderDao.csproj">
       <Project>{0b6ab657-e13d-4dbf-bb8e-0d23828a5ad3}</Project>
       <Name>ProviderDao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Dialog\Services.Dialog.csproj">
+      <Project>{8054935c-5a2f-4eb3-81bc-1f2c59d11bd0}</Project>
+      <Name>Services.Dialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Message\Services.Message.csproj">
+      <Project>{8f63997c-976d-436a-aabc-e49b583d7de8}</Project>
+      <Name>Services.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
+      <Name>Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel\ViewModel.csproj">
       <Project>{e3f6b254-3683-4615-8827-90d4db459aa1}</Project>

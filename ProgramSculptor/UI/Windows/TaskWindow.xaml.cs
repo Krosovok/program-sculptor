@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Model;
+using Services.Dialog;
+using Services.Message;
 using UI.Controls;
 using ViewModel;
 
@@ -34,19 +36,24 @@ namespace UI.Windows
             {
                 solution = value;
 
-                navigation = new SolutionNavigation(Solution);
+                navigation = new SolutionNavigation(Solution, new MessageBoxService(), new DialogFactory());
                 navigation.PropertyChanged += Navigate;
                 DataContext = navigation;
 
-                panels[0] = new TaskSummary();
-                panels[1] = new CodeArea();
-                panels[2] = new WorkingPanel(); // TOdO: Redo. 
-                panels[3] = new WorkingPanel(); // TODO: Redo.
+                InitPanels();
+            }
+        }
 
-                for (int i = 0; i < panels.Length; i++)
-                {
-                    panels[i].DataContext = navigation.Contexts[i];
-                }
+        private void InitPanels()
+        {
+            panels[0] = new TaskSummary();
+            panels[1] = new CodeArea();
+            panels[2] = new ModelSettings();
+            panels[3] = new WorkingPanel(); // TODO: Redo.
+
+            for (int i = 0; i < panels.Length; i++)
+            {
+                panels[i].DataContext = navigation.Contexts[i];
             }
         }
 

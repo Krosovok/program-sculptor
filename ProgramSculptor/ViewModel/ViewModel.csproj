@@ -37,6 +37,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ModelInitialization.cs" />
     <Compile Include="LoadedClasses.cs" />
+    <Compile Include="ModelRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TaskChainPosition.cs" />
@@ -61,9 +63,33 @@
       <Project>{3D2EF0DE-1076-4113-B708-B4DA11F9202A}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Core\ProgramSculptor.Core.csproj">
+      <Project>{D7E79271-3664-454F-8D74-F6B347E46CEB}</Project>
+      <Name>ProgramSculptor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Initialization\ProgramSculptor.Initialization.csproj">
+      <Project>{CC17F8F4-FE1E-464B-8A66-D099207DBD33}</Project>
+      <Name>ProgramSculptor.Initialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Model\ProgramSculptor.Model.csproj">
+      <Project>{F0453B33-7D93-4B17-B8CD-941B5140A4C9}</Project>
+      <Name>ProgramSculptor.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Running\ProgramSculptor.Running.csproj">
+      <Project>{79b9242c-eaf9-49e1-932e-321219dbd15c}</Project>
+      <Name>ProgramSculptor.Running</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services.Dialog\Services.Dialog.csproj">
       <Project>{8054935C-5A2F-4EB3-81BC-1F2C59D11BD0}</Project>
       <Name>Services.Dialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Message\Services.Message.csproj">
+      <Project>{8f63997c-976d-436a-aabc-e49b583d7de8}</Project>
+      <Name>Services.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
