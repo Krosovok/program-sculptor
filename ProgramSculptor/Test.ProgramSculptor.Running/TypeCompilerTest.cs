@@ -67,8 +67,7 @@ namespace Test.ProgramSculptor.Running
             
             Assert.AreEqual(type.Name, UsingTestClass);
         }
-
-        // TODO: To fix by compiling given types to the DLL.
+        
         [TestMethod()]
         public void TestCompileWithGivenTypes()
         {

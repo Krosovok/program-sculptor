@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace ProgramSculptor.Core
 {
-    public struct FieldParameters : INotifyPropertyChanged
+    public class FieldParameters : INotifyPropertyChanged
     {
         private int size;
-
+        
         public int Size
         {
             get { return size; }

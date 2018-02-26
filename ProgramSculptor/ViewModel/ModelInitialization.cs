@@ -25,7 +25,8 @@ namespace ViewModel
         }
         
         public Solution Solution { get; }
-        public FieldParameters FieldParameters { get; } = new FieldParameters { Size = DefaultSize };
+        public FieldParameters FieldParameters { get; } 
+            = new FieldParameters { Size = DefaultSize };
         public ObservableDictionary<string, InitializationData> InitializersData { get; } = 
             new ObservableDictionary<string, InitializationData>();
         public CompiledModel CompiledModel { get; private set; }

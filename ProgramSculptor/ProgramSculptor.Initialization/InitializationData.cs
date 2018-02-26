@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace ProgramSculptor.Initialization
 {
-    public class InitializationData
+    public class InitializationData : INotifyPropertyChanged
     {
-        private Type initialazerType;
+        private Type initialazerType = typeof(RandomInitializer);
+        private Color color = RandomColor();
+        private int count = 10;
 
         public InitializationData(Type type)
         {
@@ -17,8 +21,27 @@ namespace ProgramSculptor.Initialization
         }
 
         public Type Type { get; }
-        public int Count { get; set; } = 10;
-        public Color Color { get; set; } = RandomColor();
+
+        public int Count
+        {
+            get { return count; }
+            set
+            {
+                count = value; 
+                OnPropertyChanged(nameof(Count));
+            }
+        }
+
+        public Color Color
+        {
+            get { return color; }
+            set
+            {
+                color = value; 
+                OnPropertyChanged(nameof(Color));
+            }
+        }
+
         public Type InitialazerType
         {
             get { return initialazerType; }
@@ -30,6 +53,7 @@ namespace ProgramSculptor.Initialization
                 }
                 
                 initialazerType = value;
+                OnPropertyChanged(nameof(InitialazerType));
             }
         }
         
@@ -42,5 +66,11 @@ namespace ProgramSculptor.Initialization
                 (byte)random.Next(256));
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

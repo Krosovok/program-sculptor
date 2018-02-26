@@ -28,7 +28,7 @@ namespace ViewModel
             this.messageService = messageService;
             this.dialogFactory = dialogFactory;
 
-            InitContexts(solution, messageService, dialogFactory);
+            InitContexts(solution);
 
             ToLeftPanelCommand = new RelayCommand<object>(
                 o => PanelIndex--,
@@ -51,24 +51,29 @@ namespace ViewModel
                 OnPropertyChanged(nameof(PanelIndex));
             }
         }
+        public IReadOnlyList<object> Contexts => panelDataContexts;
+        public ICommand ToLeftPanelCommand { get; }
+        public ICommand ToRightPanelCommand { get; }
+        public LoadedClasses LoadedClasses { get; set; }
+        public ModelInitialization ModelInitialization { get; set; }
+        public ModelRunner ModelRunner { get; set; }
 
-        private void InitContexts(Solution solution, IMessageService messageService, IDialogFactory dialogFactory)
+        private void InitContexts(Solution solution)
         {
-            LoadedClasses classes = new LoadedClasses(solution,
+            LoadedClasses = new LoadedClasses(solution,
                 messageService,
                 dialogFactory);
-            ModelInitialization initialization = new ModelInitialization(classes);
+            ModelInitialization = new ModelInitialization(LoadedClasses);
+            ModelRunner = new ModelRunner();
 
             panelDataContexts[TaskSummaryStep] = solution.Task;
-            panelDataContexts[EditCodeStep] = classes;
-            panelDataContexts[ModelInitializationStep] = initialization;
-            panelDataContexts[ModelRunningStep] = new ModelRunner();
+            panelDataContexts[EditCodeStep] = LoadedClasses;
+            panelDataContexts[ModelInitializationStep] = ModelInitialization;
+            panelDataContexts[ModelRunningStep] = ModelRunner;
         }
-
+        
         private void Update()
         {
-            if (PanelIndex != ModelInitializationStep) return;
-
             switch (PanelIndex)
             {
                 case ModelInitializationStep:
@@ -76,7 +81,7 @@ namespace ViewModel
                     break;
 
                 case ModelRunningStep:
-                    // TODO: Update model.
+                    ModelRunner.Update(ModelInitialization);
                     break;
             }
         }
@@ -98,18 +103,12 @@ namespace ViewModel
                 PanelIndex--;
             }
         }
-
+        
         private void CompileClasses()
         {
-            ((ModelInitialization) panelDataContexts[ModelInitializationStep])
-                .Update(
-                    (LoadedClasses) panelDataContexts[EditCodeStep]);
+            ModelInitialization
+                .Update(LoadedClasses);
         }
-
-        public IReadOnlyList<object> Contexts => panelDataContexts;
-
-        public ICommand ToLeftPanelCommand { get; }
-        public ICommand ToRightPanelCommand { get; }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

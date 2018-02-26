@@ -32,10 +32,7 @@ namespace ProgramSculptor.Core
             return GetOthersInRange(cell, minX, minY, maxX, maxY);
         }
 
-        public IEnumerable<Cell> GetAllCells()
-        {
-            return field.Cast<Cell>();
-        }
+        public IEnumerable<Cell> AllCells => field.Cast<Cell>();
 
         public void NextTurn()
         {

@@ -20,7 +20,7 @@ namespace ProgramSculptor.Initialization
         
         protected Initializer(Type elementType)
         {
-            if (!typeof(Element).IsAssignableFrom(ElementType))
+            if (!typeof(Element).IsAssignableFrom(elementType))
             {
                 throw new InitializationException("Given type does not inherits class Element or NonPassableElement.");
             }
@@ -72,7 +72,7 @@ namespace ProgramSculptor.Initialization
 
         private bool PlaceLeft(Field field)
         {
-            return Count <= field.GetAllCells().Count(cell => cell.IsFree);
+            return Count <= field.AllCells.Count(cell => cell.IsFree);
         }
     }
 }

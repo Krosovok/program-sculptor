@@ -10,8 +10,9 @@ namespace ProgramSculptor.Running
 {
     public class TypeCompiler
     {
-        private const string ErrorFormat = "Error ({0}): {1}";
         private const string DllName = "ProgramSculptor.Core.dll";
+        private const string GivenTypesDll = "GivenTypes.dll";
+        private const string ErrorFormat = "Error ({0}): {1}";
 
         private readonly CSharpCodeProvider provider = new CSharpCodeProvider();
         private readonly CompilerParameters parameters = new CompilerParameters();
@@ -41,18 +42,34 @@ namespace ProgramSculptor.Running
             }
             
             return new CompiledModel(
-                CompileAssembly(code));
+                CompileAssembly(code, parameters));
         }
 
         private void AddGivenTypes()
         {
-            Assembly givenTypesAssembly = CompileAssembly(givenTypes);
-            parameters.ReferencedAssemblies.Add(givenTypesAssembly.FullName);
+            CompilerParameters compilerParameters = GivenTypesParameters();
+
+            Assembly givenTypesAssembly = CompileAssembly(givenTypes, compilerParameters);
+            parameters.ReferencedAssemblies.Add(GivenTypesDll);
         }
 
-        private Assembly CompileAssembly(IEnumerable<string> code)
+        private CompilerParameters GivenTypesParameters()
         {
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, code.ToArray());
+            string[] references = new string[parameters.ReferencedAssemblies.Count];
+            parameters.ReferencedAssemblies.CopyTo(references, 0);
+
+            CompilerParameters compilerParameters = new CompilerParameters(
+                references, GivenTypesDll)
+            {
+                GenerateInMemory = false,
+                GenerateExecutable = false
+            };
+            return compilerParameters;
+        }
+
+        private Assembly CompileAssembly(IEnumerable<string> code, CompilerParameters compilerParameters)
+        {
+            CompilerResults results = provider.CompileAssemblyFromSource(compilerParameters, code.ToArray());
 
             if (results.Errors.HasErrors)
             {

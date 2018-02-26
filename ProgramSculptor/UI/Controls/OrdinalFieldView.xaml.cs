@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using ProgramSculptor.Core;
+using ProgramSculptor.Model;
+using UI.Content;
 using ViewModel;
 
 namespace UI.Controls
@@ -14,30 +18,32 @@ namespace UI.Controls
         {
             InitializeComponent();
         }
+        
+        //TODO: Hide field when switching stages. And remove data.
 
         private void DataContextChange(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender != this) return;
 
-            ModelRunner model = this.DataContext as ModelRunner;
+            OrdinalFieldViewModel field = this.DataContext as OrdinalFieldViewModel;
 
-            if (model == null) return;
+            if (field == null) return;
 
-            FillWithCells(model);
+            FillWithCells(field);
         }
 
         public GridLength CellsSize { get; } = new GridLength(10);
 
-        private void FillWithCells(ModelRunner runner)
+        private void FillWithCells(OrdinalFieldViewModel field)
         {
-            InitGrid(runner);
+            InitGrid(field);
 
-            FillGrid(runner);
+            FillGrid(field);
         }
 
-        private void InitGrid(ModelRunner runner)
+        private void InitGrid(OrdinalFieldViewModel field)
         {
-            for (int i = 0; i < runner.Model.Field.Size; i++)
+            for (int i = 0; i < field.Size; i++)
             {
                 AddColumn();
                 AddRow();
@@ -62,38 +68,41 @@ namespace UI.Controls
             FieldGrid.RowDefinitions.Add(row);
         }
 
-        private void FillGrid(ModelRunner runner)
+        private void FillGrid(OrdinalFieldViewModel field)
         {
-            int size = runner.Model.Field.Size;
+            int size = field.Size;
             for (int x = 0; x < size; x++)
             {
                 for (int y = 0; y < size; y++)
                 {
-                    CreateElementViewAt(runner, x, y);
+                    CreateElementViewAt(field, x, y);
                 }
             }
         }
 
-        private void CreateElementViewAt(ModelRunner runner, int x, int y)
+        private void CreateElementViewAt(OrdinalFieldViewModel field, int x, int y)
         {
-            Binding binding = ColorBinding(runner, x, y);
+            Binding binding = ColorBinding(field, x, y);
             CreateElementView(binding, x, y);
         }
 
-        private static void CreateElementView(Binding binding, int x, int y)
+        private void CreateElementView(Binding binding, int x, int y)
         {
             Panel elementView = new Canvas();
             elementView.SetBinding(Panel.BackgroundProperty, binding);
+            //elementView.Background = new SolidColorBrush(Colors.Green);
             Grid.SetColumn(elementView, x);
             Grid.SetRow(elementView, y);
+            FieldGrid.Children.Add(elementView);
         }
 
-        private Binding ColorBinding(ModelRunner runner, int x, int y)
+        private Binding ColorBinding(OrdinalFieldViewModel field, int x, int y)
         {
-            Binding binding = new Binding("Standing")
+            IValueConverter converter = (IValueConverter) this.Resources["ColorConverter"];
+            Binding binding = new Binding(nameof(CellViewModel.Background))
             {
-                Source = runner.Model.Field[x, y],
-                Converter = (IValueConverter) this.Resources["ColorConverter"],
+                Source = field[x, y],
+                Converter = converter,
                 Mode = BindingMode.OneWay
             };
             return binding;

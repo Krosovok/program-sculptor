@@ -8,14 +8,14 @@ namespace ProgramSculptor.Time
 {
     public class TurnTicker
     {
+        public int Turn { get; set; }
+
         public void NextTurn()
         {
             TurnStart?.Invoke();
             Turn++;
             TurnEnd?.Invoke();
         }
-
-        public int Turn { get; set; }
 
         public event Action TurnStart;
         public event Action TurnEnd;

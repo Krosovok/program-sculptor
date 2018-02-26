@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Time;
@@ -28,5 +29,9 @@ namespace ProgramSculptor.Model
                 initializer.Initilize(Field);
             }
         }
+
+        public void NextTurn() => turns.NextTurn();
+
+        
     }
 }

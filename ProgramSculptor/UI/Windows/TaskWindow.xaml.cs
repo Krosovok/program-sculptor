@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using Model;
 using Services.Dialog;
 using Services.Message;
@@ -55,6 +56,12 @@ namespace UI.Windows
             {
                 panels[i].DataContext = navigation.Contexts[i];
             }
+
+            Binding binding = new Binding(nameof(ModelRunner.Model))
+            {
+                Source = navigation.ModelRunner
+            };
+            Field.SetBinding(DataContextProperty, binding);
         }
 
         private WorkingPanel ShownPanel

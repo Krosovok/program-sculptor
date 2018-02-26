@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
@@ -8,33 +11,31 @@ using ProgramSculptor.Model;
 
 namespace ViewModel
 {
-    public class ModelRunner
+    public class ModelRunner : INotifyPropertyChanged
     {
-        private readonly Dictionary<Type, Initializer> fieldInitializers = new Dictionary<Type, Initializer>();
-        
-        public OrdinalModel Model { get; set; }
+        public OrdinalFieldViewModel Model { get; private set; }
 
         public void Update(ModelInitialization initialization)
         {
-            foreach (KeyValuePair<string, InitializationData> pair
-                in initialization.InitializersData)
-            {
-                Initializer initializer = Initializer.FromInitializationData(pair.Value);
-                fieldInitializers.Add(initializer.ElementType, initializer);
-            }
+            Dictionary<Type, Initializer> fieldInitializers = GetFieldInitializers(initialization);
 
-            Model = new OrdinalModel(initialization.FieldParameters);
+            Model = new OrdinalFieldViewModel(initialization.FieldParameters);
             Model.Initialize(fieldInitializers.Values);
+            OnPropertyChanged(nameof(Model));
         }
 
-        public Color TypeColor(Type type)
+        private Dictionary<Type, Initializer> GetFieldInitializers(ModelInitialization initialization)
         {
-            if (!fieldInitializers.ContainsKey(type))
-            {
-                return new Color();
-            }
-            
-            return fieldInitializers[type].Color;
+            return initialization.InitializersData
+                .Select(pair => Initializer.FromInitializationData(pair.Value))
+                .ToDictionary(initializer => initializer.ElementType);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

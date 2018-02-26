@@ -6,7 +6,8 @@
                     xmlns:local="clr-namespace:UI.Controls"
                     mc:Ignorable="d"
                     xmlns:content="clr-namespace:UI.Content"
-             
+                    xmlns:ps="clr-namespace:ProgramSculptor.Initialization;assembly=ProgramSculptor.Initialization"
+
                     d:DesignHeight="200" d:DesignWidth="840">
     <local:WorkingPanel.Resources>
         <content:ColorConverter x:Key="ColorConverter" />
@@ -15,7 +16,7 @@
     <Grid>
 
         <TabControl>
-            
+
             <TabControl.ItemsSource>
                 <CompositeCollection>
                     <TabItem>
@@ -26,17 +27,17 @@
                             <DataTemplate>
                                 <DockPanel LastChildFill="False"
                                            VerticalAlignment="Top"
-                                           Margin="20"
-                                           DataContext="{Binding RelativeSource={
-                                    RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}
-                                    }, 
-                                    Path=DataContext.FieldParameters}">
+                                           Margin="20">
                                     <TextBlock>Field size:</TextBlock>
                                     <TextBox MinWidth="40"
                                              Margin="10, 0"
-                                             Text="{Binding Size}"
+                                             DataContext="{Binding RelativeSource={
+                                                RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}
+                                                }, 
+                                                Path=DataContext.FieldParameters}"
+                                             Text="{Binding Path=Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              PreviewTextInput="AllowOnlyNumericInput"
-                                             DataObject.Pasting="PastingNumbersOnly"></TextBox>
+                                             DataObject.Pasting="PastingNumbersOnly" />
                                 </DockPanel>
                             </DataTemplate>
                         </TabItem.ContentTemplate>
@@ -44,13 +45,11 @@
                     <CollectionContainer Collection="{Binding Source={StaticResource InitializersData}}" />
                 </CompositeCollection>
             </TabControl.ItemsSource>
-            
+
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Key}"
-                               Margin="10">
-                        
-                    </TextBlock>
+                               Margin="10" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -67,7 +66,7 @@
                                 </TextBlock>
                                 <Canvas Height="30" Width="30"
                                         Background="{Binding Path=Value.Color,
-                                    Converter={StaticResource ColorConverter}}"/>
+                                    Converter={StaticResource ColorConverter}}" />
                                 <!--TODO: Make color picking.-->
                             </StackPanel>
                             <StackPanel DockPanel.Dock="Top"
@@ -77,8 +76,14 @@
                                 </TextBlock>
                                 <TextBox Text="{Binding Value.Count}"
                                          PreviewTextInput="AllowOnlyNumericInput"
-                                         DataObject.Pasting="PastingNumbersOnly"></TextBox>
+                                         DataObject.Pasting="PastingNumbersOnly" />
+
                             </StackPanel>
+                            <ComboBox ItemsSource="{x:Static ps:Initializer.InitializatorTypes}"
+                                      DisplayMemberPath="Name"
+                                      SelectedItem="{Binding Value.InitialazerType, Mode=TwoWay}"
+                                      Margin="10"
+                                      MaxHeight="20" />
                         </DockPanel>
                     </Grid>
                 </DataTemplate>

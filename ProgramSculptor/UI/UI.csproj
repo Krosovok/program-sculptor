@@ -58,7 +58,6 @@
     <Compile Include="Content\ColorConverter.cs" />
     <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Content\DocumentConverter.cs" />
-    <Compile Include="Content\ElementsColorConverter.cs" />
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>
     </Compile>
@@ -69,6 +68,9 @@
     </Compile>
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModelControlPanel.xaml.cs">
+      <DependentUpon>ModelControlPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ModelSettings.xaml.cs">
       <DependentUpon>ModelSettings.xaml</DependentUpon>
@@ -123,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LanguageSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ModelControlPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,6 +270,10 @@
     <ProjectReference Include="..\ProgramSculptor.Core\ProgramSculptor.Core.csproj">
       <Project>{D7E79271-3664-454F-8D74-F6B347E46CEB}</Project>
       <Name>ProgramSculptor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Initialization\ProgramSculptor.Initialization.csproj">
+      <Project>{cc17f8f4-fe1e-464b-8a66-d099207dbd33}</Project>
+      <Name>ProgramSculptor.Initialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProgramSculptor.Model\ProgramSculptor.Model.csproj">
       <Project>{F0453B33-7D93-4B17-B8CD-941B5140A4C9}</Project>
