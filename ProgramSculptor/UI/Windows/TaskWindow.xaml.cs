@@ -50,7 +50,7 @@ namespace UI.Windows
             panels[0] = new TaskSummary();
             panels[1] = new CodeArea();
             panels[2] = new ModelSettings();
-            panels[3] = new WorkingPanel(); // TODO: Redo.
+            panels[3] = new ModelControlPanel();
 
             for (int i = 0; i < panels.Length; i++)
             {

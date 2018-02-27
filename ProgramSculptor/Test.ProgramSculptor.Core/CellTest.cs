@@ -15,7 +15,7 @@ namespace Test.ProgramSculptor.Core
         [TestMethod]
         public void TestAddNonPassableElement()
         {
-            Cell cell = new Cell(0, 0);
+            Cell cell = new Cell(null, 0, 0);
 
             NonPassableElement standing = new NonPassableElement(cell);
             
@@ -25,7 +25,7 @@ namespace Test.ProgramSculptor.Core
         [TestMethod]
         public void TestIsFree()
         {
-            Cell cell = new Cell(0, 0);
+            Cell cell = new Cell(null, 0, 0);
 
             Assert.IsTrue(cell.IsFree);
         }
@@ -34,7 +34,7 @@ namespace Test.ProgramSculptor.Core
         [ExpectedException(typeof(CollisionExeption))]
         public void TestReplaceStandingElement()
         {
-            Cell cell = new Cell(0, 0);
+            Cell cell = new Cell(null, 0, 0);
             
             NonPassableElement element1 = new NonPassableElement(cell);
             NonPassableElement element2 = new NonPassableElement(cell);
@@ -43,7 +43,7 @@ namespace Test.ProgramSculptor.Core
         [TestMethod]
         public void TestMultipleElements()
         {
-            Cell cell = new Cell(0, 0);
+            Cell cell = new Cell(null, 0, 0);
 
             Element[] elements =
             {
@@ -59,7 +59,7 @@ namespace Test.ProgramSculptor.Core
         [TestMethod]
         public void TestMultipleElementsWithNonPassable()
         {
-            Cell cell = new Cell(0, 0);
+            Cell cell = new Cell(null, 0, 0);
 
             Element[] elements =
             {

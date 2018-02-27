@@ -8,18 +8,17 @@ namespace ProgramSculptor.Core
 {
     public class Cell
     {
-        private readonly IList<Element> elements = new List<Element>();
         private NonPassableElement standing;
 
-        public Cell(int x, int y)
+        public Cell(Field field, int x, int y)
         {
+            Field = field;
             X = x;
             Y = y;
         }
 
         public int X { get; }
         public int Y { get; }
-
         public NonPassableElement Standing
         {
             get { return standing; }
@@ -29,9 +28,10 @@ namespace ProgramSculptor.Core
                 OnStandingElementChanged(standing);
             }
         }
-
         public bool IsFree => Standing == null;
-        public IEnumerable<Element> Elements => elements;
+        public IList<Element> Elements { get; } = new List<Element>();
+        public IEnumerable<Cell> NearbyCells => Field.GetNearbyCells(this);
+        private Field Field { get; }
 
         protected virtual void OnStandingElementChanged(Element standing)
         {
@@ -40,12 +40,12 @@ namespace ProgramSculptor.Core
 
         internal void AddElement(Element element)
         {
-            elements.Add(element);
+            Elements.Add(element);
         }
 
         internal void RemoveElement(Element element)
         {
-            elements.Remove(element);
+            Elements.Remove(element);
         }
 
         public event Action<Element> StandingElementChanged;

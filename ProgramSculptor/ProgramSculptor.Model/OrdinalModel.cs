@@ -18,9 +18,11 @@ namespace ProgramSculptor.Model
         {
             Field = new Field(fieldParameters);
             turns.TurnStart += Field.NextTurn;
+            turns.TurnStart += () => TurnStart?.Invoke();
         }
 
         public Field Field { get; }
+        public int Turn => turns.Turn;
 
         public void Initialize(IEnumerable<Initializer> initializers)
         {
@@ -32,6 +34,6 @@ namespace ProgramSculptor.Model
 
         public void NextTurn() => turns.NextTurn();
 
-        
+        public event Action TurnStart;
     }
 }

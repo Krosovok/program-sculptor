@@ -38,9 +38,10 @@ namespace ProgramSculptor.Core
         {
             foreach (Cell cell in field)
             {
-                foreach (Element cellElement in cell.Elements)
+                IList<Element> cellElements = cell.Elements;
+                for (int i = cellElements.Count - 1; i >= 0; i--)
                 {
-                    cellElement.ActionOnTurn();
+                    cellElements[i].ActionOnTurn();
                 }
             }
         }
@@ -51,7 +52,7 @@ namespace ProgramSculptor.Core
             {
                 for (int y = 0; y < Size; y++)
                 {
-                    field[x, y] = new Cell(x, y);
+                    field[x, y] = new Cell(this, x, y);
                 }
             }
         }

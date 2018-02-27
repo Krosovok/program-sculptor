@@ -12,6 +12,7 @@ namespace ProgramSculptor.Running
     {
         private const string DllName = "ProgramSculptor.Core.dll";
         private const string GivenTypesDll = "GivenTypes.dll";
+        private const string DLL = "System.Core.dll";
         private const string ErrorFormat = "Error ({0}): {1}";
 
         private readonly CSharpCodeProvider provider = new CSharpCodeProvider();
@@ -22,6 +23,9 @@ namespace ProgramSculptor.Running
         {
             parameters.GenerateInMemory = true;
             parameters.ReferencedAssemblies.Add(DllName);
+            // TODO: Make some list of needed Dlls in separagte file or config.
+            parameters.ReferencedAssemblies.Add(DLL);
+            //
         }
 
         public void AddGivenTypes(IEnumerable<string> givenTypesCode)

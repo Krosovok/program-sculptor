@@ -4,7 +4,46 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:local="clr-namespace:UI.Controls"
+                    xmlns:content="clr-namespace:UI.Content"
                     mc:Ignorable="d"
                     d:DesignHeight="200" d:DesignWidth="840">
-    <Grid />
+    <local:WorkingPanel.Resources>
+        <content:ColorConverter x:Key="ColorConverter"></content:ColorConverter>
+        <DataTemplate x:Key="ColorRepresentraion">
+            <DockPanel>
+                <Canvas Background="{Binding Path=Value, Converter={StaticResource ColorConverter}, Mode=OneWay}"
+                        DockPanel.Dock="Left"
+                        Margin="10"
+                        MinHeight="10"
+                        MinWidth="10"/>
+                <TextBlock Text="{Binding Key.Name}"
+                           VerticalAlignment="Center"/>
+            </DockPanel>
+        </DataTemplate>
+    </local:WorkingPanel.Resources>
+    <DockPanel >
+        <DockPanel MaxWidth="300"
+                   LastChildFill="False">
+
+            <TextBlock DockPanel.Dock="Top"
+                       Margin="20, 20, 20, 0"
+                       Text="{Binding Path=Model.Turn, StringFormat=Turn: {0}}">
+                
+            </TextBlock>
+            
+            <Button Margin="20, 20" 
+                    MaxHeight="30" 
+                    MinWidth="40"
+                    Command="{Binding NextTurnCommand}">
+                >
+            </Button>
+        </DockPanel>
+
+        <DockPanel>
+            <ListBox ItemTemplate="{StaticResource ColorRepresentraion}"
+                     ItemsSource="{Binding Model.TypeColorRepresentation}">
+                
+            </ListBox>
+        </DockPanel>
+    </DockPanel>
 </local:WorkingPanel>

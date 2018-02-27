@@ -7,18 +7,21 @@ using System.Windows.Media;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Model;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace ViewModel
 {
-    public class OrdinalFieldViewModel
+    public class OrdinalFieldViewModel : INotifyPropertyChanged
     {
         private readonly OrdinalModel model;
         private readonly CellViewModel[,] fieldViewModel;
         private readonly Dictionary<Type, Color> elementColors = new Dictionary<Type, Color>();
-
+        
         public OrdinalFieldViewModel(OrdinalModel model)
         {
             this.model = model;
+            model.TurnStart += () => OnPropertyChanged(nameof(Turn));
             
             int fieldSize = model.Field.Size;
             fieldViewModel = new CellViewModel[fieldSize, fieldSize];
@@ -32,6 +35,8 @@ namespace ViewModel
 
         public CellViewModel this[int x, int y] => fieldViewModel[x, y];
         public int Size => model.Field.Size;
+        public IEnumerable<KeyValuePair<Type, Color>> TypeColorRepresentation => elementColors;
+        public int Turn => model.Turn;
 
         public void Initialize(IEnumerable<Initializer> initializers)
         {
@@ -53,5 +58,12 @@ namespace ViewModel
         {
             return elementType != null && elementColors.ContainsKey(elementType);
         }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

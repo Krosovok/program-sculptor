@@ -18,7 +18,7 @@ namespace UI.Controls
     /// <summary>
     /// Логика взаимодействия для ModelControlPanel.xaml
     /// </summary>
-    public partial class ModelControlPanel : UserControl
+    public partial class ModelControlPanel
     {
         public ModelControlPanel()
         {
