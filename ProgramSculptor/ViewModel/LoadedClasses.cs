@@ -27,6 +27,7 @@ namespace ViewModel
             
             AddEmptyFileCommand = new RelayCommand<object>(AddEmptyFile);
             OpenFilesCommand = new RelayCommand<object>(AddExistingFiles);
+            SaveFilesCommand = new RelayCommand<object>(SaveFilesContents);
             AddFilesCommand = new RelayCommand<string[]>(AddFiles);
         }
 
@@ -47,8 +48,10 @@ namespace ViewModel
         public Solution Solution { get; }
         public ObservableDictionary<ClassFile, FileContents> Files { get; } =
             new ObservableDictionary<ClassFile, FileContents>();
+        
         public ICommand AddEmptyFileCommand { get; set; }
         public ICommand OpenFilesCommand { get; set; }
+        public ICommand SaveFilesCommand { get; set; }
         public RelayCommand<string[]> AddFilesCommand { get; set; }
 
         public void AddEmptyFile(object parameter)
@@ -65,6 +68,14 @@ namespace ViewModel
             string[] filePaths = AskFilesDialog();
 
             AddFiles(filePaths);
+        }
+
+        public void SaveFilesContents(object parameter)
+        {
+            foreach (KeyValuePair<ClassFile, FileContents> fileContents in Files)
+            {
+                UpdateFileContetns(fileContents);
+            }
         }
 
         private string AskNameInDialog()
@@ -107,10 +118,8 @@ namespace ViewModel
         {
             if (!Extenstions.Any(filePath.EndsWith))
             {
-                string message = string.Format(
-                    "Wrong file type \'*.{0}\'. Expexted on of: {1}.", 
-                    Path.GetExtension(filePath),
-                    string.Join(", ", Extenstions));
+                string message =
+                    $"Wrong file type \'*.{Path.GetExtension(filePath)}\'. Expexted on of: {string.Join(", ", Extenstions)}.";
                 Messages.Show(message);
             }
             
@@ -120,7 +129,7 @@ namespace ViewModel
             }
             catch (IOException)
             {
-                string message = string.Format("Failed to load file: {0}", fileName);
+                string message = $"Failed to load file: {fileName}";
                 Messages.Show(message);
                 return null;
             }
@@ -135,6 +144,18 @@ namespace ViewModel
         {
             FileContents fileContents = new FileContents(content);
             Files.Add(solutionFile, fileContents);
+            
+            Dao.Factory.ClassFileDao
+                .AddFileToSolution(Solution, solutionFile);
+        }
+
+        private void UpdateFileContetns(KeyValuePair<ClassFile, FileContents> fileContents)
+        {
+            ClassFile file = fileContents.Key;
+            string contents = fileContents.Value.Contents;
+
+            Dao.Factory.ClassFileDao
+                .UpdateFileContents(Solution, file, contents);
         }
     }
 }

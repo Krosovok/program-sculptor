@@ -33,6 +33,8 @@ namespace ViewModel
 
         public void Update(LoadedClasses classes)
         {
+            classes.SaveFilesContents(null);
+            
             CompiledModel = ComileAssembly(classes);
 
             AddAssemblyClasses(classes, CompiledModel);

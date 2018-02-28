@@ -19,17 +19,25 @@ namespace UI.Controls
             InitializeComponent();
         }
         
-        //TODO: Hide field when switching stages. And remove data.
-
         private void DataContextChange(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender != this) return;
-
             OrdinalFieldViewModel field = this.DataContext as OrdinalFieldViewModel;
 
-            if (field == null) return;
+            if (field != null)
+            {
+                FillWithCells(field);
+            }
+            else
+            {
+                Clear();
+            }
+        }
 
-            FillWithCells(field);
+        private void Clear()
+        {
+            FieldGrid.Children.Clear();
+            FieldGrid.ColumnDefinitions.Clear();
+            FieldGrid.RowDefinitions.Clear();
         }
 
         public GridLength CellsSize { get; } = new GridLength(10);
@@ -90,7 +98,6 @@ namespace UI.Controls
         {
             Panel elementView = new Canvas();
             elementView.SetBinding(Panel.BackgroundProperty, binding);
-            //elementView.Background = new SolidColorBrush(Colors.Green);
             Grid.SetColumn(elementView, x);
             Grid.SetRow(elementView, y);
             FieldGrid.Children.Add(elementView);

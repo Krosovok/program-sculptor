@@ -25,6 +25,12 @@ namespace ViewModel
             OnPropertyChanged(nameof(Model));
         }
 
+        public void Clear()
+        {
+            Model = null;
+            OnPropertyChanged(nameof(Model));
+        }
+
         public ICommand NextTurnCommand => new RelayCommand<object>((o) => Model.NextTurn());
 
         private Dictionary<Type, Initializer> GetFieldInitializers(ModelInitialization initialization)

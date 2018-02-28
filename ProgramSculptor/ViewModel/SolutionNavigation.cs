@@ -31,16 +31,13 @@ namespace ViewModel
             InitContexts(solution);
 
             ToLeftPanelCommand = new RelayCommand<object>(
-                o => PanelIndex--,
+                MoveToLeft,
                 o => PanelIndex > 0);
             ToRightPanelCommand = new RelayCommand<object>(
-                o =>
-                {
-                    PanelIndex++;
-                    Update(); // TODO: Check to update only if there are enough classes.
-                },
+                MoveToRight,
                 o => PanelIndex < panelDataContexts.Length - 1);
         }
+
 
         public int PanelIndex
         {
@@ -58,6 +55,21 @@ namespace ViewModel
         public ModelInitialization ModelInitialization { get; set; }
         public ModelRunner ModelRunner { get; set; }
 
+        private void MoveToLeft(object o)
+        {
+            if (PanelIndex == ModelRunningStep)
+            {
+                ModelRunner.Clear();
+            }
+            PanelIndex--;
+        }
+        
+        private void MoveToRight(object obj)
+        {
+            PanelIndex++;
+            Update(); // TODO: Check to update only if there are enough classes.
+        }
+
         private void InitContexts(Solution solution)
         {
             LoadedClasses = new LoadedClasses(solution,
@@ -71,7 +83,7 @@ namespace ViewModel
             panelDataContexts[ModelInitializationStep] = ModelInitialization;
             panelDataContexts[ModelRunningStep] = ModelRunner;
         }
-        
+
         private void Update()
         {
             switch (PanelIndex)
