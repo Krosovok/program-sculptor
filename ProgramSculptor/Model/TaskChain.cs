@@ -9,6 +9,11 @@ namespace Model
         private const string Message = "Task from different chain.";
         private readonly Task[] tasks;
 
+        internal TaskChain(Task task)
+        {
+            tasks = new[] {task};
+        }
+
         private TaskChain(IEnumerable<Task> tasks)
         {
             this.tasks = tasks.ToArray();
@@ -17,7 +22,7 @@ namespace Model
         public Task this[int position] => tasks[position];
         public IEnumerable<Task> AllTasks => tasks;
         public int Length => tasks.Length;
-        
+
         public static void RegisterInTaskChain(IEnumerable<Task> tasks)
         {
             TaskChain newChain = new TaskChain(tasks);

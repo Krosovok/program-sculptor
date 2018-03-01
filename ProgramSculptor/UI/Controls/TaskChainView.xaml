@@ -5,29 +5,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI"
              xmlns:content="clr-namespace:UI.Content"
+             xmlns:controls="clr-namespace:UI.Controls"
              mc:Ignorable="d" d:DesignWidth="300" Height="200"
-             DataContextChanged="TaskChainChanged"
-             x:Name="ChainView">
+             MaxWidth="300" 
+             x:Name="ChainView"
+             Background="BlueViolet">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resources/Styles.xaml" />
                 <ResourceDictionary>
-                    <ContextMenu x:Key="OtherTaskMenu">
+                    <ContextMenu x:Key="OtherTaskMenu" ItemsSource="{Binding}">
                         <ContextMenu.ItemContainerStyle>
                             <Style TargetType="{x:Type MenuItem}">
-                                <Setter Property="DisplayMemberPath" 
-                                        Value="TaskName" />
                                 <Setter Property="Command" 
-                                        Value="{Binding ElementName=ChainView, 
-                                            Path=ChangeTaskCommand}" />
+                                        Value="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                    AncestorType={x:Type UserControl}}}" />
                                 <Setter Property="CommandParameter" Value="{Binding}"></Setter>
+                                <Setter Property="Background" Value="{Binding 
+                                    RelativeSource={RelativeSource 
+                                        Mode=FindAncestor, 
+                                        AncestorType={x:Type Grid}},
+                                    Mode=OneWay,
+                                    Path=Background}"></Setter>
+                                <!--
+                                <Setter Property="Command" 
+                                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                    AncestorType={x:Type Window}},
+                                                    Path=CommandAAAA}" />
+                                <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                    AncestorType={x:Type Window}}, Path=Name}"></Setter>
+                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, 
+                                    Path=Background}"></Setter>
+                                -->
                             </Style>
                         </ContextMenu.ItemContainerStyle>
+                        <ContextMenu.ItemTemplate>
+                            <HierarchicalDataTemplate>
+                                <TextBlock Text="{Binding TaskName}"></TextBlock>
+                            </HierarchicalDataTemplate>
+                        </ContextMenu.ItemTemplate>
                     </ContextMenu>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <content:DocumentConverter x:Key="DocumentConverter" />
+            <content:VisibilityConverter x:Key="VisibilityConverter"></content:VisibilityConverter>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -39,7 +62,8 @@
         <Grid Name="ButtonGrid"
               Grid.Row="0"
               Margin="0, 7"
-              MinHeight="30">
+              MinHeight="30" 
+              Visibility="{Binding Converter={StaticResource VisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="20*" />
@@ -54,23 +78,38 @@
                     VerticalContentAlignment="Top"
                     Click="ContextMenuOpenClick"
                     ContextMenu="{DynamicResource OtherTaskMenu}"
-                    ContextMenuService.IsEnabled="false" />
+                    ContextMenuService.IsEnabled="false" 
+                    DataContext="{Binding Path=DataContext.AllBefore, 
+                                    ElementName=ButtonGrid}"
+                    Visibility="{Binding Converter={StaticResource VisibilityConverter}}"/>
 
             <Button Name="Previous"
                     Style="{StaticResource TaskChainButton}"
                     Grid.Column="1"
-                    Command="{Binding ElementName=ChainView, Path=ChangeTaskCommand}"
-                    CommandParameter="{Binding}"/>
+                    DataContext="{Binding Path=DataContext.Previous, 
+                                    ElementName=ButtonGrid}"
+                    Command="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    ElementName=ButtonGrid}"
+                    CommandParameter="{Binding}"
+                    Visibility="{Binding Converter={StaticResource VisibilityConverter}}"/>
             <Button Name="Current"
                     Style="{StaticResource TaskChainButton}"
                     Grid.Column="2"
-                    Command="{Binding ElementName=ChainView, Path=ChangeTaskCommand}" 
-                    CommandParameter="{Binding}"/>
+                    DataContext="{Binding Path=DataContext.Current, 
+                                    ElementName=ButtonGrid}"
+                    Command="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    ElementName=ButtonGrid}"
+                    CommandParameter="{Binding}"
+                    Visibility="{Binding Converter={StaticResource VisibilityConverter}}"/>
             <Button Name="Next"
                     Style="{StaticResource TaskChainButton}"
                     Grid.Column="3"
-                    Command="{Binding ElementName=ChainView, Path=ChangeTaskCommand}" 
-                    CommandParameter="{Binding}"/>
+                    DataContext="{Binding Path=DataContext.Next, 
+                                    ElementName=ButtonGrid}"
+                    Command="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    ElementName=ButtonGrid}"
+                    CommandParameter="{Binding}"
+                    Visibility="{Binding Converter={StaticResource VisibilityConverter}}"/>
 
             <Button Name="AllAfter"
                     Content="..."
@@ -79,7 +118,10 @@
                     Grid.Column="4"
                     Click="ContextMenuOpenClick"
                     ContextMenu="{DynamicResource OtherTaskMenu}"
-                    ContextMenuService.IsEnabled="false" />
+                    ContextMenuService.IsEnabled="false" 
+                    DataContext="{Binding Path=DataContext.AllAfter, 
+                                    ElementName=ButtonGrid}"
+                    Visibility="{Binding Converter={StaticResource VisibilityConverter}}"/>
         </Grid>
 
 
@@ -88,8 +130,9 @@
             Grid.Row="1"
             VerticalScrollBarVisibility="Auto"
             Margin="7"
-            Document="{Binding Description, 
+            Document="{Binding Current.Description, 
                 Converter={StaticResource DocumentConverter}}" />
 
+        <!--TODO: Some link to this task.-->
     </Grid>
 </UserControl>

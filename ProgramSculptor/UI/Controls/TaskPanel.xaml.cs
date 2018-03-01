@@ -4,6 +4,7 @@ using System.Windows.Input;
 using DataAccessInterfaces;
 using Model;
 using UI.Controls.Events;
+using ViewModel;
 using Task = Model.Task;
 
 namespace UI.Controls
@@ -26,20 +27,14 @@ namespace UI.Controls
                 typeof(TaskPanel));
         }
 
-        public Task SelectedTask { get; }
-
-        public event RoutedEventHandler NewSolution
-        {
-            add { AddHandler(NewSolutionEvent, value); }
-            remove { RemoveHandler(NewSolutionEvent, value); }
-        }
-
         public TaskPanel(Task selectedTask)
         {
             SelectedTask = selectedTask;
-            DataContext = selectedTask;
+            DataContext = new TaskViewModel(selectedTask);
             InitializeComponent();
         }
+
+        private Task SelectedTask { get; }
 
         private void StartNewSolution(object sender, RoutedEventArgs e)
         {
@@ -69,9 +64,16 @@ namespace UI.Controls
         {
             TextBox textBox = (TextBox) sender;
             string solutionName = string.IsNullOrEmpty(textBox.Text) ? null : textBox.Text;
-            Solution newSolution = new Solution(solutionName, Dao.Factory.UserDao.CurrentUser, SelectedTask);
+            Solution newSolution = new Solution(solutionName, 
+                Dao.Factory.UserDao.CurrentUser, 
+                SelectedTask);
             return newSolution;
         }
-        
+
+        public event RoutedEventHandler NewSolution
+        {
+            add { AddHandler(NewSolutionEvent, value); }
+            remove { RemoveHandler(NewSolutionEvent, value); }
+        }
     }
 }

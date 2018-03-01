@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using Model;
 
 namespace ViewModel
@@ -12,7 +13,10 @@ namespace ViewModel
 
         public TaskChainPosition(Task task)
         {
-            this.Task = task;
+            this.Current = task;
+            ChangeTaskCommand = new RelayCommand<Task>(
+                other => Current = other,
+                other => chain.AllTasks.Contains(other));
         }
 
         public int TaskIndex
@@ -20,31 +24,40 @@ namespace ViewModel
             get { return taskIndex; }
             set
             {
-                taskIndex = value; 
-                PropertiesChanged();
-            }
-        }
-
-        public Task Task
-        {
-            get { return chain[taskIndex]; }
-            set
-            {
-                chain = value.Chain;
-                taskIndex = chain.PositionOf(value);
-                
+                taskIndex = value;
                 PropertiesChanged();
             }
         }
 
         public IEnumerable<Task> AllBefore => NullIfEmpty(chain.AllTasks.Take(PreviousTaskIndex));
         public Task Previous => taskIndex == 0 ? null : chain[PreviousTaskIndex];
-        public Task Current => chain[taskIndex];
+        public Task Current
+        {
+            get { return chain[taskIndex]; }
+            private set
+            {
+                chain = value.Chain;
+                taskIndex = chain.PositionOf(value);
+
+                PropertiesChanged();
+            }
+        }
         public Task Next => taskIndex == chain.Length - 1 ? null : chain[NextTaskIndex];
         public IEnumerable<Task> AllAfter => NullIfEmpty(chain.AllTasks.Skip(NextTaskIndex + 1));
+        public ICommand ChangeTaskCommand { get; }
+        public bool HasChain => chain.Length > 1;
 
         private int PreviousTaskIndex => taskIndex - 1;
         private int NextTaskIndex => taskIndex + 1;
+
+        protected virtual void OnPropertyChanged(params string[] propertyNames)
+        {
+            foreach (string propertyName in propertyNames)
+            {
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         private static IEnumerable<T> NullIfEmpty<T>(IEnumerable<T> enumerable)
         {
@@ -62,14 +75,5 @@ namespace ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged(params string[] propertyNames)
-        {
-            foreach (string propertyName in propertyNames)
-            {
-                PropertyChanged?.Invoke(this, 
-                    new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

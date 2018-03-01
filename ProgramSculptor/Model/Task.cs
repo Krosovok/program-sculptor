@@ -11,18 +11,12 @@
             Id = id;
             TaskName = taskName;
             Description = description;
+            Chain = new TaskChain(this);
         }
 
         public int Id { get; }
         public string TaskName { get; }
         public string Description { get; }
         public TaskChain Chain { get; internal set; }
-
-        //public TaskChainPosition InChain => Chain?.PositionOf(this);
-        
-        //internal void AddToChain(TaskChain chain)
-        //{
-        //    this.Chain = chain;
-        //}
     }
 }
