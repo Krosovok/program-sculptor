@@ -36,12 +36,11 @@ namespace UI.Controls
         
         private void ContextMenuOpenClick(object sender, RoutedEventArgs e)
         {
-            otherTasksMenu.Visibility = Visibility.Visible;
-            otherTasksMenu.IsOpen = true;
+            // TODO: Find some way of CORRECT displaying on left-click. (See Styles.xaml also.)
 
-            //object dataContext = ((Control) sender).DataContext;
-            //otherTasksMenu.ItemsSource = dataContext as IEnumerable<Task>;
-            otherTasksMenu.DataContext = ((Control)sender).DataContext;
+            //otherTasksMenu.PlacementTarget = null;
+            //otherTasksMenu.PlacementTarget = sender as UIElement;
+            //MessageBox.Show((otherTasksMenu.PlacementTarget as Control)?.Name);
         }
     }
 }
