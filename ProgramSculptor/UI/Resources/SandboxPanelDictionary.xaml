@@ -5,7 +5,7 @@
         <ResourceDictionary Source="lang.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
     
-    <FlowDocument x:Key="sandboxDescription">
+    <FlowDocument x:Key="SandboxDescription">
         <Paragraph>
             <Run Text="{DynamicResource sandboxDescriptionText}"/>
         </Paragraph>
@@ -15,4 +15,5 @@
             <Run Text="{DynamicResource sandboxProjectsText}"/>
         </Paragraph>
     </FlowDocument>
+    
 </ResourceDictionary>

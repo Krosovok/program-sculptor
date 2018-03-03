@@ -9,7 +9,7 @@ namespace UI.Controls
     /// <summary>
     /// Логика взаимодействия для TaskList.xaml
     /// </summary>
-    public partial class TaskList : UserControl
+    public partial class TaskList
     {
         public static readonly RoutedEvent SelectedEvent;
         private TaskElement selected;
@@ -24,7 +24,7 @@ namespace UI.Controls
         {
             InitializeComponent();
         }
-
+        
         private void TaskSelected(object sender, TaskEventArgs e)
         {
             selected = (TaskElement) sender;
@@ -32,21 +32,9 @@ namespace UI.Controls
             RaiseEvent(new TaskEventArgs(SelectedEvent, this, e.Selected));
         }
 
-        public event TaskEventHandler Selected
-        {
-            add
-            {
-                AddHandler(SelectedEvent, value);
-            }
-            remove
-            {
-                RemoveHandler(SelectedEvent, value);
-            }
-        }
-        
         private void UnselectOthers(object sender)
         {
-            foreach (TaskElement child in FindVisualChildren(taskList))
+            foreach (TaskElement child in FindVisualChildren(Tasks))
             {
                 CollapseOtherOne(sender, child);
             }
@@ -72,7 +60,7 @@ namespace UI.Controls
 
             return res;
         }
-
+        
         private void CollapseOtherOne(object sender, TaskElement taskControl)
         {
             if (taskControl != null && taskControl != sender)
@@ -81,9 +69,16 @@ namespace UI.Controls
             }
         }
 
-        public void UpdateSolutions()
+        public event TaskEventHandler Selected
         {
-            selected?.UpdateSolutions();
+            add
+            {
+                AddHandler(SelectedEvent, value);
+            }
+            remove
+            {
+                RemoveHandler(SelectedEvent, value);
+            }
         }
     }
 }

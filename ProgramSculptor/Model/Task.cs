@@ -2,6 +2,7 @@
 {
     public class Task
     {
+        public static readonly Task Sandbox = new Task(-1, "Sandbox", string.Empty);
         
         public Task(
             int id,
@@ -13,7 +14,7 @@
             Description = description;
             Chain = new TaskChain(this);
         }
-
+        
         public int Id { get; }
         public string TaskName { get; }
         public string Description { get; }

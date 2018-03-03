@@ -6,6 +6,7 @@ using ProgramSculptor.Core;
 using ProgramSculptor.Model;
 using UI.Content;
 using ViewModel;
+using ViewModel.Core;
 
 namespace UI.Controls
 {

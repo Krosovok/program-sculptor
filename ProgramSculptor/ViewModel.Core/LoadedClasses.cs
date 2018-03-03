@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
-using DataAccessInterfaces;
-using Model;
-using Services.Dialog;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Input;
+using DataAccessInterfaces;
+using Model;
 using Services;
+using ViewModel.Command;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class LoadedClasses
     {

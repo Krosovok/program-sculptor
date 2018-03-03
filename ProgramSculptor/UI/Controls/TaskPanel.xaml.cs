@@ -5,6 +5,7 @@ using DataAccessInterfaces;
 using Model;
 using UI.Controls.Events;
 using ViewModel;
+using ViewModel.Core;
 using Task = Model.Task;
 
 namespace UI.Controls

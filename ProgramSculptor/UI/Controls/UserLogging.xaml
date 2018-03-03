@@ -1,21 +1,23 @@
 ﻿<UserControl x:Class="UI.Controls.UserLoggin"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.Controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="30" d:DesignWidth="300">
-    <DockPanel 
+    <DockPanel
         DockPanel.Dock="Top"
         LastChildFill="True"
         MinHeight="30">
         <Button MinHeight="30"
-                DockPanel.Dock="Right" Click="LoginClick">
+                DockPanel.Dock="Right"
+                Command="{Binding LoginCommand}">
             Login
         </Button>
 
-        <TextBlock Name="Welcome"/>
+        <TextBlock Name="Welcome"
+                   Text="{Binding Path=Username, 
+                        StringFormat=You are logged as {0}.}" />
     </DockPanel>
 </UserControl>
-

@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using ProgramSculptor.Core;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class CellViewModel : INotifyPropertyChanged
     {

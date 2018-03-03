@@ -28,7 +28,7 @@ namespace Test.DB.ProviderDaoTest
             get { return UserSolutions.Any<Solution>(solution => solution.Name == TestSolutionName); }
         }
 
-        private IEnumerable<Solution> UserSolutions => solutionDao.GetMyTaskSolutions(First, UserNameForAddDelete);
+        private IEnumerable<Solution> UserSolutions => solutionDao.GetUserTaskSolutions(First, UserNameForAddDelete);
 
         [TestMethod]
         public void TestGetMyTaskSolutions()
@@ -37,7 +37,7 @@ namespace Test.DB.ProviderDaoTest
             ITaskDao taskDao = factory.TaskDao;
 
             Task firstTask = taskDao.AllTasks.First(task => task.Id == 1);
-            IReadOnlyCollection<Solution> userSolutions = solutionDao.GetMyTaskSolutions(firstTask, UserName);
+            IReadOnlyCollection<Solution> userSolutions = solutionDao.GetUserTaskSolutions(firstTask, UserName);
 
             Assert.IsTrue(userSolutions.Count == SolutionCount);
         }

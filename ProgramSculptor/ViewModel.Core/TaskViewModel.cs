@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Model;
+﻿using Model;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class TaskViewModel
     {

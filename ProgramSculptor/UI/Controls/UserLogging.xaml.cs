@@ -40,14 +40,14 @@ namespace UI.Controls
             }
         }
 
-        private void LoginClick(object sender, RoutedEventArgs e)
-        {
-            LoginDialog dialog = new LoginDialog();
-            bool? result = dialog.ShowDialog();
-            if (result == true)
-            {
-                Username = Dao.Factory.UserDao.CurrentUser;
-            }
-        }
+        //private void LoginClick(object sender, RoutedEventArgs e)
+        //{
+        //    LoginDialog dialog = new LoginDialog();
+        //    bool? result = dialog.ShowDialog();
+        //    if (result == true)
+        //    {
+        //        Username = Dao.Factory.UserDao.CurrentUser;
+        //    }
+        //}
     }
 }

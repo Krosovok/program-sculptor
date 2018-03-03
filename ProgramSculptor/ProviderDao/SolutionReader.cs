@@ -24,7 +24,7 @@ namespace ProviderDao
             
             DbCommand select = db.CreateTextCommand(SqlKey, parameters);
 
-            DbParameter taskId = db.CreateParameter(task.Id, DbType.Int32, parameters[0]);
+            DbParameter taskId = db.CreateParameter(task?.Id, DbType.Int32, parameters[0]);
             DbParameter userName = db.CreateParameter(username, DbType.String, parameters[1]);
             select.Parameters.AddRange(new[]
             {

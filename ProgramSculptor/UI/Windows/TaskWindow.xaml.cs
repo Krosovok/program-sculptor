@@ -6,6 +6,7 @@ using Services.Dialog;
 using Services.Message;
 using UI.Controls;
 using ViewModel;
+using ViewModel.Core;
 
 namespace UI.Windows
 {

@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using ProgramSculptor.Core;
-using ProgramSculptor.Initialization;
-using ProgramSculptor.Model;
 using System.Windows.Input;
+using ProgramSculptor.Initialization;
+using ViewModel.Command;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class ModelRunner : INotifyPropertyChanged
     {

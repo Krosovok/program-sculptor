@@ -8,13 +8,15 @@ namespace ProviderDao.Implementation
 {
     public class ProviderUsersDao : IUserDao
     {
+        internal const string GuestUser = "Guest";
         private const string SqlKey = "ProviderUserDao.Login";
         private const string User = "user";
         private const string Pass = "passHash";
         private const string UserName = "user_name";
-        private static IUserDao instance;
 
-        private const string GuestUser = "Guest";
+        private static IUserDao instance;
+        private string currentUser;
+
 
         private ProviderUsersDao()
         {
@@ -22,7 +24,15 @@ namespace ProviderDao.Implementation
         }
 
         internal static IUserDao Instance => instance ?? (instance = new ProviderUsersDao());
-        public string CurrentUser { get; private set; }
+
+        public string CurrentUser
+        {
+            get { return currentUser; }
+            private set
+            {
+                currentUser = value;
+            }
+        }
 
         public bool Login(string username, string password)
         {
@@ -37,7 +47,7 @@ namespace ProviderDao.Implementation
             }
             return success;
         }
-
+        
         private static void ExecuteFunction(DbCommand loginFunction)
         {
             try

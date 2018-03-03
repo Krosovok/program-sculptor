@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Model;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class OrdinalFieldViewModel : INotifyPropertyChanged
     {

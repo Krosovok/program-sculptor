@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using Model;
+using ViewModel.Command;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class TaskChainPosition : INotifyPropertyChanged
     {

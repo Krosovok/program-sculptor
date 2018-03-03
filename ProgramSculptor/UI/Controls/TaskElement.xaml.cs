@@ -56,11 +56,6 @@ namespace UI.Controls
             LoadData();
         }
 
-        private void LoadData()
-        {
-            solutions.ItemsSource = Dao.Factory.SolutionDao.GetMyTaskSolutions(Task, Dao.Factory.UserDao.CurrentUser);
-        }
-
         public void Collapse()
         {
             solutions.Visibility = Visibility.Collapsed;
@@ -69,6 +64,11 @@ namespace UI.Controls
         public void UpdateSolutions()
         {
             LoadData();
+        }
+
+        private void LoadData()
+        {
+            solutions.ItemsSource = Dao.Factory.SolutionDao.GetUserTaskSolutions(Task, Dao.Factory.UserDao.CurrentUser);
         }
 
         private void TaskClick(object sender, MouseButtonEventArgs e)

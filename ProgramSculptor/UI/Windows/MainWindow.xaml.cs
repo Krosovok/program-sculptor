@@ -18,7 +18,7 @@ namespace UI.Windows
 
             ShowSandbox();
 
-            tasks.DataContext = Dao.Factory.TaskDao.AllTasks;
+            //tasks.DataContext = Dao.Factory.TaskDao.AllTasks;
         }
 
         private Control ShownPanel
@@ -40,24 +40,20 @@ namespace UI.Windows
         {
             Task selected = args.Selected;
             TaskPanel taskPanel = new TaskPanel(selected);
-            taskPanel.NewSolution += UpdateSolutions;
             
             ShownPanel = taskPanel;
         }
-
-        private void UpdateSolutions(object sender, RoutedEventArgs e)
-        {
-            tasks.UpdateSolutions();
-        }
-
+        
+        //
         private void Test(object sender, RoutedEventArgs e)
         {
             // TODO: REmove this!!!
             //
-            Solution solution = Dao.Factory.SolutionDao.GetMyTaskSolutions(new Task(1, "Task1", ""), "Alter")[0];
+            Solution solution = Dao.Factory.SolutionDao.GetUserTaskSolutions(new Task(1, "Task1", ""), "Alter")[0];
             TaskWindow window = new TaskWindow(solution);
             window.Show();
             //
         }
+        //
     }
 }

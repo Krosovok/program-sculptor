@@ -106,9 +106,6 @@
       <DependentUpon>TestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WorkingPanel.cs" />
-    <Compile Include="Windows\LoginDialog.xaml.cs">
-      <DependentUpon>LoginDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\SourcePresenter.xaml.cs">
       <DependentUpon>SourcePresenter.xaml</DependentUpon>
     </Compile>
@@ -205,10 +202,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\LoginDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\SourcePresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -297,9 +290,13 @@
       <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{e3f6b254-3683-4615-8827-90d4db459aa1}</Project>
-      <Name>ViewModel</Name>
+    <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
+      <Project>{9187B5CB-A155-4C94-926D-816CDE44E4F2}</Project>
+      <Name>ViewModel.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Core\ViewModel.Core.csproj">
+      <Project>{BB6BF32E-C68A-43D5-9D03-906897E8113E}</Project>
+      <Name>ViewModel.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

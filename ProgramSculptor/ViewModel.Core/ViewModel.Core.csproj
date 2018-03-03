@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BB6BF32E-C68A-43D5-9D03-906897E8113E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ViewModel.Core</RootNamespace>
+    <AssemblyName>ViewModel.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CS.Net, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CS.Net.1.0.6\lib\net35-client\CS.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllTasks.cs" />
+    <Compile Include="CellViewModel.cs" />
+    <Compile Include="LoadedClasses.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="ModelInitialization.cs" />
+    <Compile Include="ModelRunner.cs" />
+    <Compile Include="OrdinalFieldViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolutionNavigation.cs" />
+    <Compile Include="TaskChainPosition.cs" />
+    <Compile Include="TaskSolutions.cs" />
+    <Compile Include="TaskViewModel.cs" />
+    <Compile Include="UserSession.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessInterfaces\DataAccessInterfaces.csproj">
+      <Project>{FC8CF42E-FFD8-4DEF-A966-92DEC62486E1}</Project>
+      <Name>DataAccessInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3d2ef0de-1076-4113-b708-b4da11f9202a}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Core\ProgramSculptor.Core.csproj">
+      <Project>{D7E79271-3664-454F-8D74-F6B347E46CEB}</Project>
+      <Name>ProgramSculptor.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Initialization\ProgramSculptor.Initialization.csproj">
+      <Project>{CC17F8F4-FE1E-464B-8A66-D099207DBD33}</Project>
+      <Name>ProgramSculptor.Initialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Model\ProgramSculptor.Model.csproj">
+      <Project>{F0453B33-7D93-4B17-B8CD-941B5140A4C9}</Project>
+      <Name>ProgramSculptor.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Running\ProgramSculptor.Running.csproj">
+      <Project>{79B9242C-EAF9-49E1-932E-321219DBD15C}</Project>
+      <Name>ProgramSculptor.Running</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Dialog\Services.Dialog.csproj">
+      <Project>{8054935c-5a2f-4eb3-81bc-1f2c59d11bd0}</Project>
+      <Name>Services.Dialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Message\Services.Message.csproj">
+      <Project>{8f63997c-976d-436a-aabc-e49b583d7de8}</Project>
+      <Name>Services.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{DEEEE2A4-D83A-4AAD-AB1C-E74A229C749C}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
+      <Project>{9187b5cb-a155-4c94-926d-816cde44e4f2}</Project>
+      <Name>ViewModel.Command</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

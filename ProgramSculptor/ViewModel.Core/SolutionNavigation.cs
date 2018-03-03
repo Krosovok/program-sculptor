@@ -6,8 +6,9 @@ using Model;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Running;
 using Services;
+using ViewModel.Command;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class SolutionNavigation : INotifyPropertyChanged
     {

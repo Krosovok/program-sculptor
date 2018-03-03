@@ -11,7 +11,7 @@ namespace Test.DB.ProviderDaoTest
     [TestClass]
     public class ProviderClassFileDaoIntegrationTest
     {
-        private readonly Solution solution = Dao.Factory.SolutionDao.GetMyTaskSolutions(
+        private readonly Solution solution = Dao.Factory.SolutionDao.GetUserTaskSolutions(
                 Dao.Factory.TaskDao.AllTasks.First(),
                 UserNameForAddDelete)
             .First(solution => solution.Name == TestSolutionName);
