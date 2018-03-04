@@ -6,7 +6,7 @@
         xmlns:message="clr-namespace:Services.Message;assembly=Services.Message"
         xmlns:dialogViewModel="clr-namespace:DialogViewModel;assembly=DialogViewModel"
         mc:Ignorable="d"
-        Title="LoginDialog" Height="200" Width="300"
+        Title="LoginDialog" Height="220" Width="320"
         DataContext="{DynamicResource ViewModel}">
     <Window.Resources>
         <message:MessageBoxService x:Key="MessageService"/>
@@ -33,8 +33,9 @@
                   Name="Username"
                   Grid.Column="1"
                   Grid.Row="0"
-                  Margin="10,19" 
+                  Margin="10" 
                   Text="{Binding Username}"/>
+                  
 
         <TextBlock VerticalAlignment="Center"
                    HorizontalAlignment="Center"
@@ -47,12 +48,12 @@
                      VerticalAlignment="Center"
                      Grid.Row="1"
                      Grid.Column="1"
-                     Margin="10,19"
+                     Margin="10"
                      PasswordChanged="PasswordChanged"/>
 
         <Button MaxWidth="90"
                 MinHeight="30"
-                Margin="25,15,25,10"
+                Margin="25,10,25,15"
                 Command="{Binding LoginCheckCommand}"
                 Grid.Row="2"
                 Grid.Column="0"

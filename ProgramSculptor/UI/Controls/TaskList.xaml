@@ -10,8 +10,7 @@
              MaxWidth="300">
     <UserControl.Resources>
         <DataTemplate x:Key="TaskElementTemplate">
-            <local:TaskElement
-                Selected="TaskSelected" />
+            <local:TaskElement />
         </DataTemplate>
     </UserControl.Resources>
     <DockPanel>
@@ -33,7 +32,8 @@
             <ListBox Name="Tasks"
                      ItemTemplate="{StaticResource ResourceKey=TaskElementTemplate}"
                      HorizontalContentAlignment="Stretch"
-                     ItemsSource="{Binding}" />
+                     ItemsSource="{Binding Tasks}" 
+                     SelectionChanged="OnTaskSelected"/>
         </ScrollViewer>
     </DockPanel>
 </UserControl>

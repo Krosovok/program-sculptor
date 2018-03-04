@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Input;
@@ -8,9 +10,8 @@ using ViewModel.Command;
 
 namespace DialogViewModel
 {
-    public class LoginViewModel
+    public class LoginViewModel : INotifyPropertyChanged
     {
-        private const string ResultCaption = "Result";
         private const string SuccessMessage = "Logged in successfully.";
         private const string NotFoundMessage = "Username not found.";
         
@@ -19,11 +20,16 @@ namespace DialogViewModel
             LoginCheckCommand = new RelayCommand<object>(ExecuteLoginCheck);
         }
         
-        public IMessageService MessageService { get; set; } 
-        public string Username { get; set; }
-        public SecureString Password { private get; set; }
+        public IMessageService MessageService { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public SecureString Password { private get; set; } = new SecureString();
         public ICommand LoginCheckCommand { get; }
         public bool? Result { get; set; }
+        
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         
         private void ExecuteLoginCheck(object notNeeded)
         {
@@ -53,6 +59,7 @@ namespace DialogViewModel
             if (success)
             {
                 Result = true;
+                OnPropertyChanged(nameof(Result));
             }
             return success ? SuccessMessage : NotFoundMessage;
         }
@@ -70,5 +77,7 @@ namespace DialogViewModel
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -55,10 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Content\CollapseConverter.cs" />
+    <Compile Include="Content\ChainCollapseConverter.cs" />
     <Compile Include="Content\ColorConverter.cs" />
     <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Content\DocumentConverter.cs" />
+    <Compile Include="Content\SelectedCollapseConverter.cs" />
     <Compile Include="Content\VisibilityConverter.cs" />
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>

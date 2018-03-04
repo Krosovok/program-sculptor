@@ -15,7 +15,6 @@ namespace ProviderDao.Implementation
         private const string UserName = "user_name";
 
         private static IUserDao instance;
-        private string currentUser;
 
 
         private ProviderUsersDao()
@@ -25,14 +24,7 @@ namespace ProviderDao.Implementation
 
         internal static IUserDao Instance => instance ?? (instance = new ProviderUsersDao());
 
-        public string CurrentUser
-        {
-            get { return currentUser; }
-            private set
-            {
-                currentUser = value;
-            }
-        }
+        public string CurrentUser { get; private set; }
 
         public bool Login(string username, string password)
         {

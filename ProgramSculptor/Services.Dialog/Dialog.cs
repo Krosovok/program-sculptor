@@ -23,7 +23,7 @@ namespace Services.Dialog
                 this.Value :
                 null;
         }
-
+        
         public string[] ShowOpenFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -35,6 +35,12 @@ namespace Services.Dialog
             return openFileDialog.ShowDialog() == true ? 
                 openFileDialog.FileNames : 
                 new string[0];
+        }
+
+        public bool ShowLoginDialog()
+        {
+            LoginDialog dialog = new LoginDialog();
+            return dialog.ShowDialog() == true;
         }
     }
 }

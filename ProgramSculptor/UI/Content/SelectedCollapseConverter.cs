@@ -6,30 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using ViewModel;
-using ViewModel.Core;
 
 namespace UI.Content
 {
-    public class CollapseConverter : IValueConverter
+    public class SelectedCollapseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            TaskChainPosition chain = value as TaskChainPosition;
-
-            return HasChainNotFromOne(chain) ?
+            bool selected = (bool) value;
+            return selected ? 
                 Visibility.Visible :
                 Visibility.Collapsed;
         }
 
-        private static bool HasChainNotFromOne(TaskChainPosition chain)
-        {
-            return chain != null && chain.HasChain;
-        }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

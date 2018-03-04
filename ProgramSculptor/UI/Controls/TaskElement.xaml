@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
              xmlns:model="clr-namespace:Model;assembly=Model"
+             xmlns:content="clr-namespace:UI.Content"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <content:SelectedCollapseConverter x:Key="CollapseConverter"/>
         <DataTemplate x:Key="SolutionData">
             <local:SolutionItem />
         </DataTemplate>
@@ -15,15 +17,15 @@
     <StackPanel MinHeight="30">
         <TextBlock 
             Background="DarkGray"
-            Text="{Binding TaskName}"
-            MouseDown="TaskClick"
+            Text="{Binding Task.TaskName}"
             MinHeight="30"
             />
         <ListBox
-            Name="solutions"
-            Visibility="Collapsed"
+            Name="Solutions"
+            Visibility="{Binding IsSelected, Converter={StaticResource CollapseConverter}}"
             ItemTemplate="{StaticResource SolutionData}"
-            SelectionChanged="SolutionSelected"/>
+            SelectionChanged="SolutionSelected"
+            ItemsSource="{Binding Solutions}"/>
     </StackPanel>
 </UserControl>
 

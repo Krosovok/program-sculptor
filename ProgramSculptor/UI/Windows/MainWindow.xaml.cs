@@ -4,6 +4,7 @@ using DataAccessInterfaces;
 using Model;
 using UI.Controls;
 using UI.Controls.Events;
+using ViewModel.Core;
 
 namespace UI.Windows
 {
@@ -15,33 +16,6 @@ namespace UI.Windows
         public MainWindow()
         {
             InitializeComponent();
-
-            ShowSandbox();
-
-            //tasks.DataContext = Dao.Factory.TaskDao.AllTasks;
-        }
-
-        private Control ShownPanel
-        {
-            set { SelectedInfo.Navigate(value); }
-        }
-
-        private void ShowSandbox(object sender, RoutedEventArgs e)
-        {
-            ShowSandbox();
-        }
-
-        private void ShowSandbox()
-        {
-            ShownPanel = new SandboxPanel();
-        }
-
-        private void TaskSelected(object sender, TaskEventArgs args)
-        {
-            Task selected = args.Selected;
-            TaskPanel taskPanel = new TaskPanel(selected);
-            
-            ShownPanel = taskPanel;
         }
         
         //

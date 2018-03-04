@@ -20,34 +20,11 @@ namespace UI.Controls
     /// <summary>
     /// Логика взаимодействия для UserLoggin.xaml
     /// </summary>
-    public partial class UserLoggin : UserControl
+    public partial class UserLogging
     {
-        private string username;
-
-        public UserLoggin()
+        public UserLogging()
         {
             InitializeComponent();
-            Username = Dao.Factory.UserDao.CurrentUser;
         }
-
-        private string Username
-        {
-            get { return username; }
-            set
-            {
-                username = value;
-                Welcome.Text = $"You are logged as {value}.";
-            }
-        }
-
-        //private void LoginClick(object sender, RoutedEventArgs e)
-        //{
-        //    LoginDialog dialog = new LoginDialog();
-        //    bool? result = dialog.ShowDialog();
-        //    if (result == true)
-        //    {
-        //        Username = Dao.Factory.UserDao.CurrentUser;
-        //    }
-        //}
     }
 }

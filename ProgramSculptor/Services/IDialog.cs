@@ -8,5 +8,6 @@
 
         string ShowNameDialog();
         string[] ShowOpenFileDialog();
+        bool ShowLoginDialog();
     }
 }

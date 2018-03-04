@@ -69,7 +69,7 @@ namespace ProviderDao.Implementation
         
         private static T NullIfDefault<T>(T value, T defaultValue) where T : class
         {
-            return value.Equals(defaultValue) ? null : value;
+            return defaultValue.Equals(value) ? null : value;
         } 
     }
 }
