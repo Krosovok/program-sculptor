@@ -28,53 +28,18 @@ namespace UI.Controls
                 typeof(TaskPanel));
         }
 
-        //public TaskPanel(Task selectedTask)
-        //{
-        //    SelectedTask = selectedTask;
-        //    DataContext = new TaskViewModel(selectedTask);
-        //}
-
         public TaskPanel()
         {
             InitializeComponent();
         }
-
-        //private Task SelectedTask { get; }
         
         private void StartNewSolution(object sender, RoutedEventArgs e)
         {
             DockPanel content = (DockPanel) Resources[SolutionNameInputKey];
             NewSolutionActionFrame.Navigate(content);
         }
-
-        //private void CreateSolution(object sender, KeyEventArgs e)
-        //{
-        //    if (!e.Key.Equals(Key.Enter))
-        //    {
-        //        return;
-        //    }
-
-        //    AddNewSolution(sender);
-        //}
-
-        //private void AddNewSolution(object sender)
-        //{
-        //    Solution newSolution = BuildSolution(sender);
-
-        //    Dao.Factory.SolutionDao.AddSolution(newSolution);
-        //    RaiseEvent(new RoutedEventArgs(NewSolutionEvent, this));
-        //}
-
-        //private Solution BuildSolution(object sender)
-        //{
-        //    TextBox textBox = (TextBox) sender;
-        //    string solutionName = string.IsNullOrEmpty(textBox.Text) ? null : textBox.Text;
-        //    Solution newSolution = new Solution(solutionName, 
-        //        Dao.Factory.UserDao.CurrentUser, 
-        //        SelectedTask);
-        //    return newSolution;
-        //}
-
+        
+        // TODO: InCommand.
         public event RoutedEventHandler NewSolution
         {
             add { AddHandler(NewSolutionEvent, value); }

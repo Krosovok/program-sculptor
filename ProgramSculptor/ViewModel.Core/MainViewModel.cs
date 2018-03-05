@@ -8,7 +8,7 @@ namespace ViewModel.Core
 
         public MainViewModel()
         {
-            
+            //UserSession.PropertyChanged += 
         }
 
         public AllTasks Tasks { get; } = new AllTasks();

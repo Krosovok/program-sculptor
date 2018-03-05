@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace UI.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для SolutionItem.xaml
+    /// Логика взаимодействия для MainContent.xaml
     /// </summary>
-    public partial class SolutionItem : UserControl
+    public partial class MainContent : UserControl
     {
-        public SolutionItem()
+        public MainContent()
         {
             InitializeComponent();
         }

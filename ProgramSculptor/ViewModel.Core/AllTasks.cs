@@ -12,17 +12,11 @@ namespace ViewModel.Core
 {
     public class AllTasks : INotifyPropertyChanged
     {
-        // TODO: Refactor TaskList using this.
-        
         public AllTasks()
         {
             IReadOnlyList<Task> tasks = Dao.Factory.TaskDao.AllTasks;
             Tasks = tasks.Select(task => new TaskSolutions(task)).ToList();
             SelectTaskCommand = new RelayCommand<TaskSolutions>(SelectTask);
-            //foreach (TaskSolutions task in Tasks)
-            //{
-            //    task.TaskSelected += SelectTask;
-            //}
         }
         
         public IEnumerable<TaskSolutions> Tasks { get; }

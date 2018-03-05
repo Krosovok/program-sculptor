@@ -72,6 +72,9 @@
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MainContent.xaml.cs">
+      <DependentUpon>MainContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ModelControlPanel.xaml.cs">
       <DependentUpon>ModelControlPanel.xaml</DependentUpon>
     </Compile>
@@ -83,9 +86,6 @@
     </Compile>
     <Compile Include="Controls\SandboxPanel.xaml.cs">
       <DependentUpon>SandboxPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SolutionItem.xaml.cs">
-      <DependentUpon>SolutionItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskSummary.xaml.cs">
       <DependentUpon>TaskSummary.xaml</DependentUpon>
@@ -107,6 +107,9 @@
       <DependentUpon>TestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WorkingPanel.cs" />
+    <Compile Include="Windows\ContentWindow.xaml.cs">
+      <DependentUpon>ContentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SourcePresenter.xaml.cs">
       <DependentUpon>SourcePresenter.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MainContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ModelControlPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,10 +148,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SandboxPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SolutionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ContentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

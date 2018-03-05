@@ -9,9 +9,17 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{DynamicResource ViewModel}">
     <UserControl.Resources>
-        <core:TaskSolutions x:Key="ViewModel" />
-        <content:DocumentConverter x:Key="DocumentConverter"/>
-        <!--<ResourceDictionary Source="../Resources/SandboxPanelDictionary.xaml"/>-->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <core:TaskSolutions x:Key="ViewModel" />
+                    <content:DocumentConverter x:Key="DocumentConverter" />
+
+                </ResourceDictionary>
+                <!--<ResourceDictionary Source="../Resources/SandboxPanelDictionary.xaml" />-->
+                <ResourceDictionary Source="../Resources/lang.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,7 +41,9 @@
         <FlowDocumentScrollViewer Grid.Column="1"
                                   Grid.Row="0"
                                   VerticalScrollBarVisibility="Auto"
-                                  Document="{DynamicResource SandboxDescription}" />
+                                  Document="{Binding 
+            Source={StaticResource SandboxDescriptionText}, 
+            Converter={StaticResource DocumentConverter}}" />
 
         <DockPanel Grid.Column="0"
                    Grid.Row="1"
@@ -51,14 +61,14 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
-                            <Hyperlink Command="{Binding 
+                            <Hyperlink
+                                Command="{Binding 
                                 Path=DataContext.SelectSolution,
                                 RelativeSource={RelativeSource 
                                 Mode=FindAncestor, 
                                 AncestorType={x:Type ListBox}}}"
-                                       CommandParameter="{Binding}"
-                                       >
-                                <Run Text="{Binding Name}"></Run>
+                                CommandParameter="{Binding}">
+                                <Run Text="{Binding Name}" />
                             </Hyperlink>
                         </TextBlock>
                     </DataTemplate>
@@ -70,6 +80,8 @@
                                   Grid.Row="1"
                                   VerticalScrollBarVisibility="Auto"
                                   Name="ProjectInfo"
-                                  Document="{DynamicResource projectHome}"/>
+                                  Document="{Binding 
+            Source={StaticResource SandboxProjectsText}, 
+            Converter={StaticResource DocumentConverter}}" />
     </Grid>
 </UserControl>

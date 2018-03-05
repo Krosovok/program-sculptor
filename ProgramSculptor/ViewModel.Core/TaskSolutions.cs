@@ -12,6 +12,8 @@ namespace ViewModel.Core
 {
     public class TaskSolutions : INotifyPropertyChanged
     {
+        private bool isSelected;
+        
         public TaskSolutions() : this(Task.Sandbox) { }
 
         public TaskSolutions(Task task)
@@ -20,12 +22,8 @@ namespace ViewModel.Core
             SelectSolution = new RelayCommand<Solution>(LaunchSolution,
                 given => Solutinos.Contains(given));
 
-            string currentUser = ConnectWithCurrentUser();
-            SetUserSolutions(currentUser);
-            SelectTaskCommand = new RelayCommand<object>(OnTaskSelected);
+            ChangeToCurrentUser();
         }
-
-        public Task Task { get; }
 
         public bool IsSelected
         {
@@ -34,40 +32,41 @@ namespace ViewModel.Core
             {
                 isSelected = value;
                 OnPropertyChanged(nameof(IsSelected));
+                if (value)
+                {
+                    ChangeToCurrentUser();
+                }
             }
         }
-
+        public Task Task { get; }
         public IEnumerable<Solution> Solutinos { get; private set; }
-        public ICommand SelectTaskCommand;
-        private bool isSelected;
         public bool IsSandbox => Task.Sandbox.Equals(Task);
-
-        private void OnTaskSelected(object o)
-        {
-            TaskSelected?.Invoke(this);
-        }
-
         public ICommand SelectSolution { get; }
+        
+        public void ChangeToCurrentUser()
+        {
+            string currentUser = ConnectWithCurrentUser();
+            SetUserSolutions(currentUser);
+        }
 
         private string ConnectWithCurrentUser()
         {
             IUserDao userDao = Dao.Factory.UserDao;
             return userDao.CurrentUser;
         }
-
-        // TODO: Know, that there is an error in logic - this is never updated when the user changes!!!
+        
         private void SetUserSolutions(string currentUser)
         {
             Solutinos = Dao.Factory
                 .SolutionDao.GetUserTaskSolutions(Task, currentUser);
+            OnPropertyChanged(nameof(Solutinos));
         }
 
         private void LaunchSolution(Solution solution)
         {
             throw new NotImplementedException();
         }
-
-        public event Action<TaskSolutions> TaskSelected;
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
