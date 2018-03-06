@@ -10,7 +10,7 @@ using ViewModel.Command;
 
 namespace ViewModel.Core
 {
-    public class TaskSolutions : INotifyPropertyChanged
+    public class TaskSolutions : INotifyPropertyChanged, ITaskDetailsViewModel
     {
         private bool isSelected;
         
@@ -19,12 +19,14 @@ namespace ViewModel.Core
         public TaskSolutions(Task task)
         {
             Task = task;
-            SelectSolution = new RelayCommand<Solution>(LaunchSolution,
+            SelectSolutionCommand = new RelayCommand<Solution>(LaunchSolution,
                 given => Solutinos.Contains(given));
+            StartNewSolutionCommand = new RelayCommand<object>(NewSolution);
 
             ChangeToCurrentUser();
         }
 
+        public Task Task { get; }
         public bool IsSelected
         {
             get { return isSelected; }
@@ -38,11 +40,11 @@ namespace ViewModel.Core
                 }
             }
         }
-        public Task Task { get; }
         public IEnumerable<Solution> Solutinos { get; private set; }
         public bool IsSandbox => Task.Sandbox.Equals(Task);
-        public ICommand SelectSolution { get; }
-        
+        public ICommand SelectSolutionCommand { get; }
+        public ICommand StartNewSolutionCommand { get; }
+
         public void ChangeToCurrentUser()
         {
             string currentUser = ConnectWithCurrentUser();
@@ -64,9 +66,16 @@ namespace ViewModel.Core
 
         private void LaunchSolution(Solution solution)
         {
-            throw new NotImplementedException();
+            OpenSolution?.Invoke(solution);
         }
-        
+
+        private void NewSolution(object o)
+        {
+            StartNewSolution?.Invoke(Task);
+        }
+
+        public event Action<Solution> OpenSolution;
+        public event Action<Task> StartNewSolution;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

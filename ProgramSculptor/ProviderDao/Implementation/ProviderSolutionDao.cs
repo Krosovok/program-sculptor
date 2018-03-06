@@ -34,8 +34,8 @@ namespace ProviderDao.Implementation
             DbCommand insertProcedure = Db.Instance.CreatePrecedureCommand(InsertKey);
 
             DbParameter outputId = Db.Instance.CreateOutputParameter(DbType.Int32, "NEW_SOLUTION_ID");
-            string solutionUser = NullIfDefault(newSolution.User, ProviderUsersDao.GuestUser);
             Task solutionTask = NullIfDefault(newSolution.Task, Task.Sandbox);
+            string solutionUser = NullIfDefault(newSolution.User, ProviderUsersDao.GuestUser);
             
             insertProcedure.Parameters.AddRange(new DbParameter[]
             {

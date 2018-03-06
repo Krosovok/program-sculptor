@@ -87,6 +87,9 @@
     <Compile Include="Controls\SandboxPanel.xaml.cs">
       <DependentUpon>SandboxPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SolutionContent.xaml.cs">
+      <DependentUpon>SolutionContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TaskSummary.xaml.cs">
       <DependentUpon>TaskSummary.xaml</DependentUpon>
     </Compile>
@@ -112,12 +115,6 @@
     </Compile>
     <Compile Include="Windows\SourcePresenter.xaml.cs">
       <DependentUpon>SourcePresenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\TaskWindow.xaml.cs">
-      <DependentUpon>TaskWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\CodeArea.xaml">
       <SubType>Designer</SubType>
@@ -148,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SandboxPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SolutionContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,14 +212,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SourcePresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\TaskWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

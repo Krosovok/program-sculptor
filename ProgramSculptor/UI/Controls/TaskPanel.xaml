@@ -5,30 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
              xmlns:content="clr-namespace:UI.Content"
+             xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="500">
+             d:DesignHeight="500" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance core:TaskViewModel}">
     <UserControl.Resources>
         <content:DocumentConverter x:Key="DocumentConverter" />
         <content:ChainCollapseConverter x:Key="CollapseConverter"></content:ChainCollapseConverter>
-        <Button x:Key="StartNewButtion"
-            Margin="7"
-                DockPanel.Dock="Right"
-                Background="Green"
-                FontSize="20"
-                Click="StartNewSolution">
-            >>> Start New
-        </Button>
-        <DockPanel x:Key="NewSolutionTextBox"
-                   LastChildFill="True">
-            <TextBlock Margin="7"
-                       DockPanel.Dock="Top"
-                       FontSize="20">
-                New Solution name:
-            </TextBlock>
-            <TextBox Margin="7"
-                     DockPanel.Dock="Bottom"
-                     FontSize="20"/>
-        </DockPanel>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,12 +28,13 @@
                        FontSize="18">
                 Name
             </TextBlock>
-
-            <Frame Name="NewSolutionActionFrame" 
-                NavigationUIVisibility="Hidden"
-                   Content="{StaticResource StartNewButtion}">
-                
-            </Frame>
+            <Button Margin="7"
+                DockPanel.Dock="Right"
+                Background="Green"
+                FontSize="20"
+                    Command="{Binding StartNewSolutionCommand}">
+                >>> Start New
+            </Button>
         </DockPanel>
 
         <FlowDocumentScrollViewer Grid.Row="1"
@@ -80,7 +64,7 @@
                     </ItemContainerTemplate>
                 </ListView>
             </DockPanel>-->
-            <local:GivenTypes></local:GivenTypes>
+            <local:GivenTypes DataContext="{Binding GivenTypes}"></local:GivenTypes>
             
             <local:TaskChainView
                 DataContext="{Binding InChain}"

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AllTasks.cs" />
     <Compile Include="CellViewModel.cs" />
+    <Compile Include="ITaskDetailsViewModel.cs" />
     <Compile Include="LoadedClasses.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="ModelInitialization.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="TaskSolutions.cs" />
     <Compile Include="TaskViewModel.cs" />
     <Compile Include="UserSession.cs" />
+    <Compile Include="WindowContentNavigator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessInterfaces\DataAccessInterfaces.csproj">

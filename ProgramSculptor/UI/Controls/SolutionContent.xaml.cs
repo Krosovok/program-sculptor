@@ -1,49 +1,26 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
-using Model;
-using Services.Dialog;
-using Services.Message;
-using UI.Controls;
-using ViewModel;
 using ViewModel.Core;
 
-namespace UI.Windows
+namespace UI.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для TaskWindow.xaml
+    /// Логика взаимодействия для SolutionContent.xaml
     /// </summary>
-    public partial class TaskWindow : Window
+    public partial class SolutionContent
     {
         private readonly WorkingPanel[] panels = new WorkingPanel[4];
-        private SolutionNavigation navigation;
-        private Solution solution;
-
-        internal TaskWindow()
+        private SolutionNavigation Navigation => DataContext as SolutionNavigation;
+        
+        public SolutionContent()
         {
-            DataContext = navigation;
             InitializeComponent();
         }
-
-        public TaskWindow(Solution solution) : this()
+        
+        private WorkingPanel ShownPanel
         {
-            Solution = solution;
-            ShownPanel = panels[0];
-        }
-
-        public Solution Solution
-        {
-            get { return solution; }
-            set
-            {
-                solution = value;
-
-                navigation = new SolutionNavigation(Solution, new MessageBoxService(), new DialogFactory());
-                navigation.PropertyChanged += Navigate;
-                DataContext = navigation;
-
-                InitPanels();
-            }
+            set { WorkingPanel.Navigate(value); }
         }
 
         private void InitPanels()
@@ -55,19 +32,14 @@ namespace UI.Windows
 
             for (int i = 0; i < panels.Length; i++)
             {
-                panels[i].DataContext = navigation.Contexts[i];
+                panels[i].DataContext = Navigation.Contexts[i];
             }
 
             Binding binding = new Binding(nameof(ModelRunner.Model))
             {
-                Source = navigation.ModelRunner
+                Source = Navigation.ModelRunner
             };
             Field.SetBinding(DataContextProperty, binding);
-        }
-
-        private WorkingPanel ShownPanel
-        {
-            set { WorkingPanel.Navigate(value); }
         }
 
         private void Navigate(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -77,7 +49,7 @@ namespace UI.Windows
                 return;
             }
 
-            SolutionNavigation solutionNavigation = (SolutionNavigation) sender;
+            SolutionNavigation solutionNavigation = (SolutionNavigation)sender;
             ShownPanel = panels[solutionNavigation.PanelIndex];
         }
 
@@ -85,6 +57,13 @@ namespace UI.Windows
         {
             return !propertyChangedEventArgs.PropertyName
                 .Equals(nameof(SolutionNavigation.PanelIndex));
+        }
+
+        private void SolutionChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            InitPanels();
+            ShownPanel = panels[0];
+            Navigation.PropertyChanged += Navigate;
         }
     }
 }

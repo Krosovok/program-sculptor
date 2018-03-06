@@ -12,16 +12,53 @@ namespace ViewModel.Core
 {
     public class AllTasks : INotifyPropertyChanged
     {
+        private ITaskDetailsViewModel selectedTaskViewModel;
+
         public AllTasks()
         {
             IReadOnlyList<Task> tasks = Dao.Factory.TaskDao.AllTasks;
             Tasks = tasks.Select(task => new TaskSolutions(task)).ToList();
+            SelectedTaskViewModel = Sandbox;
             SelectTaskCommand = new RelayCommand<TaskSolutions>(SelectTask);
+
+            foreach (TaskSolutions task in Tasks)
+            {
+                task.OpenSolution += OnOpenSolution;
+            }
+            Sandbox.OpenSolution += OnOpenSolution;
         }
         
+        public TaskSolutions Sandbox { get; } = new TaskSolutions();
         public IEnumerable<TaskSolutions> Tasks { get; }
-        public object SelectedTaskViewModel { get; private set; } = new TaskSolutions();
+        public ITaskDetailsViewModel SelectedTaskViewModel
+        {
+            get { return selectedTaskViewModel; }
+            private set
+            {
+                if (selectedTaskViewModel != null)
+                {
+                    selectedTaskViewModel.StartNewSolution -= OnStartNewSolution;
+                }
+                selectedTaskViewModel = value;
+                value.StartNewSolution += OnStartNewSolution;
+            }
+        }
         public ICommand SelectTaskCommand { get; }
+        
+        protected virtual void OnOpenSolution(Solution solution)
+        {
+            OpenSolution?.Invoke(solution);
+        }
+
+        protected virtual void OnStartNewSolution(Task task)
+        {
+            StartNewSolution?.Invoke(task);
+        }
+        
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void SelectTask(TaskSolutions selected)
         {
@@ -42,16 +79,14 @@ namespace ViewModel.Core
             }
             else
             {
-                SelectedTaskViewModel = new TaskSolutions();
+                SelectedTaskViewModel = Sandbox;
             }
             OnPropertyChanged(nameof(SelectedTaskViewModel));
         }
 
+        public event Action<Solution> OpenSolution;
+        public event Action<Task> StartNewSolution;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

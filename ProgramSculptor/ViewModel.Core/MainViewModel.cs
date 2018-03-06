@@ -1,4 +1,7 @@
-﻿using Services;
+﻿using System;
+using System.Windows.Input;
+using Model;
+using Services;
 
 namespace ViewModel.Core
 {
@@ -8,12 +11,12 @@ namespace ViewModel.Core
 
         public MainViewModel()
         {
-            //UserSession.PropertyChanged += 
+            Tasks.OpenSolution += OnOpenSolution;
+            Tasks.StartNewSolution += OnStartNewSolution;
         }
-
+        
         public AllTasks Tasks { get; } = new AllTasks();
         public UserSession UserSession { get; } = new UserSession();
-
         public IDialogFactory DialogFactory
         {
             get { return dialogFactory; }
@@ -23,5 +26,19 @@ namespace ViewModel.Core
                 UserSession.DialogFactory = value;
             }
         }
+
+        protected virtual void OnOpenSolution(Solution solution)
+        {
+            OpenSolution?.Invoke(solution);
+        }
+
+        protected virtual void OnStartNewSolution(Task obj)
+        {
+            StartNewSolution?.Invoke(obj);
+        }
+        
+        public event Action<Solution> OpenSolution;
+        public event Action<Task> StartNewSolution;
+
     }
 }

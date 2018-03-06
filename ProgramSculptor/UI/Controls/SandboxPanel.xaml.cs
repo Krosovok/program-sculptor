@@ -25,9 +25,5 @@ namespace UI.Controls
         //    throw new NotImplementedException();
         //}
 
-        private void NewSandbox(object sender, RoutedEventArgs e)
-        {
-            // TODO: Start new sandbox here.
-        }
     }
 }

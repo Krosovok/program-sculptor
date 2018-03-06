@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Services.Dialog"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="150" Width="225">
+        Title="{Binding Title}" Height="200" Width="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

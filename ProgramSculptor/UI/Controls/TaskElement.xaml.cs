@@ -12,7 +12,7 @@ namespace UI.Controls
     /// <summary>
     /// Логика взаимодействия для TaskElement.xaml
     /// </summary>
-    public partial class TaskElement : UserControl
+    public partial class TaskElement 
     {
         // TODO: Make it call task selection command. 
 
@@ -23,15 +23,14 @@ namespace UI.Controls
         
         private void SolutionSelected(object sender, RoutedEventArgs e)
         {
-            // TODO: In Command.
-            ListBox listView = (ListBox) sender;
+            ListBox listView = (ListBox)sender;
             Solution selected = (Solution)listView.SelectedItem;
             
-            Window solutionWindow = new TaskWindow(selected);
-            solutionWindow.Show();
-            //
-            
-            // TODO: Do same in "Start new".
+            TaskSolutions taskSolutions = DataContext as TaskSolutions;
+            if (selected != null)
+            {
+                taskSolutions?.SelectSolutionCommand.Execute(selected);
+            }
         }
     }
 }
