@@ -55,10 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Content\ChainCollapseConverter.cs" />
     <Compile Include="Content\ColorConverter.cs" />
     <Compile Include="Content\DocumentBuilder.cs" />
     <Compile Include="Content\DocumentConverter.cs" />
-    <Compile Include="Content\ElementsColorConverter.cs" />
+    <Compile Include="Content\SelectedCollapseConverter.cs" />
+    <Compile Include="Content\VisibilityConverter.cs" />
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>
     </Compile>
@@ -70,6 +72,12 @@
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MainContent.xaml.cs">
+      <DependentUpon>MainContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModelControlPanel.xaml.cs">
+      <DependentUpon>ModelControlPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ModelSettings.xaml.cs">
       <DependentUpon>ModelSettings.xaml</DependentUpon>
     </Compile>
@@ -79,8 +87,8 @@
     <Compile Include="Controls\SandboxPanel.xaml.cs">
       <DependentUpon>SandboxPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SolutionItem.xaml.cs">
-      <DependentUpon>SolutionItem.xaml</DependentUpon>
+    <Compile Include="Controls\SolutionContent.xaml.cs">
+      <DependentUpon>SolutionContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskSummary.xaml.cs">
       <DependentUpon>TaskSummary.xaml</DependentUpon>
@@ -102,17 +110,11 @@
       <DependentUpon>TestsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WorkingPanel.cs" />
-    <Compile Include="Windows\LoginDialog.xaml.cs">
-      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    <Compile Include="Windows\ContentWindow.xaml.cs">
+      <DependentUpon>ContentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SourcePresenter.xaml.cs">
       <DependentUpon>SourcePresenter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\TaskWindow.xaml.cs">
-      <DependentUpon>TaskWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\CodeArea.xaml">
       <SubType>Designer</SubType>
@@ -123,6 +125,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LanguageSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MainContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ModelControlPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SolutionItem.xaml">
+    <Page Include="Controls\SolutionContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,19 +207,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\LoginDialog.xaml">
+    <Page Include="Windows\ContentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SourcePresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\TaskWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,6 +267,10 @@
       <Project>{D7E79271-3664-454F-8D74-F6B347E46CEB}</Project>
       <Name>ProgramSculptor.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProgramSculptor.Initialization\ProgramSculptor.Initialization.csproj">
+      <Project>{cc17f8f4-fe1e-464b-8a66-d099207dbd33}</Project>
+      <Name>ProgramSculptor.Initialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProgramSculptor.Model\ProgramSculptor.Model.csproj">
       <Project>{F0453B33-7D93-4B17-B8CD-941B5140A4C9}</Project>
       <Name>ProgramSculptor.Model</Name>
@@ -285,9 +291,13 @@
       <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{e3f6b254-3683-4615-8827-90d4db459aa1}</Project>
-      <Name>ViewModel</Name>
+    <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
+      <Project>{9187B5CB-A155-4C94-926D-816CDE44E4F2}</Project>
+      <Name>ViewModel.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Core\ViewModel.Core.csproj">
+      <Project>{BB6BF32E-C68A-43D5-9D03-906897E8113E}</Project>
+      <Name>ViewModel.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

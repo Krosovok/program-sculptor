@@ -75,6 +75,7 @@ namespace ProviderDao.Implementation
             SolutionManager.DeleteFile(target, classFileName);
         }
 
+        // TODO: Make paramter null checks in dao!!! 
         private static IEnumerable<FileInfo> GetAllSolutionFiles(Solution solution)
         {
             return new FolderContents(solution.Task)

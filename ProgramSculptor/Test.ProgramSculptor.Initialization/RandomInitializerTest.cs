@@ -76,7 +76,7 @@ namespace Test.ProgramSculptor.Initialization
 
         private static bool IsEnoughElements(Field field, int neededCount)
         {
-            return field.GetAllCells()
+            return field.AllCells
                 .Aggregate(0,
                     (count, cell) => 
                         count + cell.Elements.Count()) == neededCount;

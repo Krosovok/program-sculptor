@@ -1,7 +1,34 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:UI">
+                    xmlns:local="clr-namespace:UI"
+                    xmlns:content="clr-namespace:UI.Content">
 
+    <content:VisibilityConverter x:Key="VisibilityConverter" />
+
+    <ContextMenu x:Key="OtherTaskMenu"
+                 x:Name="OtherTaskMenu"
+                 ItemsSource="{Binding}"
+                 DataContext="{Binding Path=PlacementTarget.DataContext,
+        RelativeSource={RelativeSource Self}, 
+        UpdateSourceTrigger=PropertyChanged}">
+        <ContextMenu.ItemContainerStyle>
+            <Style TargetType="{x:Type MenuItem}">
+                <Setter Property="Command"
+                        Value="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                    AncestorType={x:Type UserControl}}}" />
+                <Setter Property="CommandParameter" Value="{Binding}" />
+            </Style>
+        </ContextMenu.ItemContainerStyle>
+        <ContextMenu.ItemTemplate>
+            <HierarchicalDataTemplate>
+                <TextBlock Text="{Binding TaskName}" />
+            </HierarchicalDataTemplate>
+        </ContextMenu.ItemTemplate>
+    </ContextMenu>
+
+
+    <!--TODO: Some lightup on cursor entering.-->
     <Style
         x:Key="TaskChainButton"
         TargetType="{x:Type Button}">
@@ -13,7 +40,7 @@
                     <Grid>
                         <local:TaskArrow Stroke="{TemplateBinding BorderBrush}"
                                          StrokeThickness="{TemplateBinding BorderThickness}"
-                                         Fill="{TemplateBinding Background}"/>
+                                         Fill="{TemplateBinding Background}" />
 
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -22,7 +49,52 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="5"></Setter>
-        <Setter Property="Visibility" Value="Visible"></Setter>
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Visibility"
+                Value="{Binding Converter={
+            StaticResource VisibilityConverter}}" />
+        <Setter Property="Command"
+                Value="{Binding Path=DataContext.ChangeTaskCommand, 
+                                    ElementName=ButtonGrid}" />
+        <Setter Property="CommandParameter" Value="{Binding}" />
     </Style>
+
+    <Style x:Key="ListChainButton"
+           TargetType="{x:Type Button}">
+        <Setter Property="Content" Value="..." />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Visibility"
+                Value="{Binding Converter={
+            StaticResource VisibilityConverter}}" />
+        <Setter Property="ContextMenu" Value="{DynamicResource OtherTaskMenu}" />
+        
+        <!--<Style.Triggers>
+            <EventTrigger RoutedEvent="Click">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
+                                <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+            --><!--<DataTrigger Binding="{Binding 
+                RelativeSource={RelativeSource Self}, 
+                Path=ContextMenu.IsOpen}"
+                         Value="True">
+                --><!--<Setter Property="ContextMenu.PlacementTarget"
+                        Value="{Binding RelativeSource={RelativeSource Self}}">
+
+                </Setter>
+                <Setter Property="ContextMenu.BorderThickness" Value="5"></Setter>--><!--
+                
+                <Setter Property="Background"
+                        Value="Aqua"></Setter>
+                
+            </DataTrigger>--><!--
+        </Style.Triggers>-->
+    </Style>
+
 </ResourceDictionary>

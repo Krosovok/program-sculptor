@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="LoginDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="NameDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,6 +69,9 @@
     </Compile>
     <Compile Include="Dialog.cs" />
     <Compile Include="DialogFactory.cs" />
+    <Compile Include="LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NameDialog.xaml.cs">
       <DependentUpon>NameDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -98,6 +105,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DialogViewModel\DialogViewModel.csproj">
+      <Project>{45F55AE8-CE91-40C1-8F72-BC9773780347}</Project>
+      <Name>DialogViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services.Message\Services.Message.csproj">
+      <Project>{8F63997C-976D-436A-AABC-E49B583D7DE8}</Project>
+      <Name>Services.Message</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>

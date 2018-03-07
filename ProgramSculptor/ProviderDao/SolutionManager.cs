@@ -15,7 +15,10 @@ namespace ProviderDao
         public static void CreateFile(Solution parent, string fileName)
         {
             string filePath = FilePath(parent, fileName);
-            File.Create(filePath);
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath);
+            }
         }
 
         private static string FilePath(Solution solution, string fileName)

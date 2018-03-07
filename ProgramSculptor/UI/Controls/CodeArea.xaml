@@ -42,6 +42,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30*" />
                                             <ColumnDefinition Width="30*" />
+                                            <ColumnDefinition Width="30*" />
                                         </Grid.ColumnDefinitions>
 
                                         <Button Style="{StaticResource Button}"
@@ -52,6 +53,11 @@
                                                 Command="{Binding OpenFilesCommand }"
                                                 Grid.Column="1">
                                             Open file
+                                        </Button>
+                                        <Button Style="{StaticResource Button}"
+                                                Command="{Binding SaveFilesCommand}"
+                                                Grid.Column="2">
+                                            Save all
                                         </Button>
                                     </Grid>
                                 </DockPanel>

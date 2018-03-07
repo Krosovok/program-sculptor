@@ -1,6 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Common;
 using Model;
+using ProviderDao.Implementation;
 
 namespace ProviderDao
 {
@@ -23,9 +25,11 @@ namespace ProviderDao
             string[] parameters = { db.Param(Db.Tasks.Id), db.Param(Db.Users.Name) };
             
             DbCommand select = db.CreateTextCommand(SqlKey, parameters);
-
-            DbParameter taskId = db.CreateParameter(task.Id, DbType.Int32, parameters[0]);
-            DbParameter userName = db.CreateParameter(username, DbType.String, parameters[1]);
+            
+            object id = task?.Id ?? (object)DBNull.Value;
+            object usernameParameter = username ?? (object)DBNull.Value;
+            DbParameter taskId = db.CreateParameter(id, DbType.Int32, parameters[0]);
+            DbParameter userName = db.CreateParameter(usernameParameter, DbType.String, parameters[1]);
             select.Parameters.AddRange(new[]
             {
                 taskId, userName
@@ -37,10 +41,16 @@ namespace ProviderDao
         {
             int id = GetInt32NotNull(data, Db.Solutions.Id);
             string solutionName = GetString(data, Db.Solutions.Name);
+            string solver = DefaultIfNull(username, ProviderUsersDao.GuestUser);
+            Task solved = DefaultIfNull(task, Task.Sandbox);
             int? baseId = GetInt32(data, Db.Solutions.BaseId);
             
-            return new Solution(id, solutionName, username, task, baseId);
+            return new Solution(id, solutionName, solver, solved, baseId);
         }
 
+        private static T DefaultIfNull<T>(T value, T defaultValue)
+        {
+            return value == null ? defaultValue : value;
+        }
     }
 }

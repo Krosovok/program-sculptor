@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UI.Controls
+namespace UI.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для SolutionItem.xaml
+    /// Логика взаимодействия для ContentWindow.xaml
     /// </summary>
-    public partial class SolutionItem : UserControl
+    public partial class ContentWindow : Window
     {
-        public SolutionItem()
+        public ContentWindow()
         {
             InitializeComponent();
         }

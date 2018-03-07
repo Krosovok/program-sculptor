@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using DataAccessInterfaces;
 using Model;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Running;
-using Services;
 
-namespace ViewModel
+namespace ViewModel.Core
 {
     public class ModelInitialization
     {
@@ -25,13 +20,16 @@ namespace ViewModel
         }
         
         public Solution Solution { get; }
-        public FieldParameters FieldParameters { get; } = new FieldParameters { Size = DefaultSize };
+        public FieldParameters FieldParameters { get; } 
+            = new FieldParameters { Size = DefaultSize };
         public ObservableDictionary<string, InitializationData> InitializersData { get; } = 
             new ObservableDictionary<string, InitializationData>();
         public CompiledModel CompiledModel { get; private set; }
 
         public void Update(LoadedClasses classes)
         {
+            classes.SaveFilesContents(null);
+            
             CompiledModel = ComileAssembly(classes);
 
             AddAssemblyClasses(classes, CompiledModel);

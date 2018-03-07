@@ -53,6 +53,7 @@ namespace ProviderDao
             DbParameter parameter = CreateParameter(type, name);
             parameter.Value = value;
             parameter.Direction = ParameterDirection.Input;
+            parameter.IsNullable = true;
 
             return parameter;
         }

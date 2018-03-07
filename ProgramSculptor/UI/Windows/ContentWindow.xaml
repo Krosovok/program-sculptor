@@ -1,0 +1,29 @@
+﻿<Window x:Class="UI.Windows.ContentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI.Windows"
+        xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
+        xmlns:dialog="clr-namespace:Services.Dialog;assembly=Services.Dialog"
+        xmlns:controls="clr-namespace:UI.Controls"
+        xmlns:message="clr-namespace:Services.Message;assembly=Services.Message"
+        mc:Ignorable="d"
+        Title="PropgramSculptor" Height="600" Width="900"
+        DataContext="{DynamicResource ContentNavigator}"
+        Content="{Binding Content}">
+    <Window.Resources>
+        <dialog:DialogFactory x:Key="DialogFactory" />
+        <message:MessageBoxService x:Key="MessageService"/>
+        <core:WindowContentNavigator x:Key="ContentNavigator"
+                                     DialogFactory="{StaticResource DialogFactory}"
+                                     MessageService="{StaticResource MessageService}"></core:WindowContentNavigator>
+        <DataTemplate DataType="{x:Type core:MainViewModel}">
+            <controls:MainContent/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type core:SolutionNavigation}">
+            <controls:SolutionContent/>
+        </DataTemplate>
+    </Window.Resources>
+    
+</Window>

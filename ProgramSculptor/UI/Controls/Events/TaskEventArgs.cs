@@ -1,17 +1,18 @@
 ﻿using System.Windows;
 using Model;
+using ViewModel.Core;
 
 namespace UI.Controls.Events
 {
     public class TaskEventArgs : RoutedEventArgs
     {
-        public TaskEventArgs(RoutedEvent routedEvent, object source, Task selected) 
+        public TaskEventArgs(RoutedEvent routedEvent, object source, TaskViewModel selected) 
             : base(routedEvent, source)
         {
             Selected = selected;
         }
         
-        public Task Selected { get; }
+        public TaskViewModel Selected { get; }
 
     }
 }

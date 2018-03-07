@@ -9,8 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContextChanged="DataContextChange">
     <UserControl.Resources>
-        <content:ElementsColorConverter x:Key="ColorConverter" 
-                                        Runner="{Binding}"/>
+        <content:ColorConverter x:Key="ColorConverter" />
     </UserControl.Resources>
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto"

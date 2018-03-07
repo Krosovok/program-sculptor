@@ -1,4 +1,5 @@
-﻿namespace DataAccessInterfaces
+﻿
+namespace DataAccessInterfaces
 {
     public interface IUserDao
     {
