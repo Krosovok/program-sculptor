@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
+             xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
+             xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance core:TaskViewModel}">
+    <UserControl.Resources>
+        <content:DocumentConverter x:Key="DocumentConverter" />
+    </UserControl.Resources>
     <DockPanel LastChildFill="True">
         <!--<TextBlock DockPanel.Dock="Top"
                    FontSize="18"
@@ -13,14 +19,22 @@
                    TextAlignment="Center">
             Tests
         </TextBlock>-->
-        <ComboBox Name="testSelect"
+        <ComboBox Name="TestSelect"
                   DockPanel.Dock="Top"
                   Margin="5"
-                  IsEnabled="False">
+                  IsEnabled="False"
+                  ItemsSource="{Binding .Tests}">
             
         </ComboBox>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <FlowDocumentScrollViewer VerticalScrollBarVisibility="Auto"
+                                  Document="{Binding ElementName=TestSelect, 
+            Path=SelectedItem.Content, 
+            Converter={StaticResource DocumentConverter},
+            TargetNullValue=No test selected.}">
+            
+        </FlowDocumentScrollViewer>
+        <!--<ScrollViewer VerticalScrollBarVisibility="Auto">
             <DockPanel>
                 <TextBlock TextDecorations="Underline" 
                            Cursor="Hand" 
@@ -28,8 +42,7 @@
                            Foreground="Blue"
                            Margin="10"
                            MouseDown="ViewCode"
-                           DockPanel.Dock="Top"
-                           Visibility="Collapsed">
+                           DockPanel.Dock="Top">
                 View Code
                 </TextBlock>
                 <TextBlock Name="testDescription"
@@ -38,6 +51,6 @@
                     No tests for this task.
                 </TextBlock>
             </DockPanel>
-        </ScrollViewer>
+        </ScrollViewer>-->
     </DockPanel>
 </UserControl>

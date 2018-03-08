@@ -38,6 +38,18 @@ namespace ProviderDao.Implementation
             return reader.GetSolutionFileSource(solution.Name, classFile.FileName);
         }
 
+        public string TestFileContents(Task task, ClassFile classFile)
+        {
+            FileReader reader = new FileReader(task);
+            return reader.GetTestSource(classFile.FileName);
+        }
+
+        public string GivenTypesFileContents(Task task, ClassFile classFile)
+        {
+            FileReader reader = new FileReader(task);
+            return reader.GetGivenTypeSource(classFile.FileName);
+        }
+        
         public IEnumerable<ClassFile> GetTests(Task task)
         {
             IEnumerable<FileInfo> allFiles = new FolderContents(task)

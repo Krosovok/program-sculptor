@@ -18,24 +18,11 @@ namespace UI.Controls
     /// <summary>
     /// Логика взаимодействия для TestsView.xaml
     /// </summary>
-    public partial class TestsView : UserControl
+    public partial class TestsView
     {
-        private const int NONE = -1;
-
         public TestsView()
         {
             InitializeComponent();
-        }
-
-        public void SetTests(/*Test Collection*/)
-        {
-            testDescription.Text = "No test selected.";
-            testSelect.SelectedIndex = NONE;
-        }
-
-        private void ViewCode(object sender, MouseButtonEventArgs e)
-        {
-            // TODO: Call some panel with code.
         }
     }
 }

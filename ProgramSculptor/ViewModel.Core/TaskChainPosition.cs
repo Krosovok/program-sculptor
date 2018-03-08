@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -18,6 +19,13 @@ namespace ViewModel.Core
             ChangeTaskCommand = new RelayCommand<Task>(
                 other => Current = other,
                 other => chain.AllTasks.Contains(other));
+            GoToTaskCommand = new RelayCommand<object>(
+                OnGoToTask);
+        }
+
+        private void OnGoToTask(object o)
+        {
+            GoToTask?.Invoke(Current);
         }
 
         public int TaskIndex
@@ -46,6 +54,7 @@ namespace ViewModel.Core
         public Task Next => taskIndex == chain.Length - 1 ? null : chain[NextTaskIndex];
         public IEnumerable<Task> AllAfter => NullIfEmpty(chain.AllTasks.Skip(NextTaskIndex + 1));
         public ICommand ChangeTaskCommand { get; }
+        public ICommand GoToTaskCommand { get; }
         public bool HasChain => chain.Length > 1;
 
         private int PreviousTaskIndex => taskIndex - 1;
@@ -76,5 +85,6 @@ namespace ViewModel.Core
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<Task> GoToTask;
     }
 }

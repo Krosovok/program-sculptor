@@ -4,7 +4,6 @@ using System.Windows.Data;
 using System.Windows.Media;
 using ProgramSculptor.Core;
 using ProgramSculptor.Model;
-using UI.Content;
 using ViewModel;
 using ViewModel.Core;
 

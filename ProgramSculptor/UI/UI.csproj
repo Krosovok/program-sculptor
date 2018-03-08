@@ -55,17 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Content\ChainCollapseConverter.cs" />
-    <Compile Include="Content\ColorConverter.cs" />
-    <Compile Include="Content\DocumentBuilder.cs" />
-    <Compile Include="Content\DocumentConverter.cs" />
-    <Compile Include="Content\SelectedCollapseConverter.cs" />
-    <Compile Include="Content\VisibilityConverter.cs" />
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Events\TaskEventArgs.cs" />
-    <Compile Include="Controls\Events\TaskEventHandler.cs" />
     <Compile Include="Controls\GivenTypes.xaml.cs">
       <DependentUpon>GivenTypes.xaml</DependentUpon>
     </Compile>
@@ -112,9 +104,6 @@
     <Compile Include="Controls\WorkingPanel.cs" />
     <Compile Include="Windows\ContentWindow.xaml.cs">
       <DependentUpon>ContentWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\SourcePresenter.xaml.cs">
-      <DependentUpon>SourcePresenter.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\CodeArea.xaml">
       <SubType>Designer</SubType>
@@ -211,10 +200,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\SourcePresenter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -287,9 +272,21 @@
       <Project>{8f63997c-976d-436a-aabc-e49b583d7de8}</Project>
       <Name>Services.Message</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services.SourceShower\Services.SourceShower.csproj">
+      <Project>{AC01A699-FDD9-43AE-BDCC-704CCC56442D}</Project>
+      <Name>Services.SourceShower</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SourceShowerViewModel\SourceShowerViewModel.csproj">
+      <Project>{DD4516DB-A147-45D7-BA22-F7FEBC0380C5}</Project>
+      <Name>SourceShowerViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI.Content\UI.Content.csproj">
+      <Project>{204491B5-3047-44F5-8B33-AA0ABFAFA7C0}</Project>
+      <Name>UI.Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
       <Project>{9187B5CB-A155-4C94-926D-816CDE44E4F2}</Project>

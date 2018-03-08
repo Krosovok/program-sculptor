@@ -28,7 +28,19 @@ namespace ViewModel.Core
             OnPropertyChanged(nameof(Model));
         }
 
-        public ICommand NextTurnCommand => new RelayCommand<object>((o) => Model.NextTurn());
+        public ICommand NextTurnCommand => new RelayCommand<object>(MoveToNextTurn);
+
+        private void MoveToNextTurn(object o)
+        {
+            try
+            {
+                Model.NextTurn();
+            }
+            catch (Exception userError)
+            {
+                UserCodeException?.Invoke(userError);
+            }
+        }
 
         private Dictionary<Type, Initializer> GetFieldInitializers(ModelInitialization initialization)
         {
@@ -38,6 +50,7 @@ namespace ViewModel.Core
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<Exception> UserCodeException;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

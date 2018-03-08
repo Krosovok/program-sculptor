@@ -1,0 +1,38 @@
+﻿<Window x:Class="Services.SourceShower.SourcePresenter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
+        xmlns:sourceShowerViewModel="clr-namespace:SourceShowerViewModel;assembly=SourceShowerViewModel"
+        mc:Ignorable="d"
+        Title="SourcePresenter" 
+        MinHeight="300" MinWidth="300"
+        MaxHeight="500" MaxWidth="700"
+        WindowStyle="None"
+        d:DataContext="{d:DesignInstance sourceShowerViewModel:SourceViewModel}">
+    <Window.Resources>
+        <content:DocumentConverter x:Key="DocumentConverter"></content:DocumentConverter>
+    </Window.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            
+            <Button DockPanel.Dock="Right"
+                    MinWidth="20"
+                    MinHeight="20"
+                    Click="ExitClick">
+                X
+            </Button>
+            
+            <TextBlock Name="FileName" Text="{Binding FileName}">
+                
+            </TextBlock>
+            
+        </DockPanel>
+        <FlowDocumentScrollViewer Name="Source"
+                                  VerticalScrollBarVisibility="Auto"
+                                  Document="{Binding Path=Content, Converter={StaticResource DocumentConverter}}">
+            
+        </FlowDocumentScrollViewer>
+    </DockPanel>
+</Window>

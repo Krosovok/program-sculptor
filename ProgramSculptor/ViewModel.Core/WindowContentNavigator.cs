@@ -20,23 +20,28 @@ namespace ViewModel.Core
         private const string NameSolutionTitle = "Name new solution";
         private object content;
         private IDialogFactory dialogFactory;
-        private IMessageService messageService;
+        private ISourceShowerService sourceShower;
 
         public WindowContentNavigator()
         {
             Main = new MainViewModel();
             Content = Main;
             HomeCommand = new RelayCommand<object>(o => Content = Main);
-            //StartSolutionCommand = new RelayCommand<Solution>(StartSolution);
             Main.OpenSolution += OpenSolution;
             Main.StartNewSolution += StartNewSolution;
         }
 
 
-        public IMessageService MessageService
+        public IMessageService MessageService { get; set; }
+
+        public ISourceShowerService SourceShower
         {
-            get { return messageService; }
-            set { messageService = value; }
+            get { return sourceShower; }
+            set
+            {
+                sourceShower = value;
+                Main.SourceShower = value;
+            }
         }
 
         public IDialogFactory DialogFactory
@@ -48,7 +53,6 @@ namespace ViewModel.Core
                 Main.DialogFactory = value;
             }
         }
-
         public MainViewModel Main { get; }
         public object Content
         {

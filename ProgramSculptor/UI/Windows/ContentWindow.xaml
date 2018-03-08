@@ -8,22 +8,26 @@
         xmlns:dialog="clr-namespace:Services.Dialog;assembly=Services.Dialog"
         xmlns:controls="clr-namespace:UI.Controls"
         xmlns:message="clr-namespace:Services.Message;assembly=Services.Message"
+        xmlns:sourceShower="clr-namespace:Services.SourceShower;assembly=Services.SourceShower"
         mc:Ignorable="d"
         Title="PropgramSculptor" Height="600" Width="900"
         DataContext="{DynamicResource ContentNavigator}"
         Content="{Binding Content}">
     <Window.Resources>
         <dialog:DialogFactory x:Key="DialogFactory" />
-        <message:MessageBoxService x:Key="MessageService"/>
-        <core:WindowContentNavigator x:Key="ContentNavigator"
-                                     DialogFactory="{StaticResource DialogFactory}"
-                                     MessageService="{StaticResource MessageService}"></core:WindowContentNavigator>
+        <message:MessageBoxService x:Key="MessageService" />
+        <sourceShower:SourceShower x:Key="SourceShower"/>
+        <core:WindowContentNavigator
+            x:Key="ContentNavigator"
+            DialogFactory="{StaticResource DialogFactory}"
+            MessageService="{StaticResource MessageService}" 
+            SourceShower="{StaticResource SourceShower}"/>
         <DataTemplate DataType="{x:Type core:MainViewModel}">
-            <controls:MainContent/>
+            <controls:MainContent />
         </DataTemplate>
         <DataTemplate DataType="{x:Type core:SolutionNavigation}">
-            <controls:SolutionContent/>
+            <controls:SolutionContent />
         </DataTemplate>
     </Window.Resources>
-    
+
 </Window>

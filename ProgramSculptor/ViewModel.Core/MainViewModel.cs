@@ -8,6 +8,7 @@ namespace ViewModel.Core
     public class MainViewModel
     {
         private IDialogFactory dialogFactory;
+        private ISourceShowerService sourceShower;
 
         public MainViewModel()
         {
@@ -26,6 +27,17 @@ namespace ViewModel.Core
                 UserSession.DialogFactory = value;
             }
         }
+
+        public ISourceShowerService SourceShower
+        {
+            get { return sourceShower; }
+            set
+            {
+                sourceShower = value;
+                Tasks.SourceShower = value;
+            }
+        }
+
 
         protected virtual void OnOpenSolution(Solution solution)
         {

@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.Controls"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+             xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance core:TaskViewModel}">
 
     <DockPanel LastChildFill="True">
         <TextBlock FontSize="14"
@@ -14,11 +17,23 @@
             Given types:
         </TextBlock>
 
-        <ListView Margin="10, 0"
-                  ItemsSource="{Binding}">
-            <!--<ItemContainerTemplate>
-                --><!--TODO: Links.--><!--
-            </ItemContainerTemplate>-->
-        </ListView>
+        <ListBox Margin="10, 0"
+                 ItemsSource="{Binding .GivenTypes}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type core:GivenTypeFile}">
+                    <TextBlock>
+
+                        <Hyperlink Command="{Binding 
+                            RelativeSource={RelativeSource 
+                            Mode=FindAncestor, 
+                            AncestorType={x:Type UserControl}},
+                            Path=DataContext.ShowSourcesCommand}"
+                                   CommandParameter="{Binding}">
+                            <Run Text="{Binding FileName, Mode=OneTime}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </DockPanel>
 </UserControl>

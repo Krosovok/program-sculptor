@@ -21,7 +21,6 @@ namespace Services.Dialog
 
         private void OkClick(object sender, RoutedEventArgs e)
         {
-            // TODO: It is possible that data will be lost. Check it.
             DialogResult = true;
         }
     }

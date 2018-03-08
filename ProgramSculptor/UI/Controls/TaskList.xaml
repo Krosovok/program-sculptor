@@ -4,37 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:UI.Controls"
+             xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              MinWidth="200"
-             MaxWidth="300">
+             MaxWidth="300"
+             d:DataContext="{d:DesignInstance core:AllTasks}">
     <UserControl.Resources>
         <DataTemplate x:Key="TaskElementTemplate">
             <local:TaskElement />
         </DataTemplate>
     </UserControl.Resources>
     <DockPanel>
-        <Grid DockPanel.Dock="Top" MinHeight="25" Margin="0,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150*" />
-                <ColumnDefinition Width="50*" MinWidth="50" />
-            </Grid.ColumnDefinitions>
 
-            <!--TODO: Filter!-->
-            <TextBox Grid.Column="0" Margin="0,0,5,0">
-                Filter (make placeholder)
-            </TextBox>
-            <Button MinWidth="50"
-                    Grid.Column="1">
-                OK
-            </Button>
-        </Grid>
+        <DockPanel DockPanel.Dock="Top"
+                     Margin="0,0,0,5">
+
+            <TextBlock Margin="10, 0"
+                       FontSize="14"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left">Filter:</TextBlock>
+            <TextBox Name="FilterTextBox"
+                     MinHeight="25"
+                     TextChanged="TextBoxBase_OnTextChanged"
+                     ToolTip="Type something to filter the task list by names." />
+        </DockPanel>
+
         <ScrollViewer>
             <ListBox Name="Tasks"
                      ItemTemplate="{StaticResource ResourceKey=TaskElementTemplate}"
                      HorizontalContentAlignment="Stretch"
-                     ItemsSource="{Binding Tasks}" 
-                     SelectionChanged="OnTaskSelected"/>
+                     ItemsSource="{Binding Tasks}"
+                     SelectionChanged="OnTaskSelected" />
         </ScrollViewer>
     </DockPanel>
 </UserControl>

@@ -12,6 +12,10 @@ namespace DataAccessInterfaces
         IEnumerable<ClassFile> SolutionFiles(Solution solution);
 
         string FileContents(Solution solution, ClassFile classFile);
+
+        string TestFileContents(Task task, ClassFile classFile);
+        
+        string GivenTypesFileContents(Task task, ClassFile classFile);
         
         void AddFileToSolution(Solution target, ClassFile newClassFile);
 

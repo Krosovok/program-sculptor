@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using UI.Controls.Events;
 using ViewModel.Core;
 
 namespace UI.Controls
@@ -13,11 +13,14 @@ namespace UI.Controls
     /// </summary>
     public partial class TaskList
     {
+        private ICollectionView tasks;
+
         public TaskList()
         {
             InitializeComponent();
+
         }
-        
+
         private void OnTaskSelected(object sender, RoutedEventArgs e)
         {
             AllTasks allTasks = DataContext as AllTasks;
@@ -31,6 +34,27 @@ namespace UI.Controls
                     command.Execute(selected);
                 }
             }
+        }
+
+        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            tasks = CollectionViewSource.GetDefaultView(Tasks.ItemsSource);
+            tasks.Filter = Filter;
+            tasks.Refresh();
+        }
+        
+        private bool Filter(object o)
+        {
+            TaskSolutions item = o as TaskSolutions;
+
+            return item != null &&
+                   TaskNameContains(item);
+        }
+
+        private bool TaskNameContains(TaskSolutions item)
+        {
+            return item.Task.TaskName
+                       .IndexOf(FilterTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
 }

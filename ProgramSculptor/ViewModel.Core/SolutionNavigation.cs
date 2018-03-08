@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -16,6 +17,7 @@ namespace ViewModel.Core
         private const int EditCodeStep = 1;
         private const int ModelInitializationStep = 2;
         private const int ModelRunningStep = 3;
+        private const string ZeroTypesMessage = "There should be at least one type!";
 
         private readonly object[] panelDataContexts = new object[4];
         private readonly IMessageService messageService;
@@ -68,7 +70,8 @@ namespace ViewModel.Core
         private void MoveToRight(object obj)
         {
             PanelIndex++;
-            Update(); // TODO: Check to update only if there are enough classes.
+            Update();
+            // TODO: Maybe we should make some more object-oriented way of all this checks between stages?
         }
 
         private void InitContexts(Solution solution)
@@ -78,11 +81,20 @@ namespace ViewModel.Core
                 dialogFactory);
             ModelInitialization = new ModelInitialization(LoadedClasses);
             ModelRunner = new ModelRunner();
+            ModelRunner.UserCodeException += UserCodeException;
 
             panelDataContexts[TaskSummaryStep] = solution.Task;
             panelDataContexts[EditCodeStep] = LoadedClasses;
             panelDataContexts[ModelInitializationStep] = ModelInitialization;
             panelDataContexts[ModelRunningStep] = ModelRunner;
+        }
+
+        private void UserCodeException(Exception userError)
+        {
+            string message =
+                "An exception occured in your code. " + Environment.NewLine + 
+                userError;
+            messageService.Show(message);
         }
 
         private void Update()
@@ -101,22 +113,32 @@ namespace ViewModel.Core
 
         private void TryCompileClasses()
         {
+            if (LoadedClasses.Files.Count == 0)
+            {
+                GoBack(ZeroTypesMessage);
+                return;
+            }
+            
             try
             {
                 CompileClasses();
             }
             catch (InitializationException e)
             {
-                messageService.Show(e.Message);
-                PanelIndex--;
+                GoBack(e.Message);
             }
             catch (CodeException e)
             {
-                messageService.Show(e.Message);
-                PanelIndex--;
+                GoBack(e.Message);
             }
         }
-        
+
+        private void GoBack(string message)
+        {
+            messageService.Show(message);
+            PanelIndex--;
+        }
+
         private void CompileClasses()
         {
             ModelInitialization

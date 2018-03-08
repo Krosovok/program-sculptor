@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DataAccessInterfaces;
 using Model;
+using Services;
 using ViewModel.Command;
 
 namespace ViewModel.Core
@@ -19,7 +20,7 @@ namespace ViewModel.Core
             IReadOnlyList<Task> tasks = Dao.Factory.TaskDao.AllTasks;
             Tasks = tasks.Select(task => new TaskSolutions(task)).ToList();
             SelectedTaskViewModel = Sandbox;
-            SelectTaskCommand = new RelayCommand<TaskSolutions>(SelectTask);
+            SelectTaskCommand = new RelayCommand<TaskSolutions>(selected => SelectTask(selected.Task));
 
             foreach (TaskSolutions task in Tasks)
             {
@@ -44,7 +45,8 @@ namespace ViewModel.Core
             }
         }
         public ICommand SelectTaskCommand { get; }
-        
+        public ISourceShowerService SourceShower { get; set; }
+
         protected virtual void OnOpenSolution(Solution solution)
         {
             OpenSolution?.Invoke(solution);
@@ -60,22 +62,24 @@ namespace ViewModel.Core
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SelectTask(TaskSolutions selected)
+        private void SelectTask(Task selectedTask)
         {
-            SelectTaskToShow(selected);
+            SelectTaskToShow(selectedTask);
             
-            foreach (TaskSolutions task in Tasks)
+            foreach (TaskSolutions solutions in Tasks)
             {
-                bool isSelectedTask = ReferenceEquals(task, selected);
-                task.IsSelected = isSelectedTask;
+                bool isSelectedTask = ReferenceEquals(solutions.Task, selectedTask);
+                solutions.IsSelected = isSelectedTask;
             }
         }
 
-        private void SelectTaskToShow(TaskSolutions selected)
+        private void SelectTaskToShow(Task selectedTask)
         {
-            if (!selected.IsSandbox)
+            if (!Task.Sandbox.Equals(selectedTask))
             {
-                SelectedTaskViewModel = new TaskViewModel(selected.Task);
+                TaskViewModel newViewModel = new TaskViewModel(selectedTask) {SourceShower = SourceShower};
+                newViewModel.GoToTask += SelectTask;
+                SelectedTaskViewModel = newViewModel;
             }
             else
             {

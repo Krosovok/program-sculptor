@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="AllTasks.cs" />
     <Compile Include="CellViewModel.cs" />
+    <Compile Include="ClassFileViewModel.cs" />
+    <Compile Include="GivenTypeFile.cs" />
     <Compile Include="ITaskDetailsViewModel.cs" />
     <Compile Include="LoadedClasses.cs" />
     <Compile Include="MainViewModel.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="TaskChainPosition.cs" />
     <Compile Include="TaskSolutions.cs" />
     <Compile Include="TaskViewModel.cs" />
+    <Compile Include="TestFile.cs" />
     <Compile Include="UserSession.cs" />
     <Compile Include="WindowContentNavigator.cs" />
   </ItemGroup>

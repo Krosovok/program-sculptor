@@ -1,10 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using DataAccessInterfaces;
 using Model;
-using UI.Controls.Events;
-using UI.Windows;
 using ViewModel.Core;
 
 namespace UI.Controls
@@ -14,8 +10,6 @@ namespace UI.Controls
     /// </summary>
     public partial class TaskElement 
     {
-        // TODO: Make it call task selection command. 
-
         public TaskElement()
         {
             InitializeComponent();
