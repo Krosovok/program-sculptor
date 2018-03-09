@@ -4,11 +4,14 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:local="clr-namespace:UI.Controls"
-                    mc:Ignorable="d"
                     xmlns:ps="clr-namespace:ProgramSculptor.Initialization;assembly=ProgramSculptor.Initialization"
                     xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
 
-                    d:DesignHeight="200" d:DesignWidth="840">
+                    mc:Ignorable="d"
+                    d:DesignHeight="200" d:DesignWidth="840"
+                    d:DataContext="{d:DesignInstance core:ModelInitialization}">
     <local:WorkingPanel.Resources>
         <content:ColorConverter x:Key="ColorConverter" />
         <CollectionViewSource x:Key="InitializersData" Source="{Binding InitializersData}" />
@@ -54,38 +57,42 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
+                    <!--<Grid>
+                       <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30*" />
-                        </Grid.ColumnDefinitions>
-                        <DockPanel LastChildFill="False">
-                            <StackPanel DockPanel.Dock="Top"
-                                        Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center">
-                                    Color (click to change):
-                                </TextBlock>
-                                <Canvas Height="30" Width="30"
+                        </Grid.ColumnDefinitions>-->
+                    <DockPanel LastChildFill="False">
+                        <StackPanel DockPanel.Dock="Top"
+                                    Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center">
+                                Color (click to change):
+                            </TextBlock>
+                            <!--<Canvas Height="30" Width="30"
                                         Background="{Binding Path=Value.Color,
-                                    Converter={StaticResource ColorConverter}}" />
-                                <!--TODO: Make color picking.-->
-                            </StackPanel>
-                            <StackPanel DockPanel.Dock="Top"
-                                        Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center">
-                                    Nuber of Elements at the beginning:
-                                </TextBlock>
-                                <TextBox Text="{Binding Value.Count}"
-                                         PreviewTextInput="AllowOnlyNumericInput"
-                                         DataObject.Pasting="PastingNumbersOnly" />
+                                    Converter={StaticResource ColorConverter}}" />-->
 
-                            </StackPanel>
-                            <ComboBox ItemsSource="{x:Static ps:Initializer.InitializatorTypes}"
-                                      DisplayMemberPath="Name"
-                                      SelectedItem="{Binding Value.InitialazerType, Mode=TwoWay}"
-                                      Margin="10"
-                                      MaxHeight="20" />
-                        </DockPanel>
-                    </Grid>
+                            <!--TODO: Make color picking.-->
+                            <xctk:ColorPicker Margin="5"
+                                              SelectedColor="{Binding Path=Value.Color}" />
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Top"
+                                    Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center">
+                                Nuber of Elements at the beginning:
+                            </TextBlock>
+                            <TextBox Text="{Binding Value.Count}"
+                                     PreviewTextInput="AllowOnlyNumericInput"
+                                     DataObject.Pasting="PastingNumbersOnly" />
+
+                        </StackPanel>
+                        <ComboBox ItemsSource="{x:Static ps:Initializer.InitializatorTypes}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding Value.InitialazerType, Mode=TwoWay}"
+                                  Margin="10"
+                                  MaxHeight="30"
+                                  MaxWidth="100"
+                                  DockPanel.Dock="Top" />
+                    </DockPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

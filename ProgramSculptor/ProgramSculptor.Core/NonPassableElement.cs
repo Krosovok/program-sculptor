@@ -13,7 +13,6 @@ namespace ProgramSculptor.Core
         {
             if (!other.IsFree)
             {
-                // TODO: There was an exception in user-written code. We should catch them somewhere and show them to the user, right?
                 throw new CollisionExeption("The target cell is not free.");
             }
 

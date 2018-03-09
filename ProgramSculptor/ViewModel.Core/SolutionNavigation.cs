@@ -25,11 +25,11 @@ namespace ViewModel.Core
         private int panelIndex;
 
         public SolutionNavigation(Solution solution,
-            IMessageService messageService,
-            IDialogFactory dialogFactory)
+            WindowContentNavigator parent)
         {
-            this.messageService = messageService;
-            this.dialogFactory = dialogFactory;
+            this.messageService = parent.MessageService;
+            this.dialogFactory = parent.DialogFactory;
+            HomeCommand = parent.HomeCommand;
 
             InitContexts(solution);
 
@@ -54,6 +54,7 @@ namespace ViewModel.Core
         public IReadOnlyList<object> Contexts => panelDataContexts;
         public ICommand ToLeftPanelCommand { get; }
         public ICommand ToRightPanelCommand { get; }
+        public ICommand HomeCommand { get; }
         public LoadedClasses LoadedClasses { get; set; }
         public ModelInitialization ModelInitialization { get; set; }
         public ModelRunner ModelRunner { get; set; }
@@ -72,6 +73,7 @@ namespace ViewModel.Core
             PanelIndex++;
             Update();
             // TODO: Maybe we should make some more object-oriented way of all this checks between stages?
+            // TODO: Save model settings somwhere not to reinput them each time?
         }
 
         private void InitContexts(Solution solution)

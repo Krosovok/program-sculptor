@@ -61,6 +61,9 @@ namespace UI.Controls
 
         private void SolutionChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (!(DataContext is SolutionNavigation))
+                return;
+            
             InitPanels();
             ShownPanel = panels[0];
             Navigation.PropertyChanged += Navigate;

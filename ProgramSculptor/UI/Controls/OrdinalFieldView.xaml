@@ -12,6 +12,10 @@
         <content:ColorConverter x:Key="ColorConverter" />
     </UserControl.Resources>
     <Grid>
+        
+        <!-- TODO: Write field from the beginning. Use Canvas and Rectangle classes.
+            Bind Rectangle color to element color, and it's location to X and Y.
+        -->
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto">
             <Grid x:Name="FieldGrid">

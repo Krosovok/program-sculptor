@@ -72,7 +72,7 @@ namespace ViewModel.Core
 
         private void OpenSolution(Solution solution)
         {
-            Content = new SolutionNavigation(solution, MessageService, DialogFactory);
+            Content = new SolutionNavigation(solution, this);
         }
 
         private void StartNewSolution(Task task)
@@ -84,7 +84,7 @@ namespace ViewModel.Core
             {
                 Solution newSolution = new Solution(name, Main.UserSession.Username, task);
                 Dao.Factory.SolutionDao.AddSolution(newSolution);
-                Content = new SolutionNavigation(newSolution, MessageService, DialogFactory);
+                Content = new SolutionNavigation(newSolution, this);
             }
         }
 
