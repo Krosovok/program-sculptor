@@ -42,5 +42,14 @@ namespace Model
 
             return taskIndex;
         }
+
+        public Task PreviousOf(Task task)
+        {
+            int positionOfGiven = PositionOf(task);
+
+            return positionOfGiven > 0 ? 
+                tasks[positionOfGiven - 1] :
+                null;
+        }
     }
 }

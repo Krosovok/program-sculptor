@@ -55,6 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SolutionDetails.xaml.cs">
+      <DependentUpon>SolutionDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SolutionStartDialog.cs" />
+    <Compile Include="SolutionStartDialogWindow.xaml.cs">
+      <DependentUpon>SolutionStartDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +83,14 @@
       <DependentUpon>NameDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SolutionDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SolutionStartDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -108,6 +123,10 @@
     <ProjectReference Include="..\DialogViewModel\DialogViewModel.csproj">
       <Project>{45F55AE8-CE91-40C1-8F72-BC9773780347}</Project>
       <Name>DialogViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3D2EF0DE-1076-4113-B708-B4DA11F9202A}</Project>
+      <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services.Message\Services.Message.csproj">
       <Project>{8F63997C-976D-436A-AABC-E49B583D7DE8}</Project>

@@ -8,10 +8,11 @@ namespace ProviderDao
 {
     internal class SolutionReader : DbReader<Solution>
     {
+        private const string UserKey = "SolutionReader.MySolutions";
+        private const string OthersKey = "SolutionReader.OthersSolutions";
+
         private readonly Task task;
         private readonly string username;
-        
-        private const string SqlKey = "SolutionReader.MySolutions";
 
         internal SolutionReader(Task task, string username)
         {
@@ -19,12 +20,19 @@ namespace ProviderDao
             this.username = username;
         }
 
+        /// <summary>
+        /// If set to true, result will be solutions of users that are not same as given.
+        /// If set to false, result will be solutions of given user only.
+        /// Default - false.
+        /// </summary>
+        public bool OthersSolutions { get; set; }
+
         protected override DbCommand SelectCommand()
         {
             Db db = Db.Instance;
             string[] parameters = { db.Param(Db.Tasks.Id), db.Param(Db.Users.Name) };
             
-            DbCommand select = db.CreateTextCommand(SqlKey, parameters);
+            DbCommand select = db.CreateTextCommand(GetSqlKey(), parameters);
             
             object id = task?.Id ?? (object)DBNull.Value;
             object usernameParameter = username ?? (object)DBNull.Value;
@@ -51,6 +59,13 @@ namespace ProviderDao
         private static T DefaultIfNull<T>(T value, T defaultValue)
         {
             return value == null ? defaultValue : value;
+        }
+        
+        private string GetSqlKey()
+        {
+            return OthersSolutions ?
+                OthersKey :
+                UserKey;
         }
     }
 }

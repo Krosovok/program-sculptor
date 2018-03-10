@@ -11,6 +11,6 @@ namespace Services.Dialog
         
         public IDialog NewDialog() => new Dialog();
         
-        
+        //public 
     }
 }

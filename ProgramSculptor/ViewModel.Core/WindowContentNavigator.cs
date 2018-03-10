@@ -4,13 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using DataAccessInterfaces;
 using Model;
 using Services;
 using ViewModel.Command;
-using Task = Model.Task;
 
 namespace ViewModel.Core
 {

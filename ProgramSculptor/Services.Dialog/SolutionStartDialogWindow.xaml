@@ -1,0 +1,67 @@
+﻿<Window x:Class="Services.Dialog.SolutionStartDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Services.Dialog"
+        xmlns:dialog="clr-namespace:DialogViewModel;assembly=DialogViewModel"
+        xmlns:model="clr-namespace:Model;assembly=Model"
+        Title="SolutionStartDialogWindow" Height="500" Width="600"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance dialog:SolutionChoice}">
+    <Window.Resources>
+        <DataTemplate x:Key="OtherSolution" DataType="{x:Type model:Solution}">
+            <DockPanel>
+                <TextBlock Text="{Binding .Name}"
+                           Margin="10, 0" />
+                <TextBlock Text="{Binding Path=User, 
+                    StringFormat=({0})}"
+                           Margin="10, 0" />
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom" MinHeight="50">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <Button Grid.Column="0"
+                    IsDefault="True"
+                    Margin="10">
+                OK
+            </Button>
+            <Button Grid.Column="1"
+                    IsCancel="True"
+                    Margin="10">
+                Cancel
+            </Button>
+        </Grid>
+
+        <DockPanel DockPanel.Dock="Top" Margin="10">
+
+            <TextBlock>
+                New solution name:
+            </TextBlock>
+
+            <TextBox Margin="5, 0"
+                     Text="{Binding .SolutionName}"
+                     HorizontalAlignment="Left" />
+        </DockPanel>
+
+        <DockPanel>
+
+            <ListView Name="Solutions"
+                      Margin="5"
+                      ItemsSource="{Binding .OthersSolutions}"
+                      SelectedItem="{Binding .BaseSoluton}"
+                      ItemTemplate="{StaticResource OtherSolution}" />
+
+            <local:SolutionDetails DataContext="{Binding Path=SelectedItem, ElementName=Solutions}" />
+        </DockPanel>
+
+    </DockPanel>
+</Window>

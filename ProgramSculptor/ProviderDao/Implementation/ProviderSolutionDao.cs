@@ -29,6 +29,19 @@ namespace ProviderDao.Implementation
             return new SolutionReader(task, username).GetList();
         }
 
+        public IReadOnlyList<Solution> GetOthersSolutions(Task task, string username)
+        {
+            if (username == null)
+                throw new ArgumentException(
+                    "For other's solutions username of the current user must be specified.", 
+                    nameof(username));
+
+            task = NullIfDefault(task, Task.Sandbox);
+
+            SolutionReader reader = new SolutionReader(task, username) {OthersSolutions = true};
+            return reader.GetList();
+        }
+
         public void AddSolution(Solution newSolution)
         {
             DbCommand insertProcedure = Db.Instance.CreatePrecedureCommand(InsertKey);

@@ -10,30 +10,28 @@ namespace Model
         private int id;
 
         public Solution(string name, string user, Task task)
+            : this(NoId, name, user, task) { }
+
+        public Solution(int id, string name, string user, Task task)
+            : this(id, name, user, task, null) { }
+
+        public Solution(string name, string user, Task task, int? baseSolutionId)
+            : this(NoId, name, user, task, baseSolutionId) { }
+        
+        public Solution(int id, string name, string user, Task task, int? baseSolutionId)
         {
             if (task == null || user == null)
             {
-                throw new ArgumentException("Arguments can't be null.");
+                throw new ArgumentException("Solution task and user can't be null.");
             }
-
-            id = NoId;
+            
+            this.id = id;
             Name = name;
             User = user;
             Task = task;
-        }
-
-        public Solution(int id, string name, string user, Task task)
-            : this(name, user, task)
-        {
-            this.id = id;
-        }
-
-        public Solution(int id, string name, string user, Task task, int? baseSolutionId)
-            : this(id, name, user, task)
-        {
             BaseSolution = baseSolutionId;
         }
-
+        
         public int Id
         {
             get { return id; }
