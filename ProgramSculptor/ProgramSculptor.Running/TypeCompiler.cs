@@ -23,7 +23,8 @@ namespace ProgramSculptor.Running
         {
             parameters.GenerateInMemory = true;
             parameters.ReferencedAssemblies.Add(DllName);
-            // TODO: Make some list of needed Dlls in separagte file or config.
+            // TODO: Make some list of needed Dlls in separate file or config.
+            // TODO: MAke dlls of base solutions also.
             parameters.ReferencedAssemblies.Add(DLL);
             //
         }

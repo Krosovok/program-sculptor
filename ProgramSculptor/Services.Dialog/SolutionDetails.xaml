@@ -3,28 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Services.Dialog"
-             xmlns:model="clr-namespace:Model;assembly=Model"
+             xmlns:dialogViewModel="clr-namespace:DialogViewModel;assembly=DialogViewModel"
+             xmlns:common="clr-namespace:UI.Controls.Common;assembly=UI.Controls.Common"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance model:Solution}">
+             d:DataContext="{d:DesignInstance dialogViewModel:OtherSolution}">
     <DockPanel>
 
-        <TextBlock Text="{Binding}"
+        <TextBlock Text="{Binding .Solution.Name}"
                    DockPanel.Dock="Top"
                    Margin="5" />
 
-        <TextBlock DockPanel.Dock="Top"
-                   Margin="5">
-            Files:
-        </TextBlock>
-        
-        <ListBox Margin="5">
-            <!--
-            TODO: Todo-to-do-todo-to-do~
-            -->
-            
-        </ListBox>
+        <common:TypesView/>
 
     </DockPanel>
 </UserControl>

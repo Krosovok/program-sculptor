@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DataAccessInterfaces;
 using Model;
+using Services;
 using ViewModel.Command;
 
 namespace ViewModel.Core
@@ -44,6 +45,7 @@ namespace ViewModel.Core
         public bool IsSandbox => Task.Sandbox.Equals(Task);
         public ICommand SelectSolutionCommand { get; }
         public ICommand StartNewSolutionCommand { get; }
+        public IMessageService MessageService { get; set; }
 
         public void ChangeToCurrentUser()
         {
@@ -59,9 +61,22 @@ namespace ViewModel.Core
         
         private void SetUserSolutions(string currentUser)
         {
-            Solutinos = Dao.Factory
-                .SolutionDao.GetUserTaskSolutions(Task, currentUser);
+            ISolutionDao dao = Dao.Factory.SolutionDao;
+            Solutinos = TryGetUserTaskSolutions(currentUser, dao);
             OnPropertyChanged(nameof(Solutinos));
+        }
+
+        private IEnumerable<Solution> TryGetUserTaskSolutions(string currentUser, ISolutionDao dao)
+        {
+            try
+            {
+                return dao.GetUserTaskSolutions(Task, currentUser);
+            }
+            catch (DataAccessException e)
+            {
+                MessageService.Show(e.Message);
+                return new Solution[0];
+            }
         }
 
         private void LaunchSolution(Solution solution)

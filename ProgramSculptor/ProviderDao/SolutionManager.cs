@@ -24,7 +24,7 @@ namespace ProviderDao
         private static string FilePath(Solution solution, string fileName)
         {
             DirectoryInfo solutionFolder =
-                new FolderContents(solution.Task)
+                new TaskFolderContents(solution.Task)
                     .SolutionFolder(solution);
 
             string filePath = Path.Combine(

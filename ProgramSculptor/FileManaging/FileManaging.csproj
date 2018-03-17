@@ -34,9 +34,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileReader.cs" />
-    <Compile Include="FileWriter.cs" />
+    <Compile Include="LoadedFileReader.cs" />
+    <Compile Include="LoadedFileWriter.cs" />
+    <Compile Include="TaskFileReader.cs" />
+    <Compile Include="FileSystemException.cs" />
+    <Compile Include="SolutionFileWriter.cs" />
     <Compile Include="FolderContents.cs" />
+    <Compile Include="OthersFolderContents.cs" />
+    <Compile Include="TaskFolderContents.cs" />
     <Compile Include="Folding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

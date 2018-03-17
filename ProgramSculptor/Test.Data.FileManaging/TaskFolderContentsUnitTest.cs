@@ -8,7 +8,7 @@ using Model;
 namespace Test.Data.FileManaging
 {
     [TestClass]
-    public class FolderContentsUnitTest
+    public class TaskFolderContentsUnitTest
     {
         private static readonly Task Task = new Task(0, TaskName, "");
         private static readonly Solution Solution = new Solution(SolutionName, "", Task);
@@ -25,7 +25,7 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestSolutionFolderCreating()
         {
-            new FolderContents(Task)
+            new TaskFolderContents(Task)
                 .SolutionFolder(Solution);
 
             string currentDirectory = Directory.GetCurrentDirectory();
@@ -40,7 +40,7 @@ namespace Test.Data.FileManaging
             DirectoryInfo directoryInfo = SolutionFolder();
             CreateFileIn(directoryInfo.FullName);
 
-            IEnumerable<FileInfo> allSolutionFiles = new FolderContents(Task)
+            IEnumerable<FileInfo> allSolutionFiles = new TaskFolderContents(Task)
                 .GetAllSolutionFiles(Solution);
 
             Assert.IsTrue(allSolutionFiles.Any(file => file.Name.Equals(TestFile)));
@@ -49,11 +49,11 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestGetAllGivenTypes()
         {
-            new FolderContents(Task).GetAllGivenTypes();
+            new TaskFolderContents(Task).GetAllGivenTypes();
             string path = Path.Combine(Directory.GetCurrentDirectory(), Tasks, TaskName, GivenTypes);
             CreateFileIn(path);
 
-            IEnumerable<FileInfo> allGivenTypes = new FolderContents(Task).GetAllGivenTypes();
+            IEnumerable<FileInfo> allGivenTypes = new TaskFolderContents(Task).GetAllGivenTypes();
 
             Assert.IsTrue(allGivenTypes.Any(file => file.Name.Equals(TestFile)));
         }
@@ -61,11 +61,11 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestGetAllTests()
         {
-            new FolderContents(Task).GetAllTests();
+            new TaskFolderContents(Task).GetAllTests();
             string path = Path.Combine(Directory.GetCurrentDirectory(), Tasks, TaskName, Tests);
             CreateFileIn(path);
 
-            IEnumerable<FileInfo> allTests = new FolderContents(Task).GetAllTests();
+            IEnumerable<FileInfo> allTests = new TaskFolderContents(Task).GetAllTests();
 
             Assert.IsTrue(allTests.Any(file => file.Name.Equals(TestFile)));
         }
@@ -79,7 +79,7 @@ namespace Test.Data.FileManaging
 
         private static DirectoryInfo SolutionFolder()
         {
-            return new FolderContents(Task).SolutionFolder(Solution);
+            return new TaskFolderContents(Task).SolutionFolder(Solution);
         }
         
     }

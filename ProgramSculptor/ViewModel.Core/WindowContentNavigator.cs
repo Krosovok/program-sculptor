@@ -19,6 +19,7 @@ namespace ViewModel.Core
         private object content;
         private IDialogFactory dialogFactory;
         private ISourceShowerService sourceShower;
+        private IMessageService messageService;
 
         public WindowContentNavigator()
         {
@@ -30,7 +31,15 @@ namespace ViewModel.Core
         }
 
 
-        public IMessageService MessageService { get; set; }
+        public IMessageService MessageService
+        {
+            get { return messageService; }
+            set
+            {
+                messageService = value;
+                Main.MessageService = value;
+            }
+        }
 
         public ISourceShowerService SourceShower
         {
@@ -75,15 +84,57 @@ namespace ViewModel.Core
 
         private void StartNewSolution(Task task)
         {
+            if (task.Chain.PositionOf(task) == 0)
+            {
+                StartWithoutBaseTask(task);
+            }
+            else
+            {
+                StartWithBaseTask(task);
+            }
+        }
+
+        private void StartWithoutBaseTask(Task task)
+        {
             IDialog dialog = SolutionNameDialog();
             string name = dialog.ShowNameDialog();
 
             if (name != null)
             {
                 Solution newSolution = new Solution(name, Main.UserSession.Username, task);
-                Dao.Factory.SolutionDao.AddSolution(newSolution);
-                Content = new SolutionNavigation(newSolution, this);
+                StartSolution(newSolution);
             }
+        }
+
+        private void StartWithBaseTask(Task task)
+        {
+            ISolutionStartDialog dialog = DialogFactory.NewSolutionStartDialog(task);
+            Solution newSolution = dialog.ShowDialog();
+
+            if (newSolution != null)
+            {
+                StartSolution(newSolution);
+            }
+        }
+
+        private void StartSolution(Solution newSolution)
+        {
+            ISolutionDao dao = Dao.Factory.SolutionDao;
+
+            try
+            {
+                dao.AddSolution(newSolution);
+            }
+            catch (DataAccessException e)
+            {
+                MessageService.Show(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                MessageService.Show(e.Message);
+            }
+              
+            Content = new SolutionNavigation(newSolution, this);
         }
 
         private IDialog SolutionNameDialog()

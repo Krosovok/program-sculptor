@@ -47,11 +47,16 @@
     <Compile Include="ColorConverter.cs" />
     <Compile Include="DocumentBuilder.cs" />
     <Compile Include="DocumentConverter.cs" />
+    <Compile Include="NotNullConverter.cs" />
     <Compile Include="SelectedCollapseConverter.cs" />
     <Compile Include="VisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3D2EF0DE-1076-4113-B708-B4DA11F9202A}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewModel.Core\ViewModel.Core.csproj">
       <Project>{BB6BF32E-C68A-43D5-9D03-906897E8113E}</Project>
       <Name>ViewModel.Core</Name>

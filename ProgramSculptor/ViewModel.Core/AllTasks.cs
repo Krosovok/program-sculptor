@@ -17,8 +17,10 @@ namespace ViewModel.Core
 
         public AllTasks()
         {
-            IReadOnlyList<Task> tasks = Dao.Factory.TaskDao.AllTasks;
-            Tasks = tasks.Select(task => new TaskSolutions(task)).ToList();
+            Sandbox = new TaskSolutions {MessageService = MessageService};
+            IEnumerable<Task> tasks = TryGetTasks();
+            Tasks = tasks.Select(task => 
+                new TaskSolutions(task) {MessageService = MessageService}).ToList();
             SelectedTaskViewModel = Sandbox;
             SelectTaskCommand = new RelayCommand<TaskSolutions>(selected => SelectTask(selected.Task));
 
@@ -28,8 +30,8 @@ namespace ViewModel.Core
             }
             Sandbox.OpenSolution += OnOpenSolution;
         }
-        
-        public TaskSolutions Sandbox { get; } = new TaskSolutions();
+
+        public TaskSolutions Sandbox { get; }
         public IEnumerable<TaskSolutions> Tasks { get; }
         public ITaskDetailsViewModel SelectedTaskViewModel
         {
@@ -46,6 +48,8 @@ namespace ViewModel.Core
         }
         public ICommand SelectTaskCommand { get; }
         public ISourceShowerService SourceShower { get; set; }
+        public IMessageService MessageService { get; set; }
+
 
         protected virtual void OnOpenSolution(Solution solution)
         {
@@ -60,6 +64,19 @@ namespace ViewModel.Core
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private IEnumerable<Task> TryGetTasks()
+        {
+            try
+            {
+                return Dao.Factory.TaskDao.AllTasks;
+            }
+            catch (DataAccessException e)
+            {
+                MessageService.Show(e.Message);
+                return new Task[0];
+            }
         }
 
         private void SelectTask(Task selectedTask)
@@ -77,7 +94,11 @@ namespace ViewModel.Core
         {
             if (!Task.Sandbox.Equals(selectedTask))
             {
-                TaskViewModel newViewModel = new TaskViewModel(selectedTask) {SourceShower = SourceShower};
+                TaskViewModel newViewModel = new TaskViewModel(selectedTask)
+                {
+                    SourceShower = SourceShower,
+                    MessageService = MessageService
+                };
                 newViewModel.GoToTask += SelectTask;
                 SelectedTaskViewModel = newViewModel;
             }

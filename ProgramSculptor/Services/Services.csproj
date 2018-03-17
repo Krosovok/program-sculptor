@@ -43,8 +43,15 @@
     <Compile Include="IDialog.cs" />
     <Compile Include="IDialogFactory.cs" />
     <Compile Include="IMessageService.cs" />
+    <Compile Include="ISolutionStartDialog.cs" />
     <Compile Include="ISourceShowerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3D2EF0DE-1076-4113-B708-B4DA11F9202A}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

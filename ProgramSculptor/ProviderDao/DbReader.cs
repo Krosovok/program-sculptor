@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using DataAccessInterfaces;
 using Model;
 
 namespace ProviderDao
@@ -14,10 +16,19 @@ namespace ProviderDao
             DbCommand select = SelectCommand();
 
             Data = new List<T>();
-            ReadAllRows(select);
-
-            Db.Instance.CloseCommand(select);
-
+            try
+            {
+                ReadAllRows(select);
+            }
+            catch (DbException e)
+            {
+                throw new DataAccessException("Can't access data of type" + typeof(T).Name, e);
+            }
+            finally
+            {
+                Db.Instance.CloseCommand(select);
+            }
+            
             return Data;
         }
 

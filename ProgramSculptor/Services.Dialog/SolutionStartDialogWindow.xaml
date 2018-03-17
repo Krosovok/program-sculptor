@@ -6,19 +6,21 @@
         xmlns:local="clr-namespace:Services.Dialog"
         xmlns:dialog="clr-namespace:DialogViewModel;assembly=DialogViewModel"
         xmlns:model="clr-namespace:Model;assembly=Model"
+        xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
         Title="SolutionStartDialogWindow" Height="500" Width="600"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance dialog:SolutionChoice}">
     <Window.Resources>
-        <DataTemplate x:Key="OtherSolution" DataType="{x:Type model:Solution}">
+        <DataTemplate x:Key="OtherSolution" DataType="{x:Type dialog:OtherSolution}">
             <DockPanel>
-                <TextBlock Text="{Binding .Name}"
+                <TextBlock Text="{Binding .Solution.Name}"
                            Margin="10, 0" />
-                <TextBlock Text="{Binding Path=User, 
+                <TextBlock Text="{Binding Path=.Solution.User, 
                     StringFormat=({0})}"
                            Margin="10, 0" />
             </DockPanel>
         </DataTemplate>
+        <content:NotNullConverter x:Key="NotNullConverter" />
     </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Bottom" MinHeight="50">
@@ -31,7 +33,9 @@
 
             <Button Grid.Column="0"
                     IsDefault="True"
-                    Margin="10">
+                    Margin="10"
+                    IsEnabled="{Binding .AllSelected}"
+                    Click="ButtonBase_OnClick">
                 OK
             </Button>
             <Button Grid.Column="1"
@@ -49,7 +53,8 @@
 
             <TextBox Margin="5, 0"
                      Text="{Binding .SolutionName}"
-                     HorizontalAlignment="Left" />
+                     HorizontalAlignment="Left" 
+                     MinWidth="100"/>
         </DockPanel>
 
         <DockPanel>
@@ -57,10 +62,13 @@
             <ListView Name="Solutions"
                       Margin="5"
                       ItemsSource="{Binding .OthersSolutions}"
-                      SelectedItem="{Binding .BaseSoluton}"
-                      ItemTemplate="{StaticResource OtherSolution}" />
+                      SelectedItem="{Binding .BaseSoluton, Mode=OneWayToSource}"
+                      ItemTemplate="{StaticResource OtherSolution}"
+                      MinWidth="100"/>
 
-            <local:SolutionDetails DataContext="{Binding Path=SelectedItem, ElementName=Solutions}" />
+            <local:SolutionDetails DataContext="{Binding 
+                Path=SelectedItem, 
+                ElementName=Solutions}" />
         </DockPanel>
 
     </DockPanel>

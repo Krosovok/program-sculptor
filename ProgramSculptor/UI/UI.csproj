@@ -82,9 +82,6 @@
     <Compile Include="Controls\CodeArea.xaml.cs">
       <DependentUpon>CodeArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GivenTypes.xaml.cs">
-      <DependentUpon>GivenTypes.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\LanguageSwitch.xaml.cs">
       <DependentUpon>LanguageSwitch.xaml</DependentUpon>
     </Compile>
@@ -130,10 +127,6 @@
       <DependentUpon>ContentWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\CodeArea.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GivenTypes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,6 +305,10 @@
       <Project>{204491B5-3047-44F5-8B33-AA0ABFAFA7C0}</Project>
       <Name>UI.Content</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UI.Controls.Common\UI.Controls.Common.csproj">
+      <Project>{48062519-f03d-43d0-8f08-47aff78ef90f}</Project>
+      <Name>UI.Controls.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
       <Project>{9187B5CB-A155-4C94-926D-816CDE44E4F2}</Project>
       <Name>ViewModel.Command</Name>
@@ -319,6 +316,10 @@
     <ProjectReference Include="..\ViewModel.Core\ViewModel.Core.csproj">
       <Project>{BB6BF32E-C68A-43D5-9D03-906897E8113E}</Project>
       <Name>ViewModel.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Types\ViewModel.Types.csproj">
+      <Project>{86662e62-adb6-44d3-9d06-ef1184591a21}</Project>
+      <Name>ViewModel.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

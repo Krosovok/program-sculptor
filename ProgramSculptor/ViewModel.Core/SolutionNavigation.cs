@@ -81,7 +81,7 @@ namespace ViewModel.Core
             LoadedClasses = new LoadedClasses(solution,
                 messageService,
                 dialogFactory);
-            ModelInitialization = new ModelInitialization(LoadedClasses);
+            ModelInitialization = new ModelInitialization(LoadedClasses, messageService);
             ModelRunner = new ModelRunner();
             ModelRunner.UserCodeException += UserCodeException;
 

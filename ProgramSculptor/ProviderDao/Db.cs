@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Data.Common;
+using DataAccessInterfaces;
 using DB.SqlFactory;
 
 namespace ProviderDao
 {
-    // TODO: Make error handling.
     internal class Db
     {
         private static Db instance;
@@ -75,6 +75,26 @@ namespace ProviderDao
             return parameter;
         }
 
+        internal void TryExecuteNonQuery(DbCommand procedure)
+        {
+            try
+            {
+                int created = procedure.ExecuteNonQuery();
+                if (created == 0)
+                {
+                    throw new DataAccessException("No changes applied.");
+                }
+            }
+            catch (DbException e)
+            {
+                throw new DataAccessException("Error during command execution.", e);
+            }
+            finally
+            {
+                CloseCommand(procedure);
+            }
+        }
+
         private DbParameter CreateParameter(DbType type, string name)
         {
             DbParameter parameter = Factory.CreateParameter();
@@ -116,6 +136,7 @@ namespace ProviderDao
 
         public static class Solutions
         {
+            public const string Username = "username";
             public const string Id = "solution_id";
             public const string Name = "solution_name";
             public const string BaseId = "base_solution_id";

@@ -6,6 +6,7 @@
                     xmlns:local="clr-namespace:UI.Controls"
                     xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
                     xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
+                    xmlns:common="clr-namespace:UI.Controls.Common;assembly=UI.Controls.Common"
 
                     mc:Ignorable="d"
                     d:DesignHeight="200" d:DesignWidth="840"
@@ -33,7 +34,7 @@
         <local:TestsView Grid.Column="1"
                          DataContext="{Binding}" />
 
-        <local:GivenTypes Grid.Column="2"
+        <common:TypesView Grid.Column="2"
                           DataContext="{Binding}" />
     </Grid>
 </local:WorkingPanel>

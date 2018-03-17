@@ -14,9 +14,11 @@
         DataContext="{DynamicResource ContentNavigator}"
         Content="{Binding Content}">
     <Window.Resources>
-        <dialog:DialogFactory x:Key="DialogFactory" />
         <message:MessageBoxService x:Key="MessageService" />
         <sourceShower:SourceShower x:Key="SourceShower"/>
+        <dialog:DialogFactory x:Key="DialogFactory" 
+                              MessageService="{StaticResource MessageService}"
+                              SourceShower="{StaticResource SourceShower}"/>
         <core:WindowContentNavigator
             x:Key="ContentNavigator"
             DialogFactory="{StaticResource DialogFactory}"

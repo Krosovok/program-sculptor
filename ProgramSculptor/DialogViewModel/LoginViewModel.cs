@@ -50,6 +50,10 @@ namespace DialogViewModel
             {
                 return e.Message;
             }
+            catch (DataAccessException e)
+            {
+                return e.Message;
+            }
         }
 
         private string TryGetMessage(IUserDao dao)

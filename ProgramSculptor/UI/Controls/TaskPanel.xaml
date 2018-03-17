@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:UI.Controls"
              xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
              xmlns:content="clr-namespace:UI.Content;assembly=UI.Content"
+             xmlns:common="clr-namespace:UI.Controls.Common;assembly=UI.Controls.Common"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance core:TaskViewModel}">
@@ -50,7 +51,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <local:GivenTypes DataContext="{Binding}"></local:GivenTypes>
+            <common:TypesView DataContext="{Binding}"></common:TypesView>
             
             <local:TaskChainView
                 DataContext="{Binding InChain}"
@@ -67,4 +68,6 @@
 
     </Grid>
 </UserControl>
+
+
 

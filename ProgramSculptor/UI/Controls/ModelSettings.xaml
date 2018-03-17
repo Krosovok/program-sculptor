@@ -71,7 +71,6 @@
                                         Background="{Binding Path=Value.Color,
                                     Converter={StaticResource ColorConverter}}" />-->
 
-                            <!--TODO: Make color picking.-->
                             <xctk:ColorPicker Margin="5"
                                               SelectedColor="{Binding Path=Value.Color}" />
                         </StackPanel>

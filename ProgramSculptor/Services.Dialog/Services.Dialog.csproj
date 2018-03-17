@@ -120,6 +120,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessInterfaces\DataAccessInterfaces.csproj">
+      <Project>{fc8cf42e-ffd8-4def-a966-92dec62486e1}</Project>
+      <Name>DataAccessInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DialogViewModel\DialogViewModel.csproj">
       <Project>{45F55AE8-CE91-40C1-8F72-BC9773780347}</Project>
       <Name>DialogViewModel</Name>
@@ -132,9 +136,29 @@
       <Project>{8F63997C-976D-436A-AABC-E49B583D7DE8}</Project>
       <Name>Services.Message</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services.SourceShower\Services.SourceShower.csproj">
+      <Project>{AC01A699-FDD9-43AE-BDCC-704CCC56442D}</Project>
+      <Name>Services.SourceShower</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI.Content\UI.Content.csproj">
+      <Project>{204491b5-3047-44f5-8b33-aa0abfafa7c0}</Project>
+      <Name>UI.Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI.Controls.Common\UI.Controls.Common.csproj">
+      <Project>{48062519-F03D-43D0-8F08-47AFF78EF90F}</Project>
+      <Name>UI.Controls.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
+      <Project>{9187b5cb-a155-4c94-926d-816cde44e4f2}</Project>
+      <Name>ViewModel.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Types\ViewModel.Types.csproj">
+      <Project>{86662e62-adb6-44d3-9d06-ef1184591a21}</Project>
+      <Name>ViewModel.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

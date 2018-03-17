@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="AllTasks.cs" />
     <Compile Include="CellViewModel.cs" />
-    <Compile Include="ClassFileViewModel.cs" />
     <Compile Include="GivenTypeFile.cs" />
     <Compile Include="ITaskDetailsViewModel.cs" />
     <Compile Include="LoadedClasses.cs" />
@@ -98,14 +97,6 @@
       <Project>{79B9242C-EAF9-49E1-932E-321219DBD15C}</Project>
       <Name>ProgramSculptor.Running</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services.Dialog\Services.Dialog.csproj">
-      <Project>{8054935c-5a2f-4eb3-81bc-1f2c59d11bd0}</Project>
-      <Name>Services.Dialog</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Services.Message\Services.Message.csproj">
-      <Project>{8f63997c-976d-436a-aabc-e49b583d7de8}</Project>
-      <Name>Services.Message</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{DEEEE2A4-D83A-4AAD-AB1C-E74A229C749C}</Project>
       <Name>Services</Name>
@@ -113,6 +104,10 @@
     <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
       <Project>{9187b5cb-a155-4c94-926d-816cde44e4f2}</Project>
       <Name>ViewModel.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Types\ViewModel.Types.csproj">
+      <Project>{86662E62-ADB6-44D3-9D06-EF1184591A21}</Project>
+      <Name>ViewModel.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

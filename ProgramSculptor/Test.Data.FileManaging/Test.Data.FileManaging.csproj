@@ -52,7 +52,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FolderContentsUnitTest.cs" />
+    <Compile Include="OthersFolderContentsTest.cs" />
+    <Compile Include="TaskFolderContentsUnitTest.cs" />
     <Compile Include="FileReaderUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

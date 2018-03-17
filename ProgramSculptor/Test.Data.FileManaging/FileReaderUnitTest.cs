@@ -35,7 +35,7 @@ namespace Test.Data.FileManaging
         [TestMethod]
         public void TestReadAllText()
         {
-            string actualContent = new FileReader(new Task(0, TaskName, ""))
+            string actualContent = new TaskFileReader(new Task(0, TaskName, ""))
                 .GetTestSource(FileName);
             
             Assert.AreEqual(TestContent, actualContent);

@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginViewModel.cs" />
+    <Compile Include="OtherSolution.cs" />
+    <Compile Include="OtherSolutionFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionChoice.cs" />
   </ItemGroup>
@@ -54,12 +56,16 @@
       <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{DEEEE2A4-D83A-4AAD-AB1C-E74A229C749C}</Project>
+      <Project>{deeee2a4-d83a-4aad-ab1c-e74a229c749c}</Project>
       <Name>Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel.Command\ViewModel.Command.csproj">
       <Project>{9187B5CB-A155-4C94-926D-816CDE44E4F2}</Project>
       <Name>ViewModel.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModel.Types\ViewModel.Types.csproj">
+      <Project>{86662E62-ADB6-44D3-9D06-EF1184591A21}</Project>
+      <Name>ViewModel.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

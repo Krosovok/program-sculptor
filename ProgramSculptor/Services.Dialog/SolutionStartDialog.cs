@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using DialogViewModel;
 using Model;
 
 namespace Services.Dialog
 {
-    public class SolutionStartDialog 
+    public class SolutionStartDialog : ISolutionStartDialog
     {
-        public SolutionStartDialog(Task task)
+        public SolutionStartDialog(Task task, IMessageService messageService, ISourceShowerService sourceShower)
         {
             Task = task;
+            MessageService = messageService;
+            SourceShower = sourceShower;
         }
         
         public Task Task { get; }
+        public IMessageService MessageService { get; }
+        public ISourceShowerService SourceShower { get; }
 
         public Solution ShowDialog()
         {
-            SolutionChoice viewModel = new SolutionChoice(Task);
+            SolutionChoice viewModel = new SolutionChoice(Task, MessageService, SourceShower);
             Window dialog = new SolutionStartDialogWindow() {DataContext = viewModel};
 
             bool? success = dialog.ShowDialog();

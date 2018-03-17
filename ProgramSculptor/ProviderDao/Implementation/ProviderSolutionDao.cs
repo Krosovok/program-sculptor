@@ -15,9 +15,7 @@ namespace ProviderDao.Implementation
         private const string DeleteKey = "ProviderSolutionDao.DeleteSolution";
         private static ISolutionDao instance;
 
-        private ProviderSolutionDao()
-        {
-        }
+        private ProviderSolutionDao() { }
 
         internal static ISolutionDao Instance => instance ?? (instance = new ProviderSolutionDao());
 
@@ -32,9 +30,9 @@ namespace ProviderDao.Implementation
         public IReadOnlyList<Solution> GetOthersSolutions(Task task, string username)
         {
             if (username == null)
-                throw new ArgumentException(
-                    "For other's solutions username of the current user must be specified.", 
-                    nameof(username));
+                throw new ArgumentNullException(
+                    nameof(username),
+                    "For other's solutions username of the current user must be specified.");
 
             task = NullIfDefault(task, Task.Sandbox);
 
@@ -44,29 +42,51 @@ namespace ProviderDao.Implementation
 
         public void AddSolution(Solution newSolution)
         {
-            DbCommand insertProcedure = Db.Instance.CreatePrecedureCommand(InsertKey);
-
-            DbParameter outputId = Db.Instance.CreateOutputParameter(DbType.Int32, "NEW_SOLUTION_ID");
-            Task solutionTask = NullIfDefault(newSolution.Task, Task.Sandbox);
-            string solutionUser = NullIfDefault(newSolution.User, ProviderUsersDao.GuestUser);
-            
-            insertProcedure.Parameters.AddRange(new DbParameter[]
+            if (newSolution == null)
             {
-                Db.Instance.CreateParameter(newSolution.Name, DbType.String, "NEW_SOLUTION_NAME"),
-                Db.Instance.CreateParameter(solutionUser, DbType.String, "USER_NAME"),
-                Db.Instance.CreateParameter(solutionTask?.Id, DbType.Int32, "SOLVED_TASK_ID"),
-                Db.Instance.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID"),
-                outputId
-            });
-
-            insertProcedure.ExecuteNonQuery();
-
-            newSolution.Id = (int) outputId.Value;
-
-            Db.Instance.CloseCommand(insertProcedure);
+                throw new ArgumentNullException(nameof(newSolution), "No solution given.");
+            }
+            if (newSolution.Id != Solution.NoId)
+            {
+                throw new ArgumentException("Solution already added.", nameof(newSolution));
+            }
+            
+            newSolution.Id = InsertProcedure(newSolution);
         }
 
         public void DeleteSolution(Solution solutionToDelete)
+        {
+            if (solutionToDelete == null)
+            {
+                throw new ArgumentNullException(nameof(solutionToDelete), "No solution given.");
+            }
+
+            DeleteProcedure(solutionToDelete);
+        }
+
+        private static int InsertProcedure(Solution newSolution)
+        {
+            Db db = Db.Instance;
+            DbCommand insertProcedure = db.CreatePrecedureCommand(InsertKey);
+
+            DbParameter outputId = db.CreateOutputParameter(DbType.Int32, "NEW_SOLUTION_ID");
+            Task solutionTask = NullIfDefault(newSolution.Task, Task.Sandbox);
+            string solutionUser = NullIfDefault(newSolution.User, ProviderUsersDao.GuestUser);
+
+            insertProcedure.Parameters.AddRange(new DbParameter[]
+            {
+                db.CreateParameter(newSolution.Name, DbType.String, "NEW_SOLUTION_NAME"),
+                db.CreateParameter(solutionUser, DbType.String, "USER_NAME"),
+                db.CreateParameter(solutionTask?.Id, DbType.Int32, "SOLVED_TASK_ID"),
+                db.CreateParameter(newSolution.BaseSolution, DbType.Int32, "NEW_BASE_SOLUTION_ID"),
+                outputId
+            });
+            
+            db.TryExecuteNonQuery(insertProcedure);
+            return (int) outputId.Value;
+        }
+
+        private static void DeleteProcedure(Solution solutionToDelete)
         {
             Db db = Db.Instance;
             string paramName = db.Param(Db.Solutions.Id);
@@ -75,9 +95,8 @@ namespace ProviderDao.Implementation
             DbParameter idToDelete = db.CreateParameter(
                 solutionToDelete.Id, DbType.Int32, paramName);
             delete.Parameters.Add(idToDelete);
-            delete.ExecuteNonQuery();
-
-            db.CloseCommand(delete);
+            
+            db.TryExecuteNonQuery(delete);
         }
         
         private static T NullIfDefault<T>(T value, T defaultValue) where T : class

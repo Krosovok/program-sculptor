@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="UI.Controls.GivenTypes"
+﻿<UserControl x:Class="UI.Controls.Common.TypesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:UI.Controls"
-             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
              xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
+             xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:types="clr-namespace:ViewModel.Types;assembly=ViewModel.Types"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance core:TaskViewModel}">
@@ -18,15 +18,15 @@
         </TextBlock>
 
         <ListBox Margin="10, 0"
-                 ItemsSource="{Binding .GivenTypes}">
+                 ItemsSource="{Binding .Types}">
             <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type core:GivenTypeFile}">
+                <DataTemplate DataType="{x:Type types:ClassFileViewModel}">
                     <TextBlock>
 
                         <Hyperlink Command="{Binding 
                             RelativeSource={RelativeSource 
                             Mode=FindAncestor, 
-                            AncestorType={x:Type UserControl}},
+                            AncestorType={x:Type av:UserControl}},
                             Path=DataContext.ShowSourcesCommand}"
                                    CommandParameter="{Binding}">
                             <Run Text="{Binding FileName, Mode=OneTime}" />

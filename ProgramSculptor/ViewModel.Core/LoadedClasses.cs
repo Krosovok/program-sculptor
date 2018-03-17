@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -34,14 +35,9 @@ namespace ViewModel.Core
             : this(messages, dialogFactory)
         {
             Solution = solution;
+            
             IClassFileDao dao = Dao.Factory.ClassFileDao;
-            IEnumerable<ClassFile> solutionFiles = dao.SolutionFiles(solution);
-
-            foreach (ClassFile solutionFile in solutionFiles)
-            {
-                string fileContents = dao.FileContents(solution, solutionFile);
-                AddFile(solutionFile, fileContents);
-            }
+            TryFillWithData(solution, dao);
         }
 
         public Solution Solution { get; }
@@ -74,6 +70,29 @@ namespace ViewModel.Core
             foreach (KeyValuePair<ClassFile, FileContents> fileContents in Files)
             {
                 UpdateFileContetns(fileContents);
+            }
+        }
+
+        private void TryFillWithData(Solution solution, IClassFileDao dao)
+        {
+            try
+            {
+                FillWithData(solution, dao);
+            }
+            catch (DataAccessException e)
+            {
+                Messages.Show(e.Message);
+            }
+        }
+
+        private void FillWithData(Solution solution, IClassFileDao dao)
+        {
+            IEnumerable<ClassFile> solutionFiles = dao.SolutionFiles(solution);
+
+            foreach (ClassFile solutionFile in solutionFiles)
+            {
+                string fileContents = dao.FileContents(solution, solutionFile);
+                AddFile(solutionFile, fileContents);
             }
         }
 
@@ -142,10 +161,18 @@ namespace ViewModel.Core
         private void AddFile(ClassFile solutionFile, string content)
         {
             FileContents fileContents = new FileContents(content);
+
+            try
+            {
+                IClassFileDao dao = Dao.Factory.ClassFileDao;
+                dao.AddFileToSolution(Solution, solutionFile);
+            }
+            catch (DataAccessException e)
+            {
+                Messages.Show(e.Message);
+                return;
+            }
             Files.Add(solutionFile, fileContents);
-            
-            Dao.Factory.ClassFileDao
-                .AddFileToSolution(Solution, solutionFile);
         }
 
         private void UpdateFileContetns(KeyValuePair<ClassFile, FileContents> fileContents)
@@ -153,8 +180,20 @@ namespace ViewModel.Core
             ClassFile file = fileContents.Key;
             string contents = fileContents.Value.Contents;
 
-            Dao.Factory.ClassFileDao
-                .UpdateFileContents(Solution, file, contents);
+            IClassFileDao dao = Dao.Factory.ClassFileDao;
+            TryUpdateFileContents(dao, file, contents);
+        }
+
+        private void TryUpdateFileContents(IClassFileDao dao, ClassFile file, string contents)
+        {
+            try
+            {
+                dao.UpdateFileContents(Solution, file, contents);
+            }
+            catch (DataAccessException e)
+            {
+                Messages.Show(e.Message);
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ProviderDao
         {
             int id = GetInt32NotNull(data, Db.Solutions.Id);
             string solutionName = GetString(data, Db.Solutions.Name);
-            string solver = DefaultIfNull(username, ProviderUsersDao.GuestUser);
+            string solver = DefaultIfNull(GetString(data, Db.Solutions.Username), ProviderUsersDao.GuestUser);
             Task solved = DefaultIfNull(task, Task.Sandbox);
             int? baseId = GetInt32(data, Db.Solutions.BaseId);
             

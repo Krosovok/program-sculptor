@@ -6,16 +6,17 @@ using DataAccessInterfaces;
 using Model;
 using Services;
 using ViewModel.Command;
+using ViewModel.Types;
 
 namespace ViewModel.Core
 {
-    public class TaskViewModel : ITaskDetailsViewModel
+    public class TaskViewModel : ITaskDetailsViewModel, ITypesContainer
     {
         public TaskViewModel(Task task)
         {
             this.Task = task;
             InChain = new TaskChainPosition(task);
-            SetConnectedFilesLists();
+            TrySetConnectedFilesLists();
             
             StartNewSolutionCommand = new RelayCommand<object>(
                 o => OnStartNewSolution());
@@ -26,26 +27,39 @@ namespace ViewModel.Core
         public Task Task { get; }
         public string TaskName => Task.TaskName;
         public string Description => Task.Description;
-        public IEnumerable<ClassFileViewModel> GivenTypes { get; private set; }
+        public IEnumerable<ClassFileViewModel> Types { get; private set; }
         public IEnumerable<ClassFileViewModel> Tests { get; private set; }
         public TaskChainPosition InChain { get; }
         public ICommand StartNewSolutionCommand { get; }
         public ICommand ShowSourcesCommand { get; }
         public ISourceShowerService SourceShower { get; set; }
+        public IMessageService MessageService { get; set; }
 
         protected virtual void OnStartNewSolution()
         {
             StartNewSolution?.Invoke(Task);
         }
         
-        private void SetConnectedFilesLists()
+        private void TrySetConnectedFilesLists()
         {
             IClassFileDao dao = Dao.Factory.ClassFileDao;
-            GivenTypes = dao.GetGivenTypes(Task)
-                .Select(classFile => new GivenTypeFile(Task, classFile))
+            try
+            {
+                SetConnectedFilesLists(dao);
+            }
+            catch (DataAccessException e)
+            {
+                MessageService.Show(e.Message);
+            }
+        }
+
+        private void SetConnectedFilesLists(IClassFileDao dao)
+        {
+            Types = dao.GetGivenTypes(Task)
+                .Select(classFile => new GivenTypeFile(Task, classFile, MessageService))
                 .ToList();
             Tests = dao.GetTests(Task)
-                .Select(classFile => new TestFile(Task, classFile))
+                .Select(classFile => new TestFile(Task, classFile, MessageService))
                 .ToList();
         }
 

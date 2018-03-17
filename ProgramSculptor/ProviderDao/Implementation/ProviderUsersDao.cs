@@ -13,10 +13,10 @@ namespace ProviderDao.Implementation
         private const string User = "user";
         private const string Pass = "passHash";
         private const string UserName = "user_name";
+        private const int WrongPasswordErrorCode = 45132;
 
         private static IUserDao instance;
-
-
+        
         private ProviderUsersDao()
         {
             CurrentUser = GuestUser;
@@ -28,6 +28,15 @@ namespace ProviderDao.Implementation
 
         public bool Login(string username, string password)
         {
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            
             DbCommand loginFunction = BuildLoginFunction(username, password);
 
             ExecuteFunction(loginFunction);
@@ -48,7 +57,15 @@ namespace ProviderDao.Implementation
             }
             catch (DbException e)
             {
-                throw new UnauthorizedAccessException(e.Message, e);
+                if (e.ErrorCode == WrongPasswordErrorCode)
+                {
+                    throw new UnauthorizedAccessException(e.Message, e);
+                }
+                else
+                {
+                    throw new DataAccessException("Failed to login.", e);
+                }
+
             }
             finally
             {

@@ -7,15 +7,18 @@ using Model;
 using ProgramSculptor.Core;
 using ProgramSculptor.Initialization;
 using ProgramSculptor.Running;
+using Services;
 
 namespace ViewModel.Core
 {
     public class ModelInitialization
     {
-        private const int DefaultSize = 100;
+        private readonly IMessageService messageService;
+        private const int DefaultSize = 30;
 
-        public ModelInitialization(LoadedClasses classes)
+        public ModelInitialization(LoadedClasses classes, IMessageService messageService)
         {
+            this.messageService = messageService;
             this.Solution = classes.Solution;
         }
         
@@ -78,10 +81,23 @@ namespace ViewModel.Core
         private IEnumerable<string> GetGivenTypesContents()
         {
             IClassFileDao dao = Dao.Factory.ClassFileDao;
-            IEnumerable<ClassFile> givenTypes = dao.GetGivenTypes(Solution.Task);
-            IEnumerable<string> givenTypesContents = givenTypes.Select(
-                typeFile => dao.FileContents(Solution, typeFile));
-            return givenTypesContents;
+            return TryGetGivenTypesContents(dao);
+        }
+
+        private IEnumerable<string> TryGetGivenTypesContents(IClassFileDao dao)
+        {
+            try
+            {
+                IEnumerable<ClassFile> givenTypes = dao.GetGivenTypes(Solution.Task);
+                return givenTypes.Select(
+                    typeFile => dao.FileContents(Solution, typeFile));
+            }
+            catch (DataAccessException e)
+            {
+                messageService.Show(e.Message);
+                return new string[0];
+            }
+            
         }
     }
 }

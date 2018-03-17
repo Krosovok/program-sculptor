@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FileManaging
 {
-    internal static class Folding
+    public static class Folding
     {
         public const string TasksFolder = "Tasks";
         public const string GivenTypesFolder = "Given types";

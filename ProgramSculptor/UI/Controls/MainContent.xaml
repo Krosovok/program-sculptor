@@ -4,14 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
-             xmlns:dialog="clr-namespace:Services.Dialog;assembly=Services.Dialog"
              xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
              mc:Ignorable="d"
              d:DesignHeight="600"
              d:DesignWidth="800"
              d:DataContext="{d:DesignInstance core:MainViewModel}">
     <UserControl.Resources>
-        <!--<core:TaskSolutions x:Key="Sandbox"></core:TaskSolutions>-->
 
         <DataTemplate DataType="{x:Type core:TaskViewModel}">
             <local:TaskPanel></local:TaskPanel>

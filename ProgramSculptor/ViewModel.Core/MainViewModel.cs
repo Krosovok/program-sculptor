@@ -12,11 +12,12 @@ namespace ViewModel.Core
 
         public MainViewModel()
         {
+            Tasks = new AllTasks {MessageService = MessageService};
             Tasks.OpenSolution += OnOpenSolution;
             Tasks.StartNewSolution += OnStartNewSolution;
         }
         
-        public AllTasks Tasks { get; } = new AllTasks();
+        public AllTasks Tasks { get; }
         public UserSession UserSession { get; } = new UserSession();
         public IDialogFactory DialogFactory
         {
@@ -27,7 +28,7 @@ namespace ViewModel.Core
                 UserSession.DialogFactory = value;
             }
         }
-
+        public IMessageService MessageService { get; set; }
         public ISourceShowerService SourceShower
         {
             get { return sourceShower; }
