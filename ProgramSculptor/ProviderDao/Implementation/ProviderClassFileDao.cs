@@ -41,7 +41,7 @@ namespace ProviderDao.Implementation
             return ClassFiles(allFiles);
         }
 
-        public IEnumerable<ClassFile> OtherSolutionFiles(Solution others)
+        public IEnumerable<ClassFile> GetOtherSolutionFiles(Solution others)
         {
             if (others == null)
             {

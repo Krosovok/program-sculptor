@@ -72,7 +72,7 @@ namespace Test.ProgramSculptor.Running
         public void TestCompileWithGivenTypes()
         {
             TypeCompiler compiler = new TypeCompiler();
-            compiler.AddGivenTypes(
+            compiler.AddAdditionalTypes(
                 new []{ testClassContent});
             
             CompiledModel oneType = compiler.Compile(

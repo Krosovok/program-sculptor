@@ -40,7 +40,7 @@ namespace DialogViewModel
         {
             try
             {
-                return dao.OtherSolutionFiles(Solution);
+                return dao.GetOtherSolutionFiles(Solution);
             }
             catch (DataAccessException e)
             {

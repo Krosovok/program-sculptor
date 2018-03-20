@@ -29,7 +29,7 @@ namespace ProgramSculptor.Running
             //
         }
 
-        public void AddGivenTypes(IEnumerable<string> givenTypesCode)
+        public void AddAdditionalTypes(IEnumerable<string> givenTypesCode)
         {
             givenTypes.AddRange(givenTypesCode);
         }
@@ -38,7 +38,7 @@ namespace ProgramSculptor.Running
         {
             if (givenTypes.Count != 0)
             {
-                AddGivenTypes();
+                AddAdditionalTypes();
             }
 
             if (code == null || !code.Any())
@@ -50,11 +50,11 @@ namespace ProgramSculptor.Running
                 CompileAssembly(code, parameters));
         }
 
-        private void AddGivenTypes()
+        private void AddAdditionalTypes()
         {
             CompilerParameters compilerParameters = GivenTypesParameters();
 
-            Assembly givenTypesAssembly = CompileAssembly(givenTypes, compilerParameters);
+            CompileAssembly(givenTypes, compilerParameters);
             parameters.ReferencedAssemblies.Add(GivenTypesDll);
         }
 

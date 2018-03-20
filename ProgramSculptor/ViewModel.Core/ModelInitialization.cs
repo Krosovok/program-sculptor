@@ -41,7 +41,7 @@ namespace ViewModel.Core
         private CompiledModel ComileAssembly(LoadedClasses classes)
         {
             TypeCompiler compiler = new TypeCompiler();
-            compiler.AddGivenTypes(GetGivenTypesContents());
+            compiler.AddAdditionalTypes(GetGivenTypesContents());
             return compiler.Compile(
                 classes.Files.Values
                     .Select(file => file.Contents));
@@ -88,6 +88,9 @@ namespace ViewModel.Core
         {
             try
             {
+                // TODO: We should add base solution files (and it's given types!) to current solution given/additional files. Maybe, recursively?
+                //dao.GetOtherSolutionFiles()
+                
                 IEnumerable<ClassFile> givenTypes = dao.GetGivenTypes(Solution.Task);
                 return givenTypes.Select(
                     typeFile => dao.FileContents(Solution, typeFile));

@@ -24,7 +24,7 @@ namespace DataAccessInterfaces
         /// <param name="others">Solution which files should be returned.</param>
         /// <exception cref="DataAccessException">Occurs when there is an error accessing to data or in manipulatuing them.</exception>
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
-        IEnumerable<ClassFile> OtherSolutionFiles(Solution others);
+        IEnumerable<ClassFile> GetOtherSolutionFiles(Solution others);
 
         /// <summary>
         /// Returns contents of a file in the solution.

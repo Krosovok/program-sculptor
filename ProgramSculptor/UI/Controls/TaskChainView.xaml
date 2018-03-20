@@ -82,7 +82,6 @@
             Document="{Binding Current.Description, 
                 Converter={StaticResource DocumentConverter}}" Grid.RowSpan="2" />
 
-        <!--TODO: Some link to this task.-->
         <Button Grid.Row="2"
                 Margin="5"
                 MaxWidth="125"
