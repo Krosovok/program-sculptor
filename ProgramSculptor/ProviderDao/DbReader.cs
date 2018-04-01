@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using DataAccessInterfaces;
 using Model;
 
@@ -13,24 +14,33 @@ namespace ProviderDao
 
         public virtual List<T> GetList()
         {
-            DbCommand select = SelectCommand();
-
-            Data = new List<T>();
             try
             {
-                ReadAllRows(select);
+                DbCommand select = SelectAllCommand();
+
+                return ReadData(select);
             }
             catch (DbException e)
             {
-                throw new DataAccessException("Can't access data of type" + typeof(T).Name, e);
+                throw new DataAccessException("Can't access data of type " + typeof(T).Name, e);
             }
-            finally
-            {
-                Db.Instance.CloseCommand(select);
-            }
-            
-            return Data;
         }
+
+        public T GetById(int id)
+        {
+            try
+            {
+                DbCommand select = SelectByIdCommand(id);
+
+                return ReadData(select).First();
+            }
+            catch (DbException e)
+            {
+                throw new DataAccessException("Can't access data of type " + typeof(T).Name, e);
+            }
+        }
+
+        protected abstract DbCommand SelectByIdCommand(int id);
 
         protected void ReadAllRows(DbCommand select)
         {
@@ -46,7 +56,7 @@ namespace ProviderDao
 
         protected abstract T ReadRow(IDataRecord data);
 
-        protected abstract DbCommand SelectCommand();
+        protected abstract DbCommand SelectAllCommand();
 
         protected static string GetString(IDataRecord data, string columnName)
         {
@@ -73,6 +83,21 @@ namespace ProviderDao
         {
             int columnIdx = data.GetOrdinal(columnName);
             return data.GetInt32(columnIdx);
+        }
+
+        protected List<T> ReadData(DbCommand select)
+        {
+            Data = new List<T>();
+            try
+            {
+                ReadAllRows(select);
+            }
+            finally
+            {
+                Db.Instance.CloseCommand(select);
+            }
+
+            return Data;
         }
     }
 }

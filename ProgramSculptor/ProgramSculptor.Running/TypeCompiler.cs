@@ -10,28 +10,22 @@ namespace ProgramSculptor.Running
 {
     public class TypeCompiler
     {
-        private const string DllName = "ProgramSculptor.Core.dll";
+        // TODO: Make some list of needed Dlls in separate file or config.
+        private readonly string[] referencedAssabmlies = {"System.Core.dll", "ProgramSculptor.Core.dll"};
+
         private const string GivenTypesDll = "GivenTypes.dll";
-        private const string DLL = "System.Core.dll";
         private const string ErrorFormat = "Error ({0}): {1}";
 
         private readonly CSharpCodeProvider provider = new CSharpCodeProvider();
-        private readonly CompilerParameters parameters = new CompilerParameters();
+        private readonly CompilerParameters parameters;
         private readonly List<string> givenTypes = new List<string>();
-
-        public TypeCompiler()
+        
+        public TypeCompiler(string assemblyName)
         {
-            parameters.GenerateInMemory = true;
-            parameters.ReferencedAssemblies.Add(DllName);
-            // TODO: Make some list of needed Dlls in separate file or config.
-            // TODO: MAke dlls of base solutions also.
-            parameters.ReferencedAssemblies.Add(DLL);
-            //
-        }
-
-        public void AddAdditionalTypes(IEnumerable<string> givenTypesCode)
-        {
-            givenTypes.AddRange(givenTypesCode);
+            parameters = assemblyName == null
+                ? new CompilerParameters {GenerateInMemory = true}
+                : new CompilerParameters(new string[0], assemblyName) {GenerateInMemory = false};
+            parameters.ReferencedAssemblies.AddRange(referencedAssabmlies);
         }
 
         public CompiledModel Compile(IEnumerable<string> code)
@@ -45,9 +39,19 @@ namespace ProgramSculptor.Running
             {
                 throw new ArgumentException("Given code can't be null or empty.", nameof(code));
             }
-            
+
             return new CompiledModel(
                 CompileAssembly(code, parameters));
+        }
+
+        public void AddGivenTypes(IEnumerable<string> givenTypesCode)
+        {
+            givenTypes.AddRange(givenTypesCode);
+        }
+
+        public void AddReference(string dllName)
+        {
+            parameters.ReferencedAssemblies.Add(dllName);
         }
 
         private void AddAdditionalTypes()
@@ -72,16 +76,17 @@ namespace ProgramSculptor.Running
             return compilerParameters;
         }
 
-        private Assembly CompileAssembly(IEnumerable<string> code, CompilerParameters compilerParameters)
+        private CompilerResults CompileAssembly(IEnumerable<string> code, CompilerParameters compilerParameters)
         {
             CompilerResults results = provider.CompileAssemblyFromSource(compilerParameters, code.ToArray());
 
             if (results.Errors.HasErrors)
             {
+                results.TempFiles.Delete();
                 throw GetExceptionFromErrors(results);
             }
-
-            return results.CompiledAssembly;
+            
+            return results;
         }
 
         private static CodeException GetExceptionFromErrors(CompilerResults results)

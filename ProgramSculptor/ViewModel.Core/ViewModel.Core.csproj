@@ -58,6 +58,7 @@
     <Compile Include="CellViewModel.cs" />
     <Compile Include="GivenTypeFile.cs" />
     <Compile Include="ITaskDetailsViewModel.cs" />
+    <Compile Include="IWorkflowStep.cs" />
     <Compile Include="LoadedClasses.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="ModelInitialization.cs" />

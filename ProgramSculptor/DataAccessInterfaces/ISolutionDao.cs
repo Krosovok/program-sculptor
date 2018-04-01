@@ -37,6 +37,22 @@ namespace DataAccessInterfaces
         IReadOnlyList<Solution> GetOthersSolutions(Task task, string username);
 
         /// <summary>
+        /// Returns solution that given solution is based on.
+        /// </summary>
+        /// <param name="solution">Solution which base to find.</param> 
+        /// <exception cref="DataAccessException">
+        /// Occures when data can't be obtained because of error in data container. 
+        /// Its message contains message that cound be displayed to user.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Given solution is null.
+        /// </exception>
+        /// <returns>
+        /// Solution object that represents solution of the other person identified by is's id in the global db, or null, if given solution has no base solution.
+        /// </returns>
+        Solution GetBaseSolution(Solution solution);
+
+        /// <summary>
         /// Adds a solution with given properties to the data storage. Assigns Id to the solution.
         /// </summary>        
         /// <exception cref="DataAccessException">

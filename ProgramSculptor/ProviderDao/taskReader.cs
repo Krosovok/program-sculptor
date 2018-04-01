@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using DB.SqlFactory;
@@ -24,7 +25,12 @@ namespace ProviderDao
             return Data;
         }
 
-        protected override DbCommand SelectCommand()
+        protected override DbCommand SelectByIdCommand(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override DbCommand SelectAllCommand()
         {
             return Db.Instance.CreateTextCommand(SqlKey);
         }

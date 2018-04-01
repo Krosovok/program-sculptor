@@ -40,6 +40,19 @@ namespace ProviderDao.Implementation
             return reader.GetList();
         }
 
+        public Solution GetBaseSolution(Solution solution)
+        {
+            int? baseId = solution.BaseSolution;
+            if (baseId == null)
+            {
+                return null;
+            }
+            
+            SolutionReader reader = new SolutionReader();
+
+            return reader.GetById((int) baseId);
+        }
+
         public void AddSolution(Solution newSolution)
         {
             if (newSolution == null)

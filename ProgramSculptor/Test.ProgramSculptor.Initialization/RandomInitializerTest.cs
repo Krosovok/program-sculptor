@@ -31,7 +31,7 @@ namespace Test.ProgramSculptor.Initialization
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InitializationException))]
+        [ExpectedException(typeof(WorkflowException))]
         public void TestInitializedNonPassableTooMany()
         {
             Field field = FieldWithNonPassables(MoreThanCells);

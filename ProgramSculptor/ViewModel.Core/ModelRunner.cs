@@ -9,17 +9,16 @@ using ViewModel.Command;
 
 namespace ViewModel.Core
 {
-    public class ModelRunner : INotifyPropertyChanged
+    public class ModelRunner : INotifyPropertyChanged, IWorkflowStep
     {
+
+        public ICommand NextTurnCommand => new RelayCommand<object>(MoveToNextTurn);
         public OrdinalFieldViewModel Model { get; private set; }
 
-        public void Update(ModelInitialization initialization)
+        public void Update(IWorkflowStep previousStepData)
         {
-            Dictionary<Type, Initializer> fieldInitializers = GetFieldInitializers(initialization);
-
-            Model = new OrdinalFieldViewModel(initialization.FieldParameters);
-            Model.Initialize(fieldInitializers.Values);
-            OnPropertyChanged(nameof(Model));
+            ModelInitialization modelInitialization = (ModelInitialization) previousStepData;
+            Update(modelInitialization);
         }
 
         public void Clear()
@@ -28,7 +27,14 @@ namespace ViewModel.Core
             OnPropertyChanged(nameof(Model));
         }
 
-        public ICommand NextTurnCommand => new RelayCommand<object>(MoveToNextTurn);
+        private void Update(ModelInitialization initialization)
+        {
+            Dictionary<Type, Initializer> fieldInitializers = GetFieldInitializers(initialization);
+
+            Model = new OrdinalFieldViewModel(initialization.FieldParameters);
+            Model.Initialize(fieldInitializers.Values);
+            OnPropertyChanged(nameof(Model));
+        }
 
         private void MoveToNextTurn(object o)
         {

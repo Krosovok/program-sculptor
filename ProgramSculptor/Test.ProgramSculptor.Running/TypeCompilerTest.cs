@@ -27,7 +27,7 @@ namespace Test.ProgramSculptor.Running
         [ExpectedException(typeof(ArgumentException))]
         public void TestCompileNothing()
         {
-            TypeCompiler compiler = new TypeCompiler();
+            TypeCompiler compiler = new TypeCompiler(null);
 
             compiler.Compile(new string[0]);
         }
@@ -36,7 +36,7 @@ namespace Test.ProgramSculptor.Running
         [ExpectedException(typeof(ArgumentException))]
         public void TestCompileNull()
         {
-            TypeCompiler compiler = new TypeCompiler();
+            TypeCompiler compiler = new TypeCompiler(null);
 
             compiler.Compile(null);
         }
@@ -44,7 +44,7 @@ namespace Test.ProgramSculptor.Running
         [TestMethod()]
         public void TestCompileOneType()
         {
-            TypeCompiler compiler = new TypeCompiler();
+            TypeCompiler compiler = new TypeCompiler(null);
 
             CompiledModel oneType = compiler.Compile(new []{ testClassContent });
             Type type = oneType.GetType(TestClass);
@@ -55,7 +55,7 @@ namespace Test.ProgramSculptor.Running
         [TestMethod()]
         public void TestCompileTwoTypes()
         {
-            TypeCompiler compiler = new TypeCompiler();
+            TypeCompiler compiler = new TypeCompiler(null);
 
             CompiledModel twoTypes = compiler.Compile(
                 new []
@@ -71,8 +71,8 @@ namespace Test.ProgramSculptor.Running
         [TestMethod()]
         public void TestCompileWithGivenTypes()
         {
-            TypeCompiler compiler = new TypeCompiler();
-            compiler.AddAdditionalTypes(
+            TypeCompiler compiler = new TypeCompiler(null);
+            compiler.AddGivenTypes(
                 new []{ testClassContent});
             
             CompiledModel oneType = compiler.Compile(

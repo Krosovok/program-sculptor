@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InitializationData.cs" />
-    <Compile Include="InitializationException.cs" />
+    <Compile Include="WorkflowException.cs" />
     <Compile Include="RandomInitializer.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

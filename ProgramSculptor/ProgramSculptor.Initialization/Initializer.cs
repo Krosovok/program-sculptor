@@ -22,7 +22,7 @@ namespace ProgramSculptor.Initialization
         {
             if (!typeof(Element).IsAssignableFrom(elementType))
             {
-                throw new InitializationException("Given type does not inherits class Element or NonPassableElement.");
+                throw new WorkflowException("Given type does not inherits class Element or NonPassableElement.");
             }
             ElementType = elementType;
         }
@@ -66,7 +66,7 @@ namespace ProgramSculptor.Initialization
             bool isNotPassable = typeof(NonPassableElement).IsAssignableFrom(ElementType);
             if (isNotPassable && !PlaceLeft(field))
             {
-                throw new InitializationException("Number of free cells is less than number of cells to be populated.");
+                throw new WorkflowException("Number of free cells is less than number of cells to be populated.");
             }
         }
 

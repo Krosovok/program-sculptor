@@ -14,7 +14,9 @@ namespace ViewModel.Core
     public class TaskSolutions : INotifyPropertyChanged, ITaskDetailsViewModel
     {
         private bool isSelected;
-        
+        private IEnumerable<Solution> solutinos;
+        private IMessageService messageService;
+
         public TaskSolutions() : this(Task.Sandbox) { }
 
         public TaskSolutions(Task task)
@@ -24,7 +26,7 @@ namespace ViewModel.Core
                 given => Solutinos.Contains(given));
             StartNewSolutionCommand = new RelayCommand<object>(NewSolution);
 
-            ChangeToCurrentUser();
+            //ChangeToCurrentUser();
         }
 
         public Task Task { get; }
@@ -41,11 +43,34 @@ namespace ViewModel.Core
                 }
             }
         }
-        public IEnumerable<Solution> Solutinos { get; private set; }
+
+        public IEnumerable<Solution> Solutinos
+        {
+            get
+            {
+                if (solutinos == null && MessageService != null)
+                {
+                    ChangeToCurrentUser();
+                }
+                
+                return solutinos;
+            }
+            private set { solutinos = value; }
+        }
+
         public bool IsSandbox => Task.Sandbox.Equals(Task);
         public ICommand SelectSolutionCommand { get; }
         public ICommand StartNewSolutionCommand { get; }
-        public IMessageService MessageService { get; set; }
+
+        public IMessageService MessageService
+        {
+            get { return messageService; }
+            set
+            {
+                messageService = value; 
+                OnPropertyChanged(nameof(Solutinos));
+            }
+        }
 
         public void ChangeToCurrentUser()
         {

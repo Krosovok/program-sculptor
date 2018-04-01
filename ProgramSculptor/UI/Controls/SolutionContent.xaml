@@ -5,10 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UI.Controls"
              xmlns:core="clr-namespace:ViewModel.Core;assembly=ViewModel.Core"
-             DataContextChanged="SolutionChanged"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" 
              d:DataContext="{d:DesignInstance core:SolutionNavigation}">
+    <UserControl.Resources>
+        
+        <DataTemplate DataType="{x:Type core:TaskViewModel}">
+            <local:TaskSummary></local:TaskSummary>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type core:LoadedClasses}">
+            <local:CodeArea></local:CodeArea>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type core:ModelInitialization}">
+            <local:ModelSettings></local:ModelSettings>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type core:ModelRunner}">
+            <local:ModelControlPanel></local:ModelControlPanel>
+        </DataTemplate>
+    </UserControl.Resources>
     <DockPanel x:Name="WindowPanel" LastChildFill="False">
         <Button DockPanel.Dock="Bottom"
                 MinWidth="100"
@@ -56,13 +70,18 @@
                        Height="15"/>
             </Button>
 
-            <Frame Name="WorkingPanel"
-                   NavigationUIVisibility="Hidden" />
+            <ContentControl Name="WorkingPanel"
+                            Content="{Binding .Current}">
+                
+            </ContentControl>
+            <!--<Frame Name="WorkingPanel"
+                   NavigationUIVisibility="Hidden" />-->
         </DockPanel>
 
         
         <local:OrdinalFieldView Margin="10"
-                                   x:Name="Field"/>
+                                x:Name="Field"
+                                DataContext="{Binding .ModelRunner.Model}"/>
         
     </DockPanel>
 </UserControl>

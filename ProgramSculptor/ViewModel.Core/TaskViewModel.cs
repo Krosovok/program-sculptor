@@ -10,7 +10,7 @@ using ViewModel.Types;
 
 namespace ViewModel.Core
 {
-    public class TaskViewModel : ITaskDetailsViewModel, ITypesContainer
+    public class TaskViewModel : ITaskDetailsViewModel, ITypesContainer, IWorkflowStep
     {
         public TaskViewModel(Task task)
         {
@@ -70,5 +70,14 @@ namespace ViewModel.Core
             remove { InChain.GoToTask -= value; }
         }
 
+        public void Update(IWorkflowStep previousStepData)
+        {
+            // Nothing to update.
+        }
+
+        public void Clear()
+        {
+            // Nothing to clear.
+        }
     }
 }

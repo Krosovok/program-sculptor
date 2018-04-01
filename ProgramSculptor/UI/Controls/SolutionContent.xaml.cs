@@ -10,7 +10,6 @@ namespace UI.Controls
     /// </summary>
     public partial class SolutionContent
     {
-        private readonly WorkingPanel[] panels = new WorkingPanel[4];
         private SolutionNavigation Navigation => DataContext as SolutionNavigation;
         
         public SolutionContent()
@@ -18,55 +17,40 @@ namespace UI.Controls
             InitializeComponent();
         }
         
-        private WorkingPanel ShownPanel
-        {
-            set { WorkingPanel.Navigate(value); }
-        }
+        //private void InitPanels()
+        //{
+        //    Binding binding = new Binding(nameof(ModelRunner.Model))
+        //    {
+        //        Source = Navigation.ModelRunner
+        //    };
+        //    Field.SetBinding(DataContextProperty, binding);
+        //}
 
-        private void InitPanels()
-        {
-            panels[0] = new TaskSummary();
-            panels[1] = new CodeArea();
-            panels[2] = new ModelSettings();
-            panels[3] = new ModelControlPanel();
+        //private void Navigate(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        //{
+        //    if (NotCurrent(propertyChangedEventArgs))
+        //    {
+        //        return;
+        //    }
 
-            for (int i = 0; i < panels.Length; i++)
-            {
-                panels[i].DataContext = Navigation.Contexts[i];
-            }
+        //    SolutionNavigation solutionNavigation = (SolutionNavigation)sender;
+        //    ShownPanel = panels[solutionNavigation.PanelIndex];
+        //}
 
-            Binding binding = new Binding(nameof(ModelRunner.Model))
-            {
-                Source = Navigation.ModelRunner
-            };
-            Field.SetBinding(DataContextProperty, binding);
-        }
+        //private static bool NotCurrent(PropertyChangedEventArgs propertyChangedEventArgs)
+        //{
+        //    return !propertyChangedEventArgs.PropertyName
+        //        .Equals(nameof(SolutionNavigation.Current));
+        //}
 
-        private void Navigate(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (NotPanelIndex(propertyChangedEventArgs))
-            {
-                return;
-            }
-
-            SolutionNavigation solutionNavigation = (SolutionNavigation)sender;
-            ShownPanel = panels[solutionNavigation.PanelIndex];
-        }
-
-        private static bool NotPanelIndex(PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            return !propertyChangedEventArgs.PropertyName
-                .Equals(nameof(SolutionNavigation.PanelIndex));
-        }
-
-        private void SolutionChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(DataContext is SolutionNavigation))
-                return;
+        //private void SolutionChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    if (!(DataContext is SolutionNavigation))
+        //        return;
             
-            InitPanels();
-            ShownPanel = panels[0];
-            Navigation.PropertyChanged += Navigate;
-        }
+        //    InitPanels();
+        //    ShownPanel = panels[0];
+        //    Navigation.PropertyChanged += Navigate;
+        //}
     }
 }

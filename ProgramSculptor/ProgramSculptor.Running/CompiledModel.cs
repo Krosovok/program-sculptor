@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,16 +10,22 @@ namespace ProgramSculptor.Running
 {
     public class CompiledModel
     {
-        public CompiledModel(Assembly compiled)
+        public CompiledModel(CompilerResults compiled)
         {
-            this.Assembly = compiled;
+            Compiled = compiled;
         }
 
-        private Assembly Assembly { get; }
+        private CompilerResults Compiled { get; }
+        private Assembly Assembly => Compiled.CompiledAssembly;
 
         public Type GetType(string typeName)
         {
-            return Assembly.ExportedTypes.Single(type => type.Name == typeName);
+            return Assembly.GetExportedTypes().First(type => type.Name.Contains(typeName));
+        }
+
+        public void Delete()
+        {
+            Compiled.TempFiles.Delete();
         }
     }
 }

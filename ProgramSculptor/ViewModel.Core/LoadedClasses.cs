@@ -11,7 +11,7 @@ using ViewModel.Command;
 
 namespace ViewModel.Core
 {
-    public class LoadedClasses
+    public class LoadedClasses : IWorkflowStep
     {
         // TODO: Maybe some more flexible way? 
 
@@ -49,6 +49,16 @@ namespace ViewModel.Core
         public ICommand SaveFilesCommand { get; set; }
         public RelayCommand<string[]> AddFilesCommand { get; set; }
 
+        public void Update(IWorkflowStep previousStepData)
+        {
+            // Classes are loaded from given solution.
+        }
+
+        public void Clear()
+        {
+            // Nothing co clear.
+        }
+        
         public void AddEmptyFile(object parameter)
         {
             string chosenName = AskNameInDialog();
@@ -195,5 +205,6 @@ namespace ViewModel.Core
                 Messages.Show(e.Message);
             }
         }
+
     }
 }

@@ -10,9 +10,14 @@ namespace ProviderDao
     {
         private const string UserKey = "SolutionReader.MySolutions";
         private const string OthersKey = "SolutionReader.OthersSolutions";
+        private const string GetByIdKey = "SolutionReader.GetById";
 
         private readonly Task task;
         private readonly string username;
+
+        internal SolutionReader()
+        {
+        }
 
         internal SolutionReader(Task task, string username)
         {
@@ -27,15 +32,15 @@ namespace ProviderDao
         /// </summary>
         public bool OthersSolutions { get; set; }
 
-        protected override DbCommand SelectCommand()
+        protected override DbCommand SelectAllCommand()
         {
             Db db = Db.Instance;
-            string[] parameters = { db.Param(Db.Tasks.Id), db.Param(Db.Users.Name) };
-            
+            string[] parameters = {db.Param(Db.Tasks.Id), db.Param(Db.Users.Name)};
+
             DbCommand select = db.CreateTextCommand(GetSqlKey(), parameters);
-            
-            object id = task?.Id ?? (object)DBNull.Value;
-            object usernameParameter = username ?? (object)DBNull.Value;
+
+            object id = task?.Id ?? (object) DBNull.Value;
+            object usernameParameter = username ?? (object) DBNull.Value;
             DbParameter taskId = db.CreateParameter(id, DbType.Int32, parameters[0]);
             DbParameter userName = db.CreateParameter(usernameParameter, DbType.String, parameters[1]);
             select.Parameters.AddRange(new[]
@@ -44,7 +49,20 @@ namespace ProviderDao
             });
             return select;
         }
-        
+
+        protected override DbCommand SelectByIdCommand(int id)
+        {
+            Db db = Db.Instance;
+            string[] parameters = {db.Param(Db.Solutions.Id)};          
+
+            DbCommand select = db.CreateTextCommand(GetByIdKey, parameters);
+
+            DbParameter idParameter = db.CreateParameter(id, DbType.Int32, parameters[0]);
+            select.Parameters.Add(idParameter);
+
+            return select;
+        }
+
         protected override Solution ReadRow(IDataRecord data)
         {
             int id = GetInt32NotNull(data, Db.Solutions.Id);
@@ -52,7 +70,7 @@ namespace ProviderDao
             string solver = DefaultIfNull(GetString(data, Db.Solutions.Username), ProviderUsersDao.GuestUser);
             Task solved = DefaultIfNull(task, Task.Sandbox);
             int? baseId = GetInt32(data, Db.Solutions.BaseId);
-            
+
             return new Solution(id, solutionName, solver, solved, baseId);
         }
 
@@ -60,12 +78,10 @@ namespace ProviderDao
         {
             return value == null ? defaultValue : value;
         }
-        
+
         private string GetSqlKey()
         {
-            return OthersSolutions ?
-                OthersKey :
-                UserKey;
+            return OthersSolutions ? OthersKey : UserKey;
         }
     }
 }

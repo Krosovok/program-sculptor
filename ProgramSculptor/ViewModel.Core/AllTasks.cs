@@ -14,25 +14,32 @@ namespace ViewModel.Core
     public class AllTasks : INotifyPropertyChanged
     {
         private ITaskDetailsViewModel selectedTaskViewModel;
+        private IEnumerable<TaskSolutions> tasks;
+        private IMessageService messageService;
 
         public AllTasks()
         {
             Sandbox = new TaskSolutions {MessageService = MessageService};
-            IEnumerable<Task> tasks = TryGetTasks();
-            Tasks = tasks.Select(task => 
-                new TaskSolutions(task) {MessageService = MessageService}).ToList();
             SelectedTaskViewModel = Sandbox;
             SelectTaskCommand = new RelayCommand<TaskSolutions>(selected => SelectTask(selected.Task));
 
-            foreach (TaskSolutions task in Tasks)
-            {
-                task.OpenSolution += OnOpenSolution;
-            }
             Sandbox.OpenSolution += OnOpenSolution;
         }
 
         public TaskSolutions Sandbox { get; }
-        public IEnumerable<TaskSolutions> Tasks { get; }
+
+        public IEnumerable<TaskSolutions> Tasks
+        {
+            get
+            {
+                if (tasks == null && MessageService != null)
+                {
+                    GetTasks();
+                }
+                return tasks;
+            }
+        }
+
         public ITaskDetailsViewModel SelectedTaskViewModel
         {
             get { return selectedTaskViewModel; }
@@ -46,9 +53,19 @@ namespace ViewModel.Core
                 value.StartNewSolution += OnStartNewSolution;
             }
         }
+
         public ICommand SelectTaskCommand { get; }
         public ISourceShowerService SourceShower { get; set; }
-        public IMessageService MessageService { get; set; }
+
+        public IMessageService MessageService
+        {
+            get { return messageService; }
+            set
+            {
+                messageService = value;
+                OnPropertyChanged(nameof(Tasks));
+            }
+        }
 
 
         protected virtual void OnOpenSolution(Solution solution)
@@ -60,7 +77,7 @@ namespace ViewModel.Core
         {
             StartNewSolution?.Invoke(task);
         }
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -82,7 +99,7 @@ namespace ViewModel.Core
         private void SelectTask(Task selectedTask)
         {
             SelectTaskToShow(selectedTask);
-            
+
             foreach (TaskSolutions solutions in Tasks)
             {
                 bool isSelectedTask = ReferenceEquals(solutions.Task, selectedTask);
@@ -109,9 +126,19 @@ namespace ViewModel.Core
             OnPropertyChanged(nameof(SelectedTaskViewModel));
         }
 
+        private void GetTasks()
+        {
+            IEnumerable<Task> taskList = TryGetTasks();
+            tasks = taskList.Select(task =>
+                new TaskSolutions(task) { MessageService = MessageService }).ToList();
+            foreach (TaskSolutions task in Tasks)
+            {
+                task.OpenSolution += OnOpenSolution;
+            }
+        }
+        
         public event Action<Solution> OpenSolution;
         public event Action<Task> StartNewSolution;
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }
