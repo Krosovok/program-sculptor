@@ -14,7 +14,7 @@ namespace ViewModel.Core
     public class ModelInitialization : IWorkflowStep
     {
         private const string ZeroTypesMessage = "There should be at least one type!";
-        
+
         private readonly IMessageService messageService;
         private const int DefaultSize = 30;
 
@@ -43,23 +43,22 @@ namespace ViewModel.Core
         public void Clear()
         {
             CompiledModel?.Delete();
+            InitializersData.Clear();
         }
-        
+
         public void Update(LoadedClasses classes)
         {
             if (classes.Files.Count == 0)
             {
                 throw new WorkflowException(ZeroTypesMessage);
             }
-            
+
             classes.SaveFilesContents(null);
 
             CompiledModel = ComileAssembly(
                 classes.Files.Values
                     .Select(file => file.Contents),
                 Solution);
-
-            AddAssemblyClasses(classes, CompiledModel);
         }
 
         private CompiledModel ComileAssembly(IEnumerable<string> classesContents, Solution solution)
@@ -68,7 +67,9 @@ namespace ViewModel.Core
             AddReferencesToCompiler(compiler, solution);
             try
             {
-                return compiler.Compile(classesContents);
+                CompiledModel compiled = compiler.Compile(classesContents);
+                AddAssemblyClasses(compiled);
+                return compiled;
             }
             catch (CodeException e)
             {
@@ -78,11 +79,6 @@ namespace ViewModel.Core
 
         private void AddReferencesToCompiler(TypeCompiler compiler, Solution solution)
         {
-            // TODO: dll making.
-            // 1. Make dll for given types of first solution.
-            // 2. Make dll for solution itslf.
-            // 3. Repeat using comiled assamblies.
-
             if (solution.BaseSolution != null)
             {
                 string baseAssemblyName = CompileBaseSolution(solution);
@@ -95,43 +91,31 @@ namespace ViewModel.Core
         private string CompileBaseSolution(Solution solution)
         {
             Solution baseSolution = GetBaseSolution(solution);
-            
+
             IEnumerable<string> files = GetBaseSolutionFiles(baseSolution);
 
             ComileAssembly(files, baseSolution);
 
-            return $"{baseSolution.Name}.dll"; // TODO: Finish compilation of the base solution.
+            return $"{baseSolution.Name}.dll";
         }
 
-        private void AddAssemblyClasses(LoadedClasses classes, CompiledModel compiledModel)
+        private void AddAssemblyClasses(CompiledModel compiledModel)
         {
-            InitializersData.Clear();
-            foreach (KeyValuePair<ClassFile, FileContents> pair in classes.Files)
+            foreach (Type userType in compiledModel.GetAllTypes())
             {
-                AddType(pair, compiledModel);
+                AddType(userType);
             }
         }
 
-        private void AddType(KeyValuePair<ClassFile, FileContents> pair,
-            CompiledModel compiledModel)
+        private void AddType(Type userType)
         {
-            string typeName = pair.Key.TypeName;
-            Type userType = GetType(compiledModel, typeName);
+            if (!userType.IsSubclassOf(typeof(Element)))
+            {
+                return;
+            }
+
             InitializationData data = new InitializationData(userType);
-            InitializersData.Add(typeName, data);
-        }
-
-        private static Type GetType(CompiledModel compiledModel, string typeName)
-        {
-            try
-            {
-                return compiledModel.GetType(typeName);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new WorkflowException(
-                    "Error: Not found one of the types or names of classes are't same as file names without extension.");
-            }
+            InitializersData.Add(userType.Name, data);
         }
 
         private static Solution GetBaseSolution(Solution solution)
@@ -160,8 +144,6 @@ namespace ViewModel.Core
         {
             try
             {
-                // TODO: We should add base solution files (and it's given types!) to current solution given/additional files. Maybe, recursively?
-
                 IEnumerable<ClassFile> givenTypes = dao.GetGivenTypes(task);
                 return givenTypes.Select(
                     typeFile => dao.GivenTypesFileContents(task, typeFile));
@@ -172,6 +154,5 @@ namespace ViewModel.Core
                 return new string[0];
             }
         }
-
     }
 }

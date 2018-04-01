@@ -43,9 +43,6 @@ namespace ViewModel.Core
         public ICommand ToRightPanelCommand { get; }
 
         public ICommand HomeCommand { get; }
-
-        //public LoadedClasses LoadedClasses { get; set; }
-        //public ModelInitialization ModelInitialization { get; set; }
         public ModelRunner ModelRunner { get; private set; }
 
         private int PanelIndex

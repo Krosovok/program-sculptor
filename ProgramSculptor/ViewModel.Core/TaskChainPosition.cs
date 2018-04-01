@@ -8,8 +8,6 @@ using ViewModel.Command;
 
 namespace ViewModel.Core
 {
-    // TODO: Create a chain task implementation at lesat for local users.
-    
     public class TaskChainPosition : INotifyPropertyChanged
     {
         private TaskChain chain;

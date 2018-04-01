@@ -3,8 +3,6 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProgramSculptor.Running
 {
@@ -22,6 +20,8 @@ namespace ProgramSculptor.Running
         {
             return Assembly.GetExportedTypes().First(type => type.Name.Contains(typeName));
         }
+
+        public IEnumerable<Type> GetAllTypes() => Assembly.GetTypes();
 
         public void Delete()
         {
